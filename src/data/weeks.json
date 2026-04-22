@@ -1,0 +1,7196 @@
+[
+  {
+    "weekStart": "2016-04-04",
+    "sessions": [
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MnNew",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MwRev",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Wednesday",
+        "period": "AM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "MwWed",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "MwFri",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "MwWed",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "MwFri",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      }
+    ],
+    "slotTotals": {
+      "NewSRH": 3,
+      "Review": 35,
+      "NCP": 0,
+      "NMWM": 10,
+      "Nwash": 4,
+      "Nurse led": 3
+    },
+    "totalClinicSlots": 55,
+    "totalAdditionalSessions": 0,
+    "unavailability": [
+      {
+        "clinicianId": 4,
+        "day": "Friday",
+        "period": "AM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Thursday",
+        "period": "AM",
+        "reason": "Theatre"
+      }
+    ]
+  },
+  {
+    "weekStart": "2016-04-11",
+    "sessions": [
+      {
+        "clinicianId": 2,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MnNew",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MwRev",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Wednesday",
+        "period": "AM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "MwWed",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "MwWed",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MwMon",
+        "location": "Main Site"
+      }
+    ],
+    "slotTotals": {
+      "NewSRH": 8,
+      "Review": 40,
+      "NCP": 4,
+      "NMWM": 14,
+      "Nwash": 2,
+      "Nurse led": 3
+    },
+    "totalClinicSlots": 71,
+    "totalAdditionalSessions": 0,
+    "unavailability": [
+      {
+        "clinicianId": 1,
+        "day": "Friday",
+        "period": "AM",
+        "reason": "AUDIT"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Wednesday",
+        "period": "PM",
+        "reason": "Theatre"
+      }
+    ]
+  },
+  {
+    "weekStart": "2016-04-18",
+    "sessions": [
+      {
+        "clinicianId": 2,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "extrasrh",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MnNew",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MwRev",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Wednesday",
+        "period": "AM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Wednesday",
+        "period": "AM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "MwWed",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "MwFri",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "MwWed",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "MwFri",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MwMon",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      }
+    ],
+    "slotTotals": {
+      "NewSRH": 18,
+      "Review": 46,
+      "NCP": 2,
+      "NMWM": 17,
+      "Nwash": 4,
+      "Nurse led": 6
+    },
+    "totalClinicSlots": 93,
+    "totalAdditionalSessions": 0,
+    "unavailability": [
+      {
+        "clinicianId": 2,
+        "day": "Wednesday",
+        "period": "PM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "PM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Friday",
+        "period": "AM",
+        "reason": "Theatre"
+      }
+    ]
+  },
+  {
+    "weekStart": "2016-04-25",
+    "sessions": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "WHCE",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MnNew",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MwRev",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Wednesday",
+        "period": "AM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "MwWed",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "MwFri",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "MwWed",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MwMon",
+        "location": "Main Site"
+      }
+    ],
+    "slotTotals": {
+      "NewSRH": 8,
+      "Review": 61,
+      "NCP": 6,
+      "NMWM": 14,
+      "Nwash": 8,
+      "Nurse led": 3
+    },
+    "totalClinicSlots": 100,
+    "totalAdditionalSessions": 0,
+    "unavailability": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "AM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Wednesday",
+        "period": "PM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Friday",
+        "period": "AM",
+        "reason": "Theatre"
+      }
+    ]
+  },
+  {
+    "weekStart": "2016-05-02",
+    "sessions": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Wednesday",
+        "period": "AM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "MwWed",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "MwFri",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "MwWed",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "MwFri",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      }
+    ],
+    "slotTotals": {
+      "NewSRH": 8,
+      "Review": 53,
+      "NCP": 10,
+      "NMWM": 6,
+      "Nwash": 4,
+      "Nurse led": 3
+    },
+    "totalClinicSlots": 84,
+    "totalAdditionalSessions": 0,
+    "unavailability": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "AM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Friday",
+        "period": "AM",
+        "reason": "Theatre"
+      }
+    ]
+  },
+  {
+    "weekStart": "2016-05-09",
+    "sessions": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Whtwo",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MnNew",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MwRev",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Wednesday",
+        "period": "AM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "extra",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Wednesday",
+        "period": "AM",
+        "sessionType": "SRHext",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "MwWed",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "MwFri",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "MwWed",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "MwFri",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MwMon",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      }
+    ],
+    "slotTotals": {
+      "NewSRH": 7,
+      "Review": 58,
+      "NCP": 4,
+      "NMWM": 18,
+      "Nwash": 10,
+      "Nurse led": 6
+    },
+    "totalClinicSlots": 103,
+    "totalAdditionalSessions": 0,
+    "unavailability": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "AM",
+        "reason": "AUDIT"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Friday",
+        "period": "PM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Thursday",
+        "period": "AM",
+        "reason": "Theatre"
+      }
+    ]
+  },
+  {
+    "weekStart": "2016-05-16",
+    "sessions": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Whtwo",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MnNew",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MwRev",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Wednesday",
+        "period": "AM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "extra",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "MwWed",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "MwFri",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "MwWed",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "MwFri",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MwMon",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      }
+    ],
+    "slotTotals": {
+      "NewSRH": 10,
+      "Review": 64,
+      "NCP": 4,
+      "NMWM": 16,
+      "Nwash": 11,
+      "Nurse led": 6
+    },
+    "totalClinicSlots": 111,
+    "totalAdditionalSessions": 0,
+    "unavailability": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "AM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Friday",
+        "period": "PM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "PM",
+        "reason": "Theatre"
+      }
+    ]
+  },
+  {
+    "weekStart": "2016-05-23",
+    "sessions": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MnNew",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MwRev",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Wednesday",
+        "period": "AM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "MwFri",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "MwWed",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "MwFri",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MwMon",
+        "location": "Main Site"
+      }
+    ],
+    "slotTotals": {
+      "NewSRH": 8,
+      "Review": 68,
+      "NCP": 6,
+      "NMWM": 12,
+      "Nwash": 12,
+      "Nurse led": 3
+    },
+    "totalClinicSlots": 109,
+    "totalAdditionalSessions": 0,
+    "unavailability": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "AM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Friday",
+        "period": "PM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Friday",
+        "period": "AM",
+        "reason": "Theatre"
+      }
+    ]
+  },
+  {
+    "weekStart": "2016-05-30",
+    "sessions": [
+      {
+        "clinicianId": 2,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Tuesday",
+        "period": "PM",
+        "sessionType": "extra",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "MwWed",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "MwFri",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "MwWed",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "MwFri",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      }
+    ],
+    "slotTotals": {
+      "NewSRH": 11,
+      "Review": 34,
+      "NCP": 4,
+      "NMWM": 4,
+      "Nwash": 0,
+      "Nurse led": 3
+    },
+    "totalClinicSlots": 56,
+    "totalAdditionalSessions": 0,
+    "unavailability": [
+      {
+        "clinicianId": 2,
+        "day": "Wednesday",
+        "period": "PM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Friday",
+        "period": "PM",
+        "reason": "Theatre"
+      }
+    ]
+  },
+  {
+    "weekStart": "2016-06-06",
+    "sessions": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Whtwo",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Tuesday",
+        "period": "PM",
+        "sessionType": "extra",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "extra",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MnNew",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MwRev",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "MwWed",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "MwWed",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "MwFri",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MwMon",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      }
+    ],
+    "slotTotals": {
+      "NewSRH": 11,
+      "Review": 51,
+      "NCP": 6,
+      "NMWM": 12,
+      "Nwash": 13,
+      "Nurse led": 6
+    },
+    "totalClinicSlots": 99,
+    "totalAdditionalSessions": 0,
+    "unavailability": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "AM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Wednesday",
+        "period": "AM",
+        "reason": "AUDIT"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Friday",
+        "period": "PM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Friday",
+        "period": "AM",
+        "reason": "Theatre"
+      }
+    ]
+  },
+  {
+    "weekStart": "2016-06-13",
+    "sessions": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "whcex",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Friday",
+        "period": "PM",
+        "sessionType": "extra",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MnNew",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MwRev",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Wednesday",
+        "period": "AM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "MwWed",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "MwFri",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "MwWed",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "MwFri",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MwMon",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      }
+    ],
+    "slotTotals": {
+      "NewSRH": 13,
+      "Review": 67,
+      "NCP": 4,
+      "NMWM": 13,
+      "Nwash": 11,
+      "Nurse led": 6
+    },
+    "totalClinicSlots": 114,
+    "totalAdditionalSessions": 0,
+    "unavailability": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "AM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "PM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Friday",
+        "period": "AM",
+        "reason": "Theatre"
+      }
+    ]
+  },
+  {
+    "weekStart": "2016-06-20",
+    "sessions": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "MwWed",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "MwFri",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MwMon",
+        "location": "Main Site"
+      }
+    ],
+    "slotTotals": {
+      "NewSRH": 9,
+      "Review": 40,
+      "NCP": 7,
+      "NMWM": 6,
+      "Nwash": 6,
+      "Nurse led": 3
+    },
+    "totalClinicSlots": 71,
+    "totalAdditionalSessions": 0,
+    "unavailability": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "AM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Monday",
+        "period": "AM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Friday",
+        "period": "AM",
+        "reason": "Theatre"
+      }
+    ]
+  },
+  {
+    "weekStart": "2016-06-27",
+    "sessions": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MnNew",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MwRev",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Wednesday",
+        "period": "AM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "MwWed",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "MwFri",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "MwWed",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "MwFri",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MwMon",
+        "location": "Main Site"
+      }
+    ],
+    "slotTotals": {
+      "NewSRH": 10,
+      "Review": 60,
+      "NCP": 7,
+      "NMWM": 12,
+      "Nwash": 7,
+      "Nurse led": 3
+    },
+    "totalClinicSlots": 99,
+    "totalAdditionalSessions": 0,
+    "unavailability": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "AM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "PM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Friday",
+        "period": "AM",
+        "reason": "Theatre"
+      }
+    ]
+  },
+  {
+    "weekStart": "2016-07-04",
+    "sessions": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MnNew",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MwRev",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Wednesday",
+        "period": "AM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "MwWed",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "MwWed",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "MwFri",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MwMon",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      }
+    ],
+    "slotTotals": {
+      "NewSRH": 0,
+      "Review": 35,
+      "NCP": 4,
+      "NMWM": 13,
+      "Nwash": 6,
+      "Nurse led": 6
+    },
+    "totalClinicSlots": 64,
+    "totalAdditionalSessions": 0,
+    "unavailability": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "AM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Thursday",
+        "period": "AM",
+        "reason": "AUDIT"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Monday",
+        "period": "AM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Tuesday",
+        "period": "PM",
+        "reason": "Theatre"
+      }
+    ]
+  },
+  {
+    "weekStart": "2016-07-11",
+    "sessions": [
+      {
+        "clinicianId": 2,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MnNew",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MwRev",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Wednesday",
+        "period": "AM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "MwWed",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "MwFri",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MwMon",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      }
+    ],
+    "slotTotals": {
+      "NewSRH": 7,
+      "Review": 43,
+      "NCP": 4,
+      "NMWM": 10,
+      "Nwash": 4,
+      "Nurse led": 6
+    },
+    "totalClinicSlots": 74,
+    "totalAdditionalSessions": 0,
+    "unavailability": [
+      {
+        "clinicianId": 2,
+        "day": "Friday",
+        "period": "PM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "PM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Friday",
+        "period": "AM",
+        "reason": "Theatre"
+      }
+    ]
+  },
+  {
+    "weekStart": "2016-07-18",
+    "sessions": [
+      {
+        "clinicianId": 2,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "EXTRA",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MnNew",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MwRev",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "extra",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "MwWed",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "MwFri",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MwMon",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      }
+    ],
+    "slotTotals": {
+      "NewSRH": 8,
+      "Review": 43,
+      "NCP": 6,
+      "NMWM": 10,
+      "Nwash": 7,
+      "Nurse led": 6
+    },
+    "totalClinicSlots": 80,
+    "totalAdditionalSessions": 0,
+    "unavailability": [
+      {
+        "clinicianId": 2,
+        "day": "Friday",
+        "period": "PM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Wednesday",
+        "period": "AM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Friday",
+        "period": "AM",
+        "reason": "Theatre"
+      }
+    ]
+  },
+  {
+    "weekStart": "2016-07-25",
+    "sessions": [
+      {
+        "clinicianId": 1,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Whtwo",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MnNew",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MwRev",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Wednesday",
+        "period": "AM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "MwWed",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "MwFri",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MwMon",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      }
+    ],
+    "slotTotals": {
+      "NewSRH": 7,
+      "Review": 47,
+      "NCP": 5,
+      "NMWM": 10,
+      "Nwash": 8,
+      "Nurse led": 6
+    },
+    "totalClinicSlots": 83,
+    "totalAdditionalSessions": 0,
+    "unavailability": [
+      {
+        "clinicianId": 2,
+        "day": "Friday",
+        "period": "PM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "PM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Friday",
+        "period": "AM",
+        "reason": "Theatre"
+      }
+    ]
+  },
+  {
+    "weekStart": "2016-08-01",
+    "sessions": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "extramw",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Friday",
+        "period": "PM",
+        "sessionType": "extra",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MnNew",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MwRev",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Wednesday",
+        "period": "AM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "extrasrh",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "MwWed",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "MwFri",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MwMon",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      }
+    ],
+    "slotTotals": {
+      "NewSRH": 9,
+      "Review": 53,
+      "NCP": 6,
+      "NMWM": 12,
+      "Nwash": 4,
+      "Nurse led": 6
+    },
+    "totalClinicSlots": 90,
+    "totalAdditionalSessions": 0,
+    "unavailability": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "AM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Friday",
+        "period": "AM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Thursday",
+        "period": "AM",
+        "reason": "Theatre"
+      }
+    ]
+  },
+  {
+    "weekStart": "2016-08-08",
+    "sessions": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Whtwo",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "extra",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MnNew",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MwRev",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Wednesday",
+        "period": "AM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "MwWed",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "MwFri",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MwMon",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Wednesday",
+        "period": "AM",
+        "sessionType": "telrev1",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "paintel2",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      }
+    ],
+    "slotTotals": {
+      "NewSRH": 3,
+      "Review": 42,
+      "NCP": 2,
+      "NMWM": 10,
+      "Nwash": 10,
+      "Nurse led": 14
+    },
+    "totalClinicSlots": 81,
+    "totalAdditionalSessions": 0,
+    "unavailability": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "AM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "PM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Friday",
+        "period": "AM",
+        "reason": "Theatre"
+      }
+    ]
+  },
+  {
+    "weekStart": "2016-08-15",
+    "sessions": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Whtwo",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "MwWed",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "MwFri",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      }
+    ],
+    "slotTotals": {
+      "NewSRH": 5,
+      "Review": 33,
+      "NCP": 2,
+      "NMWM": 4,
+      "Nwash": 8,
+      "Nurse led": 3
+    },
+    "totalClinicSlots": 55,
+    "totalAdditionalSessions": 0,
+    "unavailability": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "AM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Monday",
+        "period": "AM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Friday",
+        "period": "PM",
+        "reason": "Theatre"
+      }
+    ]
+  },
+  {
+    "weekStart": "2016-08-22",
+    "sessions": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Whtwo",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Wednesday",
+        "period": "AM",
+        "sessionType": "extra",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "MwWed",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "MwFri",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      }
+    ],
+    "slotTotals": {
+      "NewSRH": 11,
+      "Review": 34,
+      "NCP": 2,
+      "NMWM": 2,
+      "Nwash": 8,
+      "Nurse led": 3
+    },
+    "totalClinicSlots": 60,
+    "totalAdditionalSessions": 0,
+    "unavailability": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "AM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Friday",
+        "period": "PM",
+        "reason": "Theatre"
+      }
+    ]
+  },
+  {
+    "weekStart": "2016-08-29",
+    "sessions": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Wednesday",
+        "period": "AM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "MwWed",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "MwFri",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      }
+    ],
+    "slotTotals": {
+      "NewSRH": 5,
+      "Review": 47,
+      "NCP": 6,
+      "NMWM": 4,
+      "Nwash": 4,
+      "Nurse led": 3
+    },
+    "totalClinicSlots": 69,
+    "totalAdditionalSessions": 0,
+    "unavailability": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "AM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Friday",
+        "period": "AM",
+        "reason": "Theatre"
+      }
+    ]
+  },
+  {
+    "weekStart": "2016-09-05",
+    "sessions": [
+      {
+        "clinicianId": 2,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MnNew",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MwRev",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Wednesday",
+        "period": "AM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MwMon",
+        "location": "Main Site"
+      }
+    ],
+    "slotTotals": {
+      "NewSRH": 5,
+      "Review": 30,
+      "NCP": 4,
+      "NMWM": 8,
+      "Nwash": 2,
+      "Nurse led": 3
+    },
+    "totalClinicSlots": 52,
+    "totalAdditionalSessions": 0,
+    "unavailability": [
+      {
+        "clinicianId": 1,
+        "day": "Friday",
+        "period": "AM",
+        "reason": "AUDIT"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Friday",
+        "period": "PM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "PM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Wednesday",
+        "period": "PM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Friday",
+        "period": "AM",
+        "reason": "AUDIT"
+      }
+    ]
+  },
+  {
+    "weekStart": "2016-09-12",
+    "sessions": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Whtwo",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MnNew",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MwRev",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Wednesday",
+        "period": "AM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "MwWed",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "MwFri",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MwMon",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      }
+    ],
+    "slotTotals": {
+      "NewSRH": 5,
+      "Review": 49,
+      "NCP": 4,
+      "NMWM": 12,
+      "Nwash": 8,
+      "Nurse led": 6
+    },
+    "totalClinicSlots": 84,
+    "totalAdditionalSessions": 0,
+    "unavailability": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "AM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Friday",
+        "period": "PM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Friday",
+        "period": "AM",
+        "reason": "Theatre"
+      }
+    ]
+  },
+  {
+    "weekStart": "2016-09-19",
+    "sessions": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "extra",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Whtwo",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "extra",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MnNew",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MwRev",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Wednesday",
+        "period": "AM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "extra",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "MwWed",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "MwFri",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MwMon",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      }
+    ],
+    "slotTotals": {
+      "NewSRH": 15,
+      "Review": 51,
+      "NCP": 5,
+      "NMWM": 14,
+      "Nwash": 10,
+      "Nurse led": 6
+    },
+    "totalClinicSlots": 101,
+    "totalAdditionalSessions": 0,
+    "unavailability": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "AM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Friday",
+        "period": "PM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "PM",
+        "reason": "Theatre"
+      }
+    ]
+  },
+  {
+    "weekStart": "2016-09-26",
+    "sessions": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Whtwo",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MnNew",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MwRev",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Wednesday",
+        "period": "AM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "MwWed",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "MwFri",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MwMon",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Wednesday",
+        "period": "AM",
+        "sessionType": "telrev",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      }
+    ],
+    "slotTotals": {
+      "NewSRH": 5,
+      "Review": 63,
+      "NCP": 6,
+      "NMWM": 12,
+      "Nwash": 10,
+      "Nurse led": 6
+    },
+    "totalClinicSlots": 102,
+    "totalAdditionalSessions": 0,
+    "unavailability": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "AM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Friday",
+        "period": "PM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Friday",
+        "period": "AM",
+        "reason": "Theatre"
+      }
+    ]
+  },
+  {
+    "weekStart": "2016-10-03",
+    "sessions": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "extra",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MnNew",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MwRev",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Wednesday",
+        "period": "AM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "extra",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "MwWed",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "MwFri",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MwMon",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Wednesday",
+        "period": "AM",
+        "sessionType": "telrev",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      }
+    ],
+    "slotTotals": {
+      "NewSRH": 13,
+      "Review": 72,
+      "NCP": 10,
+      "NMWM": 14,
+      "Nwash": 10,
+      "Nurse led": 6
+    },
+    "totalClinicSlots": 125,
+    "totalAdditionalSessions": 0,
+    "unavailability": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "AM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Friday",
+        "period": "AM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Friday",
+        "period": "PM",
+        "reason": "Theatre"
+      }
+    ]
+  },
+  {
+    "weekStart": "2016-10-10",
+    "sessions": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Whtwo",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MnNew",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MwRev",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Wednesday",
+        "period": "AM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "MwWed",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "MwFri",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MwMon",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      }
+    ],
+    "slotTotals": {
+      "NewSRH": 5,
+      "Review": 44,
+      "NCP": 0,
+      "NMWM": 12,
+      "Nwash": 11,
+      "Nurse led": 6
+    },
+    "totalClinicSlots": 78,
+    "totalAdditionalSessions": 0,
+    "unavailability": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "AM",
+        "reason": "AUDIT"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Friday",
+        "period": "PM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "PM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Friday",
+        "period": "AM",
+        "reason": "Theatre"
+      }
+    ]
+  },
+  {
+    "weekStart": "2016-10-17",
+    "sessions": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Whtwo",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MnNew",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MwRev",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Wednesday",
+        "period": "AM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "extra1",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "extra",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MwMon",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      }
+    ],
+    "slotTotals": {
+      "NewSRH": 7,
+      "Review": 44,
+      "NCP": 4,
+      "NMWM": 12,
+      "Nwash": 10,
+      "Nurse led": 6
+    },
+    "totalClinicSlots": 83,
+    "totalAdditionalSessions": 0,
+    "unavailability": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "AM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Friday",
+        "period": "PM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "PM",
+        "reason": "Theatre"
+      }
+    ]
+  },
+  {
+    "weekStart": "2016-10-24",
+    "sessions": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Whtwo",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "MwWed",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Wednesday",
+        "period": "AM",
+        "sessionType": "telrev",
+        "location": "Main Site"
+      }
+    ],
+    "slotTotals": {
+      "NewSRH": 3,
+      "Review": 33,
+      "NCP": 4,
+      "NMWM": 2,
+      "Nwash": 8,
+      "Nurse led": 0
+    },
+    "totalClinicSlots": 50,
+    "totalAdditionalSessions": 0,
+    "unavailability": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "AM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Friday",
+        "period": "AM",
+        "reason": "Theatre"
+      }
+    ]
+  },
+  {
+    "weekStart": "2016-10-31",
+    "sessions": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Tuesday",
+        "period": "PM",
+        "sessionType": "extrasrh",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MnNew",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MwRev",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Wednesday",
+        "period": "AM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "MwFri",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MwMon",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Wednesday",
+        "period": "AM",
+        "sessionType": "telrev",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      }
+    ],
+    "slotTotals": {
+      "NewSRH": 8,
+      "Review": 52,
+      "NCP": 6,
+      "NMWM": 8,
+      "Nwash": 4,
+      "Nurse led": 6
+    },
+    "totalClinicSlots": 84,
+    "totalAdditionalSessions": 0,
+    "unavailability": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "AM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Friday",
+        "period": "AM",
+        "reason": "Theatre"
+      }
+    ]
+  },
+  {
+    "weekStart": "2016-11-07",
+    "sessions": [
+      {
+        "clinicianId": 1,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "Extra",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Whtwo",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MnNew",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MwRev",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "extra",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "MwWed",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "MwFri",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MwMon",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "telrev",
+        "location": "Main Site"
+      }
+    ],
+    "slotTotals": {
+      "NewSRH": 8,
+      "Review": 56,
+      "NCP": 6,
+      "NMWM": 14,
+      "Nwash": 8,
+      "Nurse led": 3
+    },
+    "totalClinicSlots": 95,
+    "totalAdditionalSessions": 0,
+    "unavailability": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "AM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Wednesday",
+        "period": "AM",
+        "reason": "AUDIT"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Monday",
+        "period": "AM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Friday",
+        "period": "PM",
+        "reason": "Theatre"
+      }
+    ]
+  },
+  {
+    "weekStart": "2016-11-14",
+    "sessions": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "EXTRA",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "extra",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Whtwo",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Tuesday",
+        "period": "PM",
+        "sessionType": "Extra",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Wednesday",
+        "period": "AM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "MwWed",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "MwFri",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MwMon",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      }
+    ],
+    "slotTotals": {
+      "NewSRH": 10,
+      "Review": 46,
+      "NCP": 4,
+      "NMWM": 9,
+      "Nwash": 14,
+      "Nurse led": 6
+    },
+    "totalClinicSlots": 89,
+    "totalAdditionalSessions": 0,
+    "unavailability": [
+      {
+        "clinicianId": 2,
+        "day": "Friday",
+        "period": "PM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "PM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Friday",
+        "period": "AM",
+        "reason": "Theatre"
+      }
+    ]
+  },
+  {
+    "weekStart": "2016-11-21",
+    "sessions": [
+      {
+        "clinicianId": 1,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Whtwo",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MnNew",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MwRev",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Wednesday",
+        "period": "AM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Wednesday",
+        "period": "AM",
+        "sessionType": "Extra",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "MwWed",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "MwFri",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MwMon",
+        "location": "Main Site"
+      }
+    ],
+    "slotTotals": {
+      "NewSRH": 5,
+      "Review": 65,
+      "NCP": 6,
+      "NMWM": 12,
+      "Nwash": 8,
+      "Nurse led": 3
+    },
+    "totalClinicSlots": 99,
+    "totalAdditionalSessions": 0,
+    "unavailability": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "AM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Friday",
+        "period": "PM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Friday",
+        "period": "AM",
+        "reason": "Theatre"
+      }
+    ]
+  },
+  {
+    "weekStart": "2016-11-28",
+    "sessions": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Extra",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "lieu",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Extra",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MnNew",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MwRev",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Wednesday",
+        "period": "AM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "extra",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "MwWed",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "MwFri",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MwMon",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      }
+    ],
+    "slotTotals": {
+      "NewSRH": 15,
+      "Review": 59,
+      "NCP": 8,
+      "NMWM": 14,
+      "Nwash": 6,
+      "Nurse led": 6
+    },
+    "totalClinicSlots": 108,
+    "totalAdditionalSessions": 0,
+    "unavailability": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "AM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Friday",
+        "period": "AM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Wednesday",
+        "period": "AM",
+        "reason": "Theatre"
+      }
+    ]
+  },
+  {
+    "weekStart": "2016-12-05",
+    "sessions": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Whtwo",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "LIEU",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Tuesday",
+        "period": "PM",
+        "sessionType": "extra",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "LIEU",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MnNew",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MwRev",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Wednesday",
+        "period": "AM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "Extra",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "extra",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "MwWed",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "MwFri",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MwMon",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      }
+    ],
+    "slotTotals": {
+      "NewSRH": 6,
+      "Review": 49,
+      "NCP": 6,
+      "NMWM": 14,
+      "Nwash": 10,
+      "Nurse led": 6
+    },
+    "totalClinicSlots": 91,
+    "totalAdditionalSessions": 0,
+    "unavailability": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "AM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Thursday",
+        "period": "AM",
+        "reason": "AUDIT"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Thursday",
+        "period": "PM",
+        "reason": "Theatre"
+      }
+    ]
+  },
+  {
+    "weekStart": "2016-12-12",
+    "sessions": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Whtwo",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MnNew",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MwRev",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Wednesday",
+        "period": "AM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "MwFri",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MwMon",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      }
+    ],
+    "slotTotals": {
+      "NewSRH": 7,
+      "Review": 53,
+      "NCP": 4,
+      "NMWM": 8,
+      "Nwash": 10,
+      "Nurse led": 6
+    },
+    "totalClinicSlots": 88,
+    "totalAdditionalSessions": 0,
+    "unavailability": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "AM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Friday",
+        "period": "PM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "PM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Friday",
+        "period": "AM",
+        "reason": "Theatre"
+      }
+    ]
+  },
+  {
+    "weekStart": "2016-12-19",
+    "sessions": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Whtwo",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MnNew",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MwRev",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Wednesday",
+        "period": "AM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "MwWed",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "MwFri",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MwMon",
+        "location": "Main Site"
+      }
+    ],
+    "slotTotals": {
+      "NewSRH": 0,
+      "Review": 32,
+      "NCP": 0,
+      "NMWM": 10,
+      "Nwash": 6,
+      "Nurse led": 3
+    },
+    "totalClinicSlots": 51,
+    "totalAdditionalSessions": 0,
+    "unavailability": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "AM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Friday",
+        "period": "AM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Thursday",
+        "period": "AM",
+        "reason": "Theatre"
+      }
+    ]
+  },
+  {
+    "weekStart": "2016-12-26",
+    "sessions": [
+      {
+        "clinicianId": 1,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Whtwo",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      }
+    ],
+    "slotTotals": {
+      "NewSRH": 3,
+      "Review": 10,
+      "NCP": 0,
+      "NMWM": 0,
+      "Nwash": 4,
+      "Nurse led": 0
+    },
+    "totalClinicSlots": 17,
+    "totalAdditionalSessions": 0,
+    "unavailability": []
+  },
+  {
+    "weekStart": "2017-01-02",
+    "sessions": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Wednesday",
+        "period": "AM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "MwWed",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "MwFri",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      }
+    ],
+    "slotTotals": {
+      "NewSRH": 9,
+      "Review": 39,
+      "NCP": 6,
+      "NMWM": 4,
+      "Nwash": 4,
+      "Nurse led": 3
+    },
+    "totalClinicSlots": 65,
+    "totalAdditionalSessions": 0,
+    "unavailability": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "AM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Friday",
+        "period": "AM",
+        "reason": "Theatre"
+      }
+    ]
+  },
+  {
+    "weekStart": "2017-01-09",
+    "sessions": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MnNew",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MwRev",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Wednesday",
+        "period": "AM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "MwWed",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MwMon",
+        "location": "Main Site"
+      }
+    ],
+    "slotTotals": {
+      "NewSRH": 9,
+      "Review": 35,
+      "NCP": 2,
+      "NMWM": 10,
+      "Nwash": 6,
+      "Nurse led": 3
+    },
+    "totalClinicSlots": 65,
+    "totalAdditionalSessions": 0,
+    "unavailability": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "AM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Friday",
+        "period": "AM",
+        "reason": "AUDIT"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Monday",
+        "period": "AM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "PM",
+        "reason": "Theatre"
+      }
+    ]
+  },
+  {
+    "weekStart": "2017-01-16",
+    "sessions": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "extra",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "LIEU",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MnNew",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MwRev",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Wednesday",
+        "period": "AM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "extra",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "MwWed",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "MwFri",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MwMon",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      }
+    ],
+    "slotTotals": {
+      "NewSRH": 9,
+      "Review": 58,
+      "NCP": 8,
+      "NMWM": 20,
+      "Nwash": 6,
+      "Nurse led": 6
+    },
+    "totalClinicSlots": 107,
+    "totalAdditionalSessions": 0,
+    "unavailability": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "AM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Friday",
+        "period": "PM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Friday",
+        "period": "AM",
+        "reason": "Theatre"
+      }
+    ]
+  },
+  {
+    "weekStart": "2017-01-23",
+    "sessions": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Whtwo",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "lieu",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MnNew",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MwRev",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Wednesday",
+        "period": "AM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "extra",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "MwWed",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "MwFri",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MwMon",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      }
+    ],
+    "slotTotals": {
+      "NewSRH": 11,
+      "Review": 50,
+      "NCP": 2,
+      "NMWM": 13,
+      "Nwash": 10,
+      "Nurse led": 6
+    },
+    "totalClinicSlots": 92,
+    "totalAdditionalSessions": 0,
+    "unavailability": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "AM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Friday",
+        "period": "PM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Friday",
+        "period": "AM",
+        "reason": "Theatre"
+      }
+    ]
+  },
+  {
+    "weekStart": "2017-01-30",
+    "sessions": [
+      {
+        "clinicianId": 1,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "extra",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Extrasrh",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "lieu",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Extrasrh",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MnNew",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MwRev",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Wednesday",
+        "period": "AM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "MwWed",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "MwFri",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MwMon",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      }
+    ],
+    "slotTotals": {
+      "NewSRH": 13,
+      "Review": 57,
+      "NCP": 8,
+      "NMWM": 12,
+      "Nwash": 6,
+      "Nurse led": 6
+    },
+    "totalClinicSlots": 102,
+    "totalAdditionalSessions": 0,
+    "unavailability": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "AM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Friday",
+        "period": "AM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Thursday",
+        "period": "AM",
+        "reason": "Theatre"
+      }
+    ]
+  },
+  {
+    "weekStart": "2017-02-06",
+    "sessions": [
+      {
+        "clinicianId": 1,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "extra",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Whtwo",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Extra",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Extra",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MnNew",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MwRev",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Wednesday",
+        "period": "AM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "extra",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "MwWed",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "MwFri",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MwMon",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      }
+    ],
+    "slotTotals": {
+      "NewSRH": 13,
+      "Review": 44,
+      "NCP": 0,
+      "NMWM": 14,
+      "Nwash": 10,
+      "Nurse led": 6
+    },
+    "totalClinicSlots": 87,
+    "totalAdditionalSessions": 0,
+    "unavailability": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "AM",
+        "reason": "AUDIT"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Friday",
+        "period": "PM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "PM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Friday",
+        "period": "AM",
+        "reason": "Theatre"
+      }
+    ]
+  },
+  {
+    "weekStart": "2017-02-13",
+    "sessions": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "extra",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "LIEU",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MnNew",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MwRev",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Wednesday",
+        "period": "AM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MwMon",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      }
+    ],
+    "slotTotals": {
+      "NewSRH": 10,
+      "Review": 48,
+      "NCP": 8,
+      "NMWM": 10,
+      "Nwash": 6,
+      "Nurse led": 6
+    },
+    "totalClinicSlots": 88,
+    "totalAdditionalSessions": 0,
+    "unavailability": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "AM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Monday",
+        "period": "AM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Friday",
+        "period": "AM",
+        "reason": "Theatre"
+      }
+    ]
+  },
+  {
+    "weekStart": "2017-02-20",
+    "sessions": [
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "extra",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "MwWed",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      }
+    ],
+    "slotTotals": {
+      "NewSRH": 10,
+      "Review": 7,
+      "NCP": 0,
+      "NMWM": 2,
+      "Nwash": 4,
+      "Nurse led": 3
+    },
+    "totalClinicSlots": 26,
+    "totalAdditionalSessions": 0,
+    "unavailability": [
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "PM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Friday",
+        "period": "AM",
+        "reason": "Theatre"
+      }
+    ]
+  },
+  {
+    "weekStart": "2017-02-27",
+    "sessions": [
+      {
+        "clinicianId": 1,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MnNew",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MwRev",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Wednesday",
+        "period": "AM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MwMon",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "MwFri",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MwMon",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      }
+    ],
+    "slotTotals": {
+      "NewSRH": 9,
+      "Review": 49,
+      "NCP": 6,
+      "NMWM": 10,
+      "Nwash": 4,
+      "Nurse led": 6
+    },
+    "totalClinicSlots": 84,
+    "totalAdditionalSessions": 0,
+    "unavailability": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "AM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 2,
+        "day": "Friday",
+        "period": "PM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Friday",
+        "period": "AM",
+        "reason": "Theatre"
+      }
+    ]
+  },
+  {
+    "weekStart": "2017-03-06",
+    "sessions": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "extra",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Whtwo",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MnNew",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MwRev",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Wednesday",
+        "period": "AM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "extra",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "MwWed",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "MwFri",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MwMon",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      }
+    ],
+    "slotTotals": {
+      "NewSRH": 6,
+      "Review": 40,
+      "NCP": 0,
+      "NMWM": 14,
+      "Nwash": 10,
+      "Nurse led": 6
+    },
+    "totalClinicSlots": 76,
+    "totalAdditionalSessions": 0,
+    "unavailability": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "AM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "PM",
+        "reason": "Theatre"
+      }
+    ]
+  },
+  {
+    "weekStart": "2017-03-13",
+    "sessions": [
+      {
+        "clinicianId": 1,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "extramwm",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "extra",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "LIEU",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "LIEU",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "LIEU",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MnNew",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MwRev",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Wednesday",
+        "period": "AM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "extra",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Wednesday",
+        "period": "PM",
+        "sessionType": "MwWed",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 5,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "MwFri",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MwMon",
+        "location": "Main Site"
+      }
+    ],
+    "slotTotals": {
+      "NewSRH": 9,
+      "Review": 53,
+      "NCP": 4,
+      "NMWM": 14,
+      "Nwash": 6,
+      "Nurse led": 3
+    },
+    "totalClinicSlots": 89,
+    "totalAdditionalSessions": 0,
+    "unavailability": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "AM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Friday",
+        "period": "AM",
+        "reason": "Theatre"
+      }
+    ]
+  },
+  {
+    "weekStart": "2017-03-20",
+    "sessions": [
+      {
+        "clinicianId": 1,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "extra1",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "extra",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Whtwo",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "extra",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MnNew",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MwRev",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "extra",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Wednesday",
+        "period": "AM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MwMon",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      }
+    ],
+    "slotTotals": {
+      "NewSRH": 10,
+      "Review": 35,
+      "NCP": 2,
+      "NMWM": 8,
+      "Nwash": 10,
+      "Nurse led": 6
+    },
+    "totalClinicSlots": 71,
+    "totalAdditionalSessions": 0,
+    "unavailability": [
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "PM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Friday",
+        "period": "PM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Friday",
+        "period": "AM",
+        "reason": "Theatre"
+      }
+    ]
+  },
+  {
+    "weekStart": "2017-03-27",
+    "sessions": [
+      {
+        "clinicianId": 1,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "ExtraM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "Whone",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 1,
+        "day": "Friday",
+        "period": "AM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "Wash",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "CP",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "SRH",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Thursday",
+        "period": "AM",
+        "sessionType": "LIEU",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 3,
+        "day": "Thursday",
+        "period": "PM",
+        "sessionType": "LIEU",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MnNew",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Monday",
+        "period": "PM",
+        "sessionType": "MwRev",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "extra",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Wednesday",
+        "period": "AM",
+        "sessionType": "MWM",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Monday",
+        "period": "AM",
+        "sessionType": "MwMon",
+        "location": "Main Site"
+      },
+      {
+        "clinicianId": 6,
+        "day": "Tuesday",
+        "period": "AM",
+        "sessionType": "extra",
+        "location": "Main Site"
+      }
+    ],
+    "slotTotals": {
+      "NewSRH": 6,
+      "Review": 35,
+      "NCP": 8,
+      "NMWM": 8,
+      "Nwash": 6,
+      "Nurse led": 3
+    },
+    "totalClinicSlots": 66,
+    "totalAdditionalSessions": 0,
+    "unavailability": [
+      {
+        "clinicianId": 1,
+        "day": "Tuesday",
+        "period": "AM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Friday",
+        "period": "AM",
+        "reason": "Theatre"
+      },
+      {
+        "clinicianId": 4,
+        "day": "Friday",
+        "period": "PM",
+        "reason": "Theatre"
+      }
+    ]
+  }
+]

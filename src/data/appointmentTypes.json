@@ -1,0 +1,32 @@
+[
+  {
+    "code": "NewSRH",
+    "name": "New SRH",
+    "description": "New Sexual & Reproductive Health appointment"
+  },
+  {
+    "code": "Review",
+    "name": "Review",
+    "description": "Follow-up review appointment"
+  },
+  {
+    "code": "NCP",
+    "name": "NCP",
+    "description": "New Contraceptive Pill appointment"
+  },
+  {
+    "code": "NMWM",
+    "name": "NMWM",
+    "description": "New Midweek Morning appointment"
+  },
+  {
+    "code": "Nwash",
+    "name": "Nwash",
+    "description": "New Walk-in/Wash appointment"
+  },
+  {
+    "code": "Nurse led",
+    "name": "Nurse Led",
+    "description": "Nurse-led appointment"
+  }
+]
