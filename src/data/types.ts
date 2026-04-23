@@ -9,6 +9,7 @@
 export interface Clinician {
   id: number;
   label: string;
+  name?: string;
 }
 
 /** A single session assignment for a clinician in a given week */

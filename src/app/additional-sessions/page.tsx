@@ -5,6 +5,7 @@ import { getWeeks, getClinicians, getSessionTypes, getAvailableWeeks } from "@/d
 import { getAdditionalSessions, saveAdditionalSession, type AdditionalSessionEntry } from "@/lib/store";
 import { addAuditEntry } from "@/lib/audit";
 import { downloadCSV } from "@/lib/export";
+import { getClosestWeekIdx } from "@/lib/settings";
 
 const REASONS = ["Cover for leave", "Back Log", "RTT Action", "Extra Capacity"];
 const DAY_NAMES = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
@@ -28,7 +29,7 @@ export default function AdditionalSessionsPage() {
   const clinicians = getClinicians();
   const sessionTypes = getSessionTypes();
 
-  const [weekIdx, setWeekIdx] = useState(0);
+  const [weekIdx, setWeekIdx] = useState(() => getClosestWeekIdx(availableWeeks));
   const [formData, setFormData] = useState(EMPTY_FORM);
   const [savedSessions, setSavedSessions] = useState<AdditionalSessionEntry[]>([]);
   const [success, setSuccess] = useState(false);
@@ -51,7 +52,7 @@ export default function AdditionalSessionsPage() {
       const dateStr = `${d.getDate()} / ${d.getMonth() + 1} / ${d.getFullYear()}`;
       const clinician = clinicians.find((c) => c.id === s.clinicianId);
       return {
-        clinician: clinician ? `Clinician ${clinician.label}` : `#${s.clinicianId}`,
+        clinician: clinician ? (clinician.name ?? `Clinician ${clinician.label}`) : `#${s.clinicianId}`,
         clinicType: s.sessionType,
         date: dateStr,
         expectedPatients: "—",
@@ -177,7 +178,7 @@ export default function AdditionalSessionsPage() {
               <select value={formData.clinician} onChange={(e) => setFormData({ ...formData, clinician: e.target.value })} className={selectCls}>
                 <option value="">Choose Clinician</option>
                 {clinicians.map((c) => (
-                  <option key={c.id} value={`Clinician ${c.label}`}>Clinician {c.label}</option>
+                  <option key={c.id} value={c.name ?? `Clinician ${c.label}`}>{c.name ?? `Clinician ${c.label}`}</option>
                 ))}
               </select>
             )}

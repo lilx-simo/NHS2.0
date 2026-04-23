@@ -5,6 +5,7 @@ import { getWeeks, getClinicians, getSessionTypes, getAvailableWeeks, getWeekSum
 import { getReportEntries, saveReportEntry, type ReportEntry } from "@/lib/store";
 import { addAuditEntry } from "@/lib/audit";
 import { downloadCSV } from "@/lib/export";
+import { getClosestWeekIdx } from "@/lib/settings";
 
 const ROOT_CAUSES = ["Did not attend", "Underutilisation", "Sickness", "Leave"];
 
@@ -56,7 +57,7 @@ export default function ReportPage() {
   const clinicians = getClinicians();
   const sessionTypes = getSessionTypes();
 
-  const [weekIdx, setWeekIdx] = useState(0);
+  const [weekIdx, setWeekIdx] = useState(() => getClosestWeekIdx(availableWeeks));
   const [formData, setFormData] = useState(EMPTY_FORM);
   const [userEntries, setUserEntries] = useState<ReportEntry[]>([]);
   const [success, setSuccess] = useState(false);
@@ -222,7 +223,7 @@ export default function ReportPage() {
               <select value={formData.clinician} onChange={(e) => setFormData({ ...formData, clinician: e.target.value })} className={selectCls}>
                 <option value="">Choose Clinician</option>
                 {clinicians.map((c) => (
-                  <option key={c.id} value={`Clinician ${c.label}`}>Clinician {c.label}</option>
+                  <option key={c.id} value={c.name ?? `Clinician ${c.label}`}>{c.name ?? `Clinician ${c.label}`}</option>
                 ))}
               </select>
             )}

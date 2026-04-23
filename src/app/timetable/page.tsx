@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { getWeeks, getClinicians, getAvailableWeeks } from "@/data";
 import { downloadCSV } from "@/lib/export";
+import { getClosestWeekIdx } from "@/lib/settings";
 
 const DAY_NAMES = [
   "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday",
@@ -24,7 +25,7 @@ export default function TimetablePage() {
   const availableWeeks = getAvailableWeeks();
   const clinicians = getClinicians();
 
-  const [weekIdx, setWeekIdx] = useState(0);
+  const [weekIdx, setWeekIdx] = useState(() => getClosestWeekIdx(availableWeeks));
   const [selectedClinicianId, setSelectedClinicianId] = useState<number | null>(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -58,20 +59,19 @@ export default function TimetablePage() {
     d.setDate(d.getDate() + dayIdx);
     const dateStr = `${d.getDate()} ${d.toLocaleString("en-GB", { month: "short" })} ${d.getFullYear()}`;
     const clinician = clinicians.find((c) => c.id === s.clinicianId);
+    const clinicianName = clinician?.name ?? `Clinician ${clinician?.label ?? s.clinicianId}`;
     const isAdditional = s.sessionType.toLowerCase().includes("extra");
     return {
       date: dateStr,
       clinicType: s.sessionType,
       location: s.location,
-      expectedPatients: "-",
-      note: clinician ? `Clinician ${clinician.label}` : "",
+      clinician: clinicianName,
       type: isAdditional ? "Additional" : "Core",
     };
   });
 
   const prevWeek = () => setWeekIdx((i) => Math.max(0, i - 1));
-  const nextWeek = () =>
-    setWeekIdx((i) => Math.min(availableWeeks.length - 1, i + 1));
+  const nextWeek = () => setWeekIdx((i) => Math.min(availableWeeks.length - 1, i + 1));
 
   const handleExport = () => {
     downloadCSV(
@@ -79,16 +79,16 @@ export default function TimetablePage() {
         Date: r.date,
         "Clinic Type": r.clinicType,
         Location: r.location,
-        "Expected Patients": r.expectedPatients,
-        Clinician: r.note,
+        Clinician: r.clinician,
         Type: r.type,
       })),
       `timetable-${currentWeekStart}.csv`
     );
   };
 
-  const selectedLabel = selectedClinicianId
-    ? `Clinician ${clinicians.find((c) => c.id === selectedClinicianId)?.label ?? ""}`
+  const selectedClinician = clinicians.find((c) => c.id === selectedClinicianId);
+  const selectedLabel = selectedClinician
+    ? (selectedClinician.name ?? `Clinician ${selectedClinician.label}`)
     : "All Clinicians";
 
   return (
@@ -98,7 +98,7 @@ export default function TimetablePage() {
         <div className="relative">
           <button
             onClick={() => setDropdownOpen((o) => !o)}
-            className="flex items-center gap-2 px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm text-slate-700 hover:bg-gray-100 transition min-w-[160px] justify-between"
+            className="flex items-center gap-2 px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm text-slate-700 hover:bg-gray-100 transition min-w-[180px] justify-between"
           >
             <span className="truncate">{selectedLabel}</span>
             <svg className="w-4 h-4 text-slate-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -106,7 +106,7 @@ export default function TimetablePage() {
             </svg>
           </button>
           {dropdownOpen && (
-            <div className="absolute top-full mt-1 left-0 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-30 overflow-hidden">
+            <div className="absolute top-full mt-1 left-0 w-52 bg-white border border-gray-200 rounded-lg shadow-lg z-30 overflow-hidden">
               <button
                 onClick={() => { setSelectedClinicianId(null); setDropdownOpen(false); }}
                 className={`flex items-center w-full px-4 py-2.5 text-sm text-left hover:bg-blue-50 transition ${selectedClinicianId === null ? "text-[#005eb8] font-semibold" : "text-slate-700"}`}
@@ -119,7 +119,7 @@ export default function TimetablePage() {
                   onClick={() => { setSelectedClinicianId(c.id); setDropdownOpen(false); }}
                   className={`flex items-center w-full px-4 py-2.5 text-sm text-left hover:bg-blue-50 transition ${selectedClinicianId === c.id ? "text-[#005eb8] font-semibold" : "text-slate-700"}`}
                 >
-                  Clinician {c.label}
+                  {c.name ?? `Clinician ${c.label}`}
                 </button>
               ))}
             </div>
@@ -144,6 +144,14 @@ export default function TimetablePage() {
             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
+          </button>
+          <button
+            onClick={() => window.print()}
+            className="no-print flex items-center gap-1.5 px-3 py-2 bg-white border border-gray-200 text-slate-700 text-sm rounded-lg hover:bg-gray-50 transition">
+            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+            </svg>
+            Print
           </button>
           <button onClick={handleExport}
             className="flex items-center gap-1.5 px-3 py-2 bg-slate-700 text-white text-sm rounded-lg hover:bg-slate-800 transition">
@@ -185,7 +193,7 @@ export default function TimetablePage() {
             <table className="w-full text-sm">
               <thead className="bg-gray-50 border-b border-gray-100">
                 <tr>
-                  {["Date", "Clinic Type", "Location", "Expected Patients", "Clinician", "Type"].map((h) => (
+                  {["Date", "Clinic Type", "Location", "Clinician", "Type"].map((h) => (
                     <th key={h} className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide whitespace-nowrap">
                       {h}
                     </th>
@@ -198,8 +206,7 @@ export default function TimetablePage() {
                     <td className="px-4 py-3 text-slate-700 whitespace-nowrap">{row.date}</td>
                     <td className="px-4 py-3 font-medium text-slate-800">{row.clinicType}</td>
                     <td className="px-4 py-3 text-slate-600">{row.location}</td>
-                    <td className="px-4 py-3 text-slate-600">{row.expectedPatients}</td>
-                    <td className="px-4 py-3 text-slate-600">{row.note}</td>
+                    <td className="px-4 py-3 text-slate-600">{row.clinician}</td>
                     <td className="px-4 py-3">
                       <span className={`px-2 py-0.5 rounded-full text-xs font-semibold ${typeBadge(row.type)}`}>
                         {row.type}

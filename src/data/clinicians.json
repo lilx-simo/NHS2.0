@@ -1,26 +1,8 @@
 [
-  {
-    "id": 1,
-    "label": "1"
-  },
-  {
-    "id": 2,
-    "label": "2"
-  },
-  {
-    "id": 3,
-    "label": "3"
-  },
-  {
-    "id": 4,
-    "label": "4"
-  },
-  {
-    "id": 5,
-    "label": "5"
-  },
-  {
-    "id": 6,
-    "label": "6"
-  }
+  { "id": 1, "label": "1", "name": "Dr. James Hartley" },
+  { "id": 2, "label": "2", "name": "Dr. Sarah Mitchell" },
+  { "id": 3, "label": "3", "name": "Dr. Emily Clarke" },
+  { "id": 4, "label": "4", "name": "Nurse Priya Patel" },
+  { "id": 5, "label": "5", "name": "Dr. Thomas Webb" },
+  { "id": 6, "label": "6", "name": "Nurse Fiona Ross" }
 ]

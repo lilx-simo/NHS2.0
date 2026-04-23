@@ -18,6 +18,25 @@ body {
   color: #1e293b;
 }
 
+/* Print styles */
+@media print {
+  header,
+  aside,
+  .no-print {
+    display: none !important;
+  }
+  main {
+    overflow: visible !important;
+  }
+  body {
+    background: white;
+    font-size: 12px;
+  }
+  .print-break {
+    page-break-before: always;
+  }
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
