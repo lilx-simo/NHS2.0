@@ -26,6 +26,7 @@ export default function LoginPage() {
       return;
     }
     setSession(user);
+    sessionStorage.setItem("nhs-welcome", user.name);
     router.push("/dashboard");
   };
 

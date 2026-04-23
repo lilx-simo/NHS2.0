@@ -43,6 +43,16 @@ export default function DashboardPage() {
 
   const [weekIdx, setWeekIdx] = useState(() => getClosestWeekIdx(availableWeeks));
   const [showCharts, setShowCharts] = useState(true);
+  const [welcomeName, setWelcomeName] = useState<string | null>(null);
+
+  useEffect(() => {
+    const name = sessionStorage.getItem("nhs-welcome");
+    if (name) {
+      setWelcomeName(name);
+      sessionStorage.removeItem("nhs-welcome");
+      setTimeout(() => setWelcomeName(null), 5000);
+    }
+  }, []);
 
   const currentWeekStart = availableWeeks[weekIdx];
   const summary = getWeekSummary(currentWeekStart);
@@ -111,6 +121,24 @@ export default function DashboardPage() {
 
   return (
     <div className="p-6 space-y-6 max-w-7xl mx-auto">
+      {/* Welcome toast */}
+      {welcomeName && (
+        <div className="flex items-center gap-3 bg-[#005eb8] text-white rounded-xl px-5 py-4 shadow-lg animate-pulse-once no-print">
+          <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center text-lg font-bold shrink-0">
+            {welcomeName[0]?.toUpperCase()}
+          </div>
+          <div className="flex-1">
+            <p className="font-semibold text-sm">Welcome back, {welcomeName}!</p>
+            <p className="text-blue-200 text-xs mt-0.5">You are now signed in to the NHS Capacity Planner.</p>
+          </div>
+          <button onClick={() => setWelcomeName(null)} className="text-white/60 hover:text-white transition shrink-0">
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      )}
+
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>

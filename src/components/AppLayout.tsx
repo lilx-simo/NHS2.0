@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { getCurrentUser, clearSession, ROLE_LABELS, ROLE_COLORS, type User } from "@/lib/users";
 import { getAvailableWeeks, getWeekSummary } from "@/data";
 import { getSettings } from "@/lib/settings";
@@ -111,12 +111,10 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
-  const [profileOpen, setProfileOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [variance, setVariance] = useState(0);
   const [amberThreshold, setAmberThreshold] = useState(5);
   const [redThreshold, setRedThreshold] = useState(10);
-  const profileRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setUser(getCurrentUser());
@@ -144,17 +142,6 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         setVariance(v);
       }
     }
-  }, []);
-
-  // Close profile dropdown on outside click
-  useEffect(() => {
-    function handleClick(e: MouseEvent) {
-      if (profileRef.current && !profileRef.current.contains(e.target as Node)) {
-        setProfileOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClick);
-    return () => document.removeEventListener("mousedown", handleClick);
   }, []);
 
   // Close sidebar on route change (mobile)
@@ -202,78 +189,28 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         })}
       </nav>
 
-      {/* Profile section with dropdown */}
-      <div ref={profileRef} className="relative border-t border-gray-200">
-        {profileOpen && (
-          <div className="absolute bottom-full left-2 right-2 mb-2 bg-white border border-gray-200 rounded-xl shadow-xl overflow-hidden z-50">
-            <div className="px-4 py-3 bg-gray-50 border-b border-gray-100">
-              <p className="text-sm font-semibold text-slate-800 truncate">{user?.name}</p>
-              <p className="text-xs text-slate-500 truncate">{user?.email || user?.username}</p>
-              {user && (
-                <span className={`inline-flex mt-1 px-2 py-0.5 rounded-full text-xs font-semibold ${roleColor}`}>
-                  {roleLabel}
-                </span>
-              )}
-            </div>
-            <div className="p-1.5 space-y-0.5">
-              <Link
-                href="/profile"
-                onClick={() => setProfileOpen(false)}
-                className="flex items-center gap-3 w-full px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-blue-50 hover:text-[#005eb8] transition-colors"
-              >
-                <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8}
-                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                </svg>
-                Edit Profile
-              </Link>
-
-              {user?.role === "admin" && (
-                <Link
-                  href="/users"
-                  onClick={() => setProfileOpen(false)}
-                  className="flex items-center gap-3 w-full px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-blue-50 hover:text-[#005eb8] transition-colors"
-                >
-                  <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8}
-                      d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-                  </svg>
-                  User Management
-                </Link>
-              )}
-
-              <div className="border-t border-gray-100 my-1" />
-
-              <button
-                onClick={handleSignOut}
-                className="flex items-center gap-3 w-full px-3 py-2 rounded-lg text-sm text-red-600 hover:bg-red-50 transition-colors"
-              >
-                <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8}
-                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                </svg>
-                Sign Out
-              </button>
-            </div>
-          </div>
-        )}
-
-        <button
-          onClick={() => setProfileOpen((o) => !o)}
-          className="w-full flex items-center gap-3 p-4 hover:bg-gray-50 transition-colors text-left"
+      {/* Profile section — click to go to profile, sign-out icon on the right */}
+      <div className="border-t border-gray-200 flex items-center gap-2 px-3 py-3">
+        <Link
+          href="/profile"
+          className="flex items-center gap-3 flex-1 min-w-0 rounded-lg px-2 py-1.5 hover:bg-blue-50 transition-colors group"
         >
-          <div className="w-9 h-9 rounded-full bg-[#005eb8] flex items-center justify-center text-white text-sm font-bold shrink-0">
+          <div className="w-9 h-9 rounded-full bg-[#005eb8] flex items-center justify-center text-white text-sm font-bold shrink-0 group-hover:bg-[#003d8f] transition-colors">
             {initial}
           </div>
           <div className="min-w-0 flex-1">
-            <p className="text-sm font-semibold text-slate-800 truncate">{user?.name ?? "…"}</p>
+            <p className="text-sm font-semibold text-slate-800 truncate group-hover:text-[#005eb8] transition-colors">{user?.name ?? "…"}</p>
             <p className="text-xs text-slate-500 truncate">{roleLabel}</p>
           </div>
-          <svg
-            className={`w-4 h-4 text-slate-400 shrink-0 transition-transform ${profileOpen ? "rotate-180" : ""}`}
-            fill="none" viewBox="0 0 24 24" stroke="currentColor"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        </Link>
+        <button
+          onClick={handleSignOut}
+          title="Sign out"
+          className="p-2 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 transition-colors shrink-0"
+        >
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8}
+              d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
           </svg>
         </button>
       </div>
@@ -301,7 +238,9 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               </svg>
             )}
           </button>
-          <Image src="/nhs-logo.png" alt="NHS Logo" width={60} height={42} priority />
+          <Link href="/" title="Back to login">
+            <Image src="/nhs-logo.png" alt="NHS Logo" width={60} height={42} priority />
+          </Link>
         </div>
         <div className="flex items-center gap-3">
           {user && (
