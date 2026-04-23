@@ -37,6 +37,61 @@ body {
   }
 }
 
+/* ── Dark Mode ────────────────────────────────────────────────────────────── */
+/* Specificity of html.dark .class (0,2,1) beats Tailwind's .class (0,1,0) */
+html.dark body { background-color: #0f172a; color: #e2e8f0; }
+
+/* Surfaces */
+html.dark .bg-white { background-color: #1e293b; }
+html.dark .bg-gray-50 { background-color: #0f172a; }
+html.dark .bg-gray-100 { background-color: #1e293b; color: #e2e8f0; }
+html.dark .bg-gray-200 { background-color: #273649; }
+
+/* Text */
+html.dark .text-slate-800 { color: #e2e8f0; }
+html.dark .text-slate-700 { color: #cbd5e1; }
+html.dark .text-slate-600 { color: #94a3b8; }
+html.dark .text-slate-500 { color: #64748b; }
+html.dark .text-slate-400 { color: #4e6180; }
+
+/* Borders */
+html.dark .border-gray-100 { border-color: #1e293b; }
+html.dark .border-gray-200 { border-color: #273649; }
+html.dark .border-gray-300 { border-color: #334155; }
+
+/* Dividers */
+html.dark .divide-gray-50 > * + * { border-color: #1a2744; }
+
+/* Forms */
+html.dark input:not([type="checkbox"]):not([type="radio"]):not([type="range"]) {
+  background-color: #0f172a;
+  border-color: #334155;
+  color: #e2e8f0;
+}
+html.dark select { background-color: #0f172a; border-color: #334155; color: #e2e8f0; }
+html.dark textarea { background-color: #0f172a; border-color: #334155; color: #e2e8f0; }
+html.dark input::placeholder,
+html.dark textarea::placeholder { color: #475569; }
+
+/* Table & hover */
+html.dark .hover\:bg-gray-50:hover { background-color: #1a2744; }
+html.dark .hover\:bg-blue-50:hover { background-color: #0c1d38; }
+html.dark .hover\:bg-red-50:hover { background-color: #1c0707; }
+html.dark thead.bg-gray-50 { background-color: #162032; }
+
+/* Sidebar */
+html.dark aside { background-color: #1a2744; border-color: #273649; }
+
+/* Shadows */
+html.dark .shadow-sm { box-shadow: 0 1px 2px 0 rgba(0,0,0,0.5); }
+html.dark .shadow-xl { box-shadow: 0 20px 25px -5px rgba(0,0,0,0.6), 0 10px 10px -5px rgba(0,0,0,0.4); }
+html.dark .shadow-2xl { box-shadow: 0 25px 50px -12px rgba(0,0,0,0.7); }
+
+/* Scrollbar dark */
+html.dark ::-webkit-scrollbar-track { background: #1e293b; }
+html.dark ::-webkit-scrollbar-thumb { background: #334155; }
+html.dark ::-webkit-scrollbar-thumb:hover { background: #475569; }
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 6px;

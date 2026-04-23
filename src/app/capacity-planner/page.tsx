@@ -73,6 +73,15 @@ export default function CapacityPlannerPage() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [customSessions, setCustomSessions] = useState<CustomSession[]>([]);
 
+  useEffect(() => {
+    const max = availableWeeks.length - 1;
+    const goP = () => setWeekIdx((i) => Math.max(0, i - 1));
+    const goN = () => setWeekIdx((i) => Math.min(max, i + 1));
+    window.addEventListener("nhs-prev-week", goP);
+    window.addEventListener("nhs-next-week", goN);
+    return () => { window.removeEventListener("nhs-prev-week", goP); window.removeEventListener("nhs-next-week", goN); };
+  }, [availableWeeks.length]);
+
   // Modal state
   const [modalOpen, setModalOpen] = useState(false);
   const [editingCustomId, setEditingCustomId] = useState<string | null>(null);
@@ -83,6 +92,13 @@ export default function CapacityPlannerPage() {
   const currentWeek = allWeeks[weekIdx];
   const weekStartDate = new Date(currentWeekStart + "T00:00:00");
   const days = getWeekDays(weekStartDate);
+
+  const todayStr = new Date().toLocaleDateString("en-CA"); // YYYY-MM-DD
+  const todayColIdx = days.findIndex((_, i) => {
+    const d = new Date(weekStartDate);
+    d.setDate(weekStartDate.getDate() + i);
+    return d.toLocaleDateString("en-CA") === todayStr;
+  });
 
   useEffect(() => {
     setCustomSessions(getCustomSessions(currentWeekStart));
@@ -319,17 +335,21 @@ export default function CapacityPlannerPage() {
           {/* Day headers */}
           <div className="flex border-b border-gray-100 sticky top-0 bg-white z-10">
             <div className="w-20 shrink-0 border-r border-gray-100" />
-            {days.map((day) => (
-              <div
-                key={day.name}
-                className="w-32 flex flex-col items-center justify-center py-3 border-r border-gray-100 last:border-r-0"
-              >
-                <span className="text-xs font-bold text-[#005eb8] uppercase tracking-wide">
-                  {day.name.slice(0, 3)}
-                </span>
-                <span className="text-sm font-semibold text-slate-700 mt-0.5">{day.date}</span>
-              </div>
-            ))}
+            {days.map((day, i) => {
+              const isToday = i === todayColIdx;
+              return (
+                <div
+                  key={day.name}
+                  className={`w-32 flex flex-col items-center justify-center py-3 border-r border-gray-100 last:border-r-0 ${isToday ? "bg-blue-50 border-l-2 border-l-[#005eb8]" : ""}`}
+                >
+                  <span className={`text-xs font-bold uppercase tracking-wide ${isToday ? "text-[#005eb8]" : "text-[#005eb8]"}`}>
+                    {isToday ? "TODAY" : day.name.slice(0, 3)}
+                  </span>
+                  <span className={`text-sm font-semibold mt-0.5 ${isToday ? "text-[#005eb8]" : "text-slate-700"}`}>{day.date}</span>
+                  {isToday && <span className="w-1.5 h-1.5 rounded-full bg-[#005eb8] mt-1" />}
+                </div>
+              );
+            })}
           </div>
 
           {/* Time rows */}
@@ -340,10 +360,11 @@ export default function CapacityPlannerPage() {
               </div>
               {days.map((_, dayIdx) => {
                 const cell = sessionMap[`${dayIdx}-${timeIdx}`];
+                const isTodayCol = dayIdx === todayColIdx;
                 return (
                   <div
                     key={dayIdx}
-                    className="w-32 min-h-[48px] border-r border-gray-50 last:border-r-0 p-1.5"
+                    className={`w-32 min-h-[48px] border-r border-gray-50 last:border-r-0 p-1.5 ${isTodayCol ? "bg-blue-50/40 border-l border-l-blue-100" : ""}`}
                   >
                     {cell ? (
                       <div

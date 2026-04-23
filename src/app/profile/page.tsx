@@ -43,6 +43,9 @@ export default function ProfilePage() {
   const [infoError, setInfoError] = useState("");
 
   // Password
+  const [lastLogin, setLastLogin] = useState<string | null>(null);
+
+  // Password
   const [currentPw, setCurrentPw] = useState("");
   const [newPw, setNewPw] = useState("");
   const [confirmPw, setConfirmPw] = useState("");
@@ -56,6 +59,8 @@ export default function ProfilePage() {
     setName(u.name);
     setEmail(u.email);
     setDepartment(u.department);
+    const raw = localStorage.getItem(`nhs-last-login-${u.id}`);
+    if (raw) setLastLogin(new Date(raw).toLocaleString("en-GB", { dateStyle: "medium", timeStyle: "short" }));
   }, [router]);
 
   const saveInfo = () => {
@@ -216,6 +221,10 @@ export default function ProfilePage() {
           <div>
             <p className="text-xs text-slate-500 uppercase tracking-wide font-semibold">Account Created</p>
             <p className="text-slate-800 mt-0.5">{user.createdAt}</p>
+          </div>
+          <div>
+            <p className="text-xs text-slate-500 uppercase tracking-wide font-semibold">Last Login</p>
+            <p className="text-slate-800 mt-0.5">{lastLogin ?? "—"}</p>
           </div>
         </div>
       </Section>

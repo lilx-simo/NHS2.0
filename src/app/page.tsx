@@ -27,6 +27,7 @@ export default function LoginPage() {
     }
     setSession(user);
     sessionStorage.setItem("nhs-welcome", user.name);
+    localStorage.setItem(`nhs-last-login-${user.id}`, new Date().toISOString());
     router.push("/dashboard");
   };
 

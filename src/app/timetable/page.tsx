@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { getWeeks, getClinicians, getAvailableWeeks } from "@/data";
 import { downloadCSV } from "@/lib/export";
 import { getClosestWeekIdx } from "@/lib/settings";
@@ -28,6 +28,15 @@ export default function TimetablePage() {
   const [weekIdx, setWeekIdx] = useState(() => getClosestWeekIdx(availableWeeks));
   const [selectedClinicianId, setSelectedClinicianId] = useState<number | null>(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  useEffect(() => {
+    const max = availableWeeks.length - 1;
+    const goP = () => setWeekIdx((i) => Math.max(0, i - 1));
+    const goN = () => setWeekIdx((i) => Math.min(max, i + 1));
+    window.addEventListener("nhs-prev-week", goP);
+    window.addEventListener("nhs-next-week", goN);
+    return () => { window.removeEventListener("nhs-prev-week", goP); window.removeEventListener("nhs-next-week", goN); };
+  }, [availableWeeks.length]);
 
   const currentWeekStart = availableWeeks[weekIdx];
   const currentWeek = allWeeks[weekIdx];

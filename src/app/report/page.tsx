@@ -63,6 +63,15 @@ export default function ReportPage() {
   const [success, setSuccess] = useState(false);
   const [formError, setFormError] = useState("");
 
+  useEffect(() => {
+    const max = availableWeeks.length - 1;
+    const goP = () => setWeekIdx((i) => Math.max(0, i - 1));
+    const goN = () => setWeekIdx((i) => Math.min(max, i + 1));
+    window.addEventListener("nhs-prev-week", goP);
+    window.addEventListener("nhs-next-week", goN);
+    return () => { window.removeEventListener("nhs-prev-week", goP); window.removeEventListener("nhs-next-week", goN); };
+  }, [availableWeeks.length]);
+
   const currentWeekStart = availableWeeks[weekIdx];
   const currentWeek = allWeeks[weekIdx];
   const summary = getWeekSummary(currentWeekStart);

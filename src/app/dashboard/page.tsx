@@ -44,6 +44,18 @@ export default function DashboardPage() {
   const [weekIdx, setWeekIdx] = useState(() => getClosestWeekIdx(availableWeeks));
   const [showCharts, setShowCharts] = useState(true);
   const [welcomeName, setWelcomeName] = useState<string | null>(null);
+  const [clinicianSearch, setClinicianSearch] = useState("");
+  const [sortKey, setSortKey] = useState<"name" | "planned" | "adjusted" | "reduction">("name");
+  const [sortAsc, setSortAsc] = useState(true);
+
+  useEffect(() => {
+    const max = availableWeeks.length - 1;
+    const goP = () => setWeekIdx((i) => Math.max(0, i - 1));
+    const goN = () => setWeekIdx((i) => Math.min(max, i + 1));
+    window.addEventListener("nhs-prev-week", goP);
+    window.addEventListener("nhs-next-week", goN);
+    return () => { window.removeEventListener("nhs-prev-week", goP); window.removeEventListener("nhs-next-week", goN); };
+  }, [availableWeeks.length]);
 
   useEffect(() => {
     const name = sessionStorage.getItem("nhs-welcome");
@@ -61,6 +73,11 @@ export default function DashboardPage() {
 
   const { varianceAmber, varianceRed } = settings;
 
+  const handleSort = (key: typeof sortKey) => {
+    if (sortKey === key) setSortAsc((a) => !a);
+    else { setSortKey(key); setSortAsc(true); }
+  };
+
   const clinicianRows = clinicians.map((c) => {
     const sessions = currentWeek?.sessions.filter((s) => s.clinicianId === c.id) ?? [];
     const unavailable = currentWeek?.unavailability.filter((u) => u.clinicianId === c.id) ?? [];
@@ -69,6 +86,14 @@ export default function DashboardPage() {
     const reduction = planned > 0 ? Math.round(((planned - adjusted) / planned) * 100) : 0;
     return { name: c.name ?? `Clinician ${c.label}`, planned, adjusted, reduction };
   });
+
+  const filteredRows = clinicianRows
+    .filter((r) => !clinicianSearch || r.name.toLowerCase().includes(clinicianSearch.toLowerCase()))
+    .sort((a, b) => {
+      const mul = sortAsc ? 1 : -1;
+      if (sortKey === "name") return mul * a.name.localeCompare(b.name);
+      return mul * (a[sortKey] - b[sortKey]);
+    });
 
   const totalPlanned = summary?.totalClinicSlots ?? 0;
   const totalDelivered = summary ? summary.totalClinicSlots - summary.totalUnavailable * 5 : 0;
@@ -275,25 +300,52 @@ export default function DashboardPage() {
 
       {/* Clinician Table */}
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-        <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
-          <h2 className="text-base font-semibold text-slate-800">Clinician Capacity Overview</h2>
-          <span className="text-xs text-slate-400">
-            {clinicianRows.filter((r) => r.planned > 0).length} active this week
-          </span>
+        <div className="px-6 py-4 border-b border-gray-100 flex flex-wrap items-center gap-3">
+          <h2 className="text-base font-semibold text-slate-800 flex-1">Clinician Capacity Overview</h2>
+          <div className="relative">
+            <svg className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <input
+              value={clinicianSearch}
+              onChange={(e) => setClinicianSearch(e.target.value)}
+              placeholder="Search clinician…"
+              className="pl-8 pr-3 py-1.5 text-xs rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#005eb8] focus:border-transparent bg-white text-slate-700 placeholder-gray-400 w-44"
+            />
+          </div>
+          <span className="text-xs text-slate-400">{filteredRows.filter((r) => r.planned > 0).length} active</span>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead className="bg-gray-50 border-b border-gray-100">
               <tr>
-                {["Clinician", "Planned Sessions", "Adjusted Sessions", "Capacity Reduction"].map((h) => (
-                  <th key={h} className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide whitespace-nowrap">
-                    {h}
+                {[
+                  { label: "Clinician", key: "name" },
+                  { label: "Planned", key: "planned" },
+                  { label: "Adjusted", key: "adjusted" },
+                  { label: "Reduction", key: "reduction" },
+                ].map(({ label, key }) => (
+                  <th
+                    key={key}
+                    onClick={() => handleSort(key as typeof sortKey)}
+                    className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide whitespace-nowrap cursor-pointer hover:text-[#005eb8] select-none"
+                  >
+                    <span className="flex items-center gap-1">
+                      {label}
+                      {sortKey === key && (
+                        <svg className={`w-3 h-3 transition-transform ${sortAsc ? "" : "rotate-180"}`} fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                        </svg>
+                      )}
+                    </span>
                   </th>
                 ))}
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-50">
-              {clinicianRows.map((row, i) => (
+              {filteredRows.length === 0 ? (
+                <tr><td colSpan={4} className="px-6 py-8 text-center text-sm text-slate-400">No clinicians match your search</td></tr>
+              ) : filteredRows.map((row, i) => (
                 <tr key={i} className="hover:bg-gray-50 transition-colors">
                   <td className="px-6 py-4 font-medium text-slate-800">{row.name}</td>
                   <td className="px-6 py-4 text-slate-600">{row.planned}</td>
