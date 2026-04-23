@@ -1,30 +1,54 @@
 "use client";
 
-import { useState } from "react";
-import {
-  getWeeks,
-  getClinicians,
-  getSessionTypes,
-  getAvailableWeeks,
-  getWeekSummary,
-} from "@/data";
+import { useState, useEffect, type ReactNode } from "react";
+import { getWeeks, getClinicians, getSessionTypes, getAvailableWeeks, getWeekSummary } from "@/data";
+import { getReportEntries, saveReportEntry, type ReportEntry } from "@/lib/store";
+import { addAuditEntry } from "@/lib/audit";
+import { downloadCSV } from "@/lib/export";
 
-const rootCauses = ["Did not attend", "Underutilisation", "Sickness", "Leave"];
+const ROOT_CAUSES = ["Did not attend", "Underutilisation", "Sickness", "Leave"];
 
-const tableHeaders = [
-  "Clinician",
-  "Clinic Type",
-  "Intended (Adj)",
-  "Delivered Sessions",
-  "Variance",
-  "Root Cause",
-];
-
-function getVarianceColor(variancePct: number) {
-  if (variancePct <= 3) return "bg-[#00d904]";
-  if (variancePct <= 7) return "bg-[#ffbf00]";
-  return "bg-red-500";
+function formatWeek(dateStr: string): string {
+  const d = new Date(dateStr + "T00:00:00");
+  return d.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
 }
+
+function VarianceCard({
+  value,
+  label,
+  sub,
+}: {
+  value: string | number;
+  label: string;
+  sub: string;
+}) {
+  const pct = typeof value === "string" ? parseFloat(value) : value;
+  const card =
+    pct <= 3
+      ? "bg-green-50 border-green-200"
+      : pct <= 7
+      ? "bg-amber-50 border-amber-200"
+      : "bg-red-50 border-red-200";
+  const text =
+    pct <= 3 ? "text-green-700" : pct <= 7 ? "text-amber-700" : "text-red-700";
+
+  return (
+    <div className={`rounded-xl border p-5 ${card}`}>
+      <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">{label}</p>
+      <p className={`text-4xl font-bold mt-1 ${text}`}>{value}{typeof value === "number" || String(value).endsWith("%") ? "" : ""}</p>
+      <p className="text-xs text-slate-400 mt-1">{sub}</p>
+    </div>
+  );
+}
+
+const EMPTY_FORM = {
+  clinician: "",
+  clinicType: "",
+  plannedSessions: "",
+  sessionsReduction: "",
+  deliveredSessions: "",
+  rootCause: "",
+};
 
 export default function ReportPage() {
   const allWeeks = getWeeks();
@@ -33,368 +57,267 @@ export default function ReportPage() {
   const sessionTypes = getSessionTypes();
 
   const [weekIdx, setWeekIdx] = useState(0);
-  const [formData, setFormData] = useState({
-    clinician: "",
-    clinicType: "",
-    plannedSessions: "",
-    sessionsReduction: "",
-    deliveredSessions: "",
-    rootCause: "",
-  });
+  const [formData, setFormData] = useState(EMPTY_FORM);
+  const [userEntries, setUserEntries] = useState<ReportEntry[]>([]);
+  const [success, setSuccess] = useState(false);
+  const [formError, setFormError] = useState("");
 
   const currentWeekStart = availableWeeks[weekIdx];
   const currentWeek = allWeeks[weekIdx];
   const summary = getWeekSummary(currentWeekStart);
 
-  // Build per-clinician report rows from real data
-  const reportRows = clinicians
-    .map((c) => {
-      const sessions = currentWeek
-        ? currentWeek.sessions.filter((s) => s.clinicianId === c.id)
-        : [];
-      if (sessions.length === 0) return null;
+  useEffect(() => {
+    setUserEntries(getReportEntries(currentWeekStart));
+  }, [currentWeekStart]);
 
-      // Group by session type
-      const byType: Record<string, number> = {};
-      for (const s of sessions) {
-        byType[s.sessionType] = (byType[s.sessionType] || 0) + 1;
-      }
-
-      // Return one row per clinician showing their primary type
-      const primaryType = Object.entries(byType).sort((a, b) => b[1] - a[1])[0];
-      const intended = sessions.length;
-      const delivered = intended; // No actual delivery data yet
-      const variancePct = intended > 0 ? ((intended - delivered) / intended) * 100 : 0;
-
-      return {
-        clinician: `Clinician ${c.label}`,
-        clinicType: primaryType[0],
-        intended,
-        delivered,
-        variance: `${variancePct.toFixed(1)}%`,
-        variancePct,
-        rootCause: variancePct === 0 ? "Null" : "",
-      };
-    })
-    .filter(Boolean) as {
-      clinician: string;
-      clinicType: string;
-      intended: number;
-      delivered: number;
-      variance: string;
-      variancePct: number;
-      rootCause: string;
-    }[];
-
-  const totalDelivered = summary?.totalClinicSlots ?? 0;
   const totalPlanned = summary?.totalClinicSlots ?? 0;
-  const deliveryVariance = totalPlanned > 0
-    ? ((totalPlanned - totalDelivered) / totalPlanned * 100).toFixed(1)
-    : "0";
+  const totalDeliveredBase = summary ? summary.totalClinicSlots - summary.totalUnavailable * 5 : 0;
+
+  const userPlanned = userEntries.reduce((s, e) => s + (parseInt(e.plannedSessions) || 0), 0);
+  const userDelivered = userEntries.reduce((s, e) => s + (parseInt(e.deliveredSessions) || 0), 0);
+
+  const displayPlanned = userEntries.length > 0 ? userPlanned : totalPlanned;
+  const displayDelivered = userEntries.length > 0 ? userDelivered : totalDeliveredBase;
+  const displayVariance =
+    displayPlanned > 0
+      ? ((displayPlanned - displayDelivered) / displayPlanned) * 100
+      : 0;
+
   const capacityReduction = summary
-    ? `${((summary.totalUnavailable / (summary.totalSessions + summary.totalUnavailable || 1)) * 100).toFixed(0)}%`
+    ? `${Math.round(
+        (summary.totalUnavailable / ((summary.totalSessions + summary.totalUnavailable) || 1)) * 100
+      )}%`
     : "0%";
 
   const handleAdd = () => {
-    console.log("Add:", formData);
+    if (!formData.clinician || !formData.clinicType || !formData.deliveredSessions) {
+      setFormError("Please fill in Clinician, Clinic Type and Delivered Sessions.");
+      return;
+    }
+    const entry = saveReportEntry({ ...formData, weekStart: currentWeekStart });
+    addAuditEntry(
+      `Actual delivery data added: ${formData.clinician} — ${formData.clinicType}, Delivered: ${formData.deliveredSessions}`
+    );
+    setUserEntries((prev) => [...prev, entry]);
+    setFormData(EMPTY_FORM);
+    setFormError("");
+    setSuccess(true);
+    setTimeout(() => setSuccess(false), 3000);
+  };
+
+  const handleExport = () => {
+    downloadCSV(
+      userEntries.map((e) => ({
+        Clinician: e.clinician,
+        "Clinic Type": e.clinicType,
+        "Planned Sessions": e.plannedSessions,
+        "Sessions Reduction": e.sessionsReduction,
+        "Delivered Sessions": e.deliveredSessions,
+        "Root Cause": e.rootCause,
+        "Week Start": e.weekStart,
+      })),
+      `report-${currentWeekStart}.csv`
+    );
   };
 
   const prevWeek = () => setWeekIdx((i) => Math.max(0, i - 1));
   const nextWeek = () => setWeekIdx((i) => Math.min(availableWeeks.length - 1, i + 1));
 
+  const field = (label: string, children: ReactNode) => (
+    <div className="space-y-1.5">
+      <label className="block text-sm font-medium text-slate-700">{label}</label>
+      {children}
+    </div>
+  );
+
+  const inputCls =
+    "w-full px-3 py-2 rounded-lg border border-gray-300 text-slate-800 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#005eb8] focus:border-transparent transition bg-white";
+
+  const selectCls =
+    "w-full px-3 py-2 rounded-lg border border-gray-300 text-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-[#005eb8] focus:border-transparent transition bg-white appearance-none cursor-pointer";
+
   return (
-    <div className="p-0 overflow-auto">
-      {/* Add Actual Delivered Data Form */}
-      <div className="flex flex-wrap gap-[20px_24px] mx-[19px] mt-[27px] bg-white rounded-[20px] px-[20px] pt-[10px] pb-[31px]">
-        <h1 className="text-[32px] text-black w-full">
-          Add Actual Delivered Data
-        </h1>
-
-        <div className="flex flex-col gap-[10px] justify-center w-[320px]">
-          <label className="text-[14px] text-[#0f0f0f] font-light">
-            Clinician Name
-          </label>
-          <div className="relative">
-            <select
-              value={formData.clinician}
-              onChange={(e) =>
-                setFormData({ ...formData, clinician: e.target.value })
-              }
-              className="w-full bg-nhs-blue rounded-[5px] px-[5px] py-[6px] text-[12px] text-white appearance-none cursor-pointer outline-none pr-[25px]"
-            >
-              <option value="">Choose Clinician</option>
-              {clinicians.map((c) => (
-                <option key={c.id} value={`Clinician ${c.label}`}>
-                  Clinician {c.label}
-                </option>
-              ))}
-            </select>
-            <svg
-              className="absolute right-[8px] top-1/2 -translate-y-1/2 pointer-events-none"
-              width="10"
-              height="5"
-              viewBox="0 0 10 5"
-              fill="none"
-            >
-              <path d="M0 0L5 5L10 0" fill="white" />
+    <div className="p-4 space-y-4 max-w-7xl mx-auto">
+      {/* Page Header */}
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h1 className="text-2xl font-bold text-slate-800">Report</h1>
+          <p className="text-slate-500 text-sm mt-0.5">Week of {formatWeek(currentWeekStart)}</p>
+        </div>
+        <div className="flex gap-2">
+          <button onClick={prevWeek} disabled={weekIdx === 0}
+            className="flex items-center gap-1.5 px-4 py-2 bg-[#005eb8] text-white text-sm font-medium rounded-lg hover:bg-[#003d8f] disabled:opacity-40 disabled:cursor-not-allowed transition">
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
-          </div>
-        </div>
-
-        <div className="flex flex-col gap-[10px] justify-center w-[320px]">
-          <label className="text-[14px] text-[#0f0f0f] font-light">
-            Clinic Type
-          </label>
-          <div className="relative">
-            <select
-              value={formData.clinicType}
-              onChange={(e) =>
-                setFormData({ ...formData, clinicType: e.target.value })
-              }
-              className="w-full bg-nhs-blue rounded-[5px] px-[5px] py-[6px] text-[12px] text-white appearance-none cursor-pointer outline-none pr-[25px]"
-            >
-              <option value="">Choose Clinic Type</option>
-              {sessionTypes.map((ct) => (
-                <option key={ct} value={ct}>
-                  {ct}
-                </option>
-              ))}
-            </select>
-            <svg
-              className="absolute right-[8px] top-1/2 -translate-y-1/2 pointer-events-none"
-              width="10"
-              height="5"
-              viewBox="0 0 10 5"
-              fill="none"
-            >
-              <path d="M0 0L5 5L10 0" fill="white" />
+            Prev Week
+          </button>
+          <button onClick={nextWeek} disabled={weekIdx === availableWeeks.length - 1}
+            className="flex items-center gap-1.5 px-4 py-2 bg-[#005eb8] text-white text-sm font-medium rounded-lg hover:bg-[#003d8f] disabled:opacity-40 disabled:cursor-not-allowed transition">
+            Next Week
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
-          </div>
-        </div>
-
-        <div className="flex flex-col gap-[10px] justify-center w-[320px]">
-          <label className="text-[14px] text-[#0f0f0f] font-light">
-            Planned Sessions
-          </label>
-          <input
-            type="number"
-            value={formData.plannedSessions}
-            onChange={(e) =>
-              setFormData({ ...formData, plannedSessions: e.target.value })
-            }
-            className="w-full bg-nhs-blue rounded-[5px] px-[5px] py-[6px] text-[12px] text-white outline-none placeholder-white/70"
-            placeholder="Enter Planned Sessions"
-          />
-        </div>
-
-        <div className="flex flex-col gap-[10px] justify-center w-[320px]">
-          <label className="text-[14px] text-[#0f0f0f] font-light">
-            Sessions Reduction
-          </label>
-          <input
-            type="number"
-            value={formData.sessionsReduction}
-            onChange={(e) =>
-              setFormData({ ...formData, sessionsReduction: e.target.value })
-            }
-            className="w-full bg-nhs-blue rounded-[5px] px-[5px] py-[6px] text-[12px] text-white outline-none placeholder-white/70"
-            placeholder="Enter Sessions Reduction"
-          />
-        </div>
-
-        <div className="flex flex-col gap-[10px] justify-center w-[320px]">
-          <label className="text-[14px] text-[#0f0f0f] font-light">
-            Delivered Sessions
-          </label>
-          <input
-            type="number"
-            value={formData.deliveredSessions}
-            onChange={(e) =>
-              setFormData({ ...formData, deliveredSessions: e.target.value })
-            }
-            className="w-full bg-nhs-blue rounded-[5px] px-[5px] py-[6px] text-[12px] text-white outline-none placeholder-white/70"
-            placeholder="Enter Delivered Sessions"
-          />
-        </div>
-
-        <div className="flex flex-col gap-[10px] justify-center w-[320px]">
-          <label className="text-[14px] text-[#0f0f0f] font-light">
-            Choose Root Cause
-          </label>
-          <div className="relative">
-            <select
-              value={formData.rootCause}
-              onChange={(e) =>
-                setFormData({ ...formData, rootCause: e.target.value })
-              }
-              className="w-full bg-nhs-blue rounded-[5px] px-[5px] py-[6px] text-[12px] text-white appearance-none cursor-pointer outline-none pr-[25px]"
-            >
-              <option value="">Choose Root Cause</option>
-              {rootCauses.map((rc) => (
-                <option key={rc} value={rc}>
-                  {rc}
-                </option>
-              ))}
-            </select>
-            <svg
-              className="absolute right-[8px] top-1/2 -translate-y-1/2 pointer-events-none"
-              width="10"
-              height="5"
-              viewBox="0 0 10 5"
-              fill="none"
-            >
-              <path d="M0 0L5 5L10 0" fill="white" />
+          </button>
+          <button onClick={handleExport}
+            className="flex items-center gap-1.5 px-4 py-2 bg-slate-700 text-white text-sm font-medium rounded-lg hover:bg-slate-800 transition">
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
             </svg>
-          </div>
-        </div>
-
-        <div className="flex items-end">
-          <button
-            onClick={handleAdd}
-            className="w-[138px] h-[38px] bg-nhs-blue rounded-[5px] text-[16px] font-bold text-white cursor-pointer hover:opacity-90"
-          >
-            Add
+            Export
           </button>
         </div>
       </div>
 
       {/* Summary Cards */}
-      <div className="flex flex-wrap gap-[10px] justify-center px-[19px] pt-[36px]">
-        <div className="flex flex-col w-[260px] h-[178px] bg-white rounded-[20px] pl-[17px] pr-[10px] pt-[4px] pb-[10px]">
-          <p className="text-[20px] text-black h-[35px] flex items-center">
-            Delivered Session
-          </p>
-          <p className="text-[64px] font-bold text-black leading-none">
-            {totalDelivered}
-          </p>
-          <p className="text-[20px] text-black h-[35px] flex items-center">
-            {currentWeekStart}
-          </p>
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
+          <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Delivered Sessions</p>
+          <p className="text-4xl font-bold text-slate-800 mt-1">{displayDelivered}</p>
+          <p className="text-xs text-slate-400 mt-1">{formatWeek(currentWeekStart)}</p>
         </div>
-
-        <div className="flex flex-col w-[260px] h-[178px] bg-white rounded-[20px] pl-[17px] pr-[10px] pt-[4px] pb-[10px]">
-          <p className="text-[20px] text-black h-[35px] flex items-center">
-            Planned Sessions
-          </p>
-          <p className="text-[64px] font-bold text-black leading-none">
-            {totalPlanned}
-          </p>
-          <p className="text-[20px] text-black h-[35px] flex items-center">
-            {currentWeekStart}
-          </p>
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
+          <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Planned Sessions</p>
+          <p className="text-4xl font-bold text-slate-800 mt-1">{displayPlanned}</p>
+          <p className="text-xs text-slate-400 mt-1">{formatWeek(currentWeekStart)}</p>
         </div>
-
-        <div className={`flex flex-col w-[260px] h-[178px] rounded-[20px] pl-[17px] pr-[10px] pt-[4px] pb-[10px] ${getVarianceColor(parseFloat(deliveryVariance))}`}>
-          <p className="text-[20px] text-black h-[35px] flex items-center">
-            Delivery vs Intended
-          </p>
-          <p className="text-[64px] font-bold text-black leading-none">
-            {deliveryVariance}%
-          </p>
-          <p className="text-[20px] text-black h-[35px] flex items-center">
-            {currentWeekStart}
-          </p>
-        </div>
-
-        <div className="flex flex-col w-[260px] h-[178px] bg-[#00d904] rounded-[20px] pl-[17px] pr-[10px] pt-[4px] pb-[10px]">
-          <p className="text-[20px] text-black h-[35px] flex items-center">
-            Capacity Reduction
-          </p>
-          <p className="text-[64px] font-bold text-black leading-none">
-            {capacityReduction}
-          </p>
-          <p className="text-[20px] text-black h-[35px] flex items-center">
-            {currentWeekStart}
-          </p>
+        <VarianceCard
+          value={`${displayVariance.toFixed(1)}%`}
+          label="Delivery vs Intended"
+          sub={formatWeek(currentWeekStart)}
+        />
+        <div className="bg-green-50 border border-green-200 rounded-xl p-5">
+          <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Capacity Reduction</p>
+          <p className="text-4xl font-bold text-green-700 mt-1">{capacityReduction}</p>
+          <p className="text-xs text-slate-400 mt-1">{formatWeek(currentWeekStart)}</p>
         </div>
       </div>
 
-      {/* Navigation Buttons */}
-      <div className="flex items-center justify-end gap-[29px] px-[20px] py-[10px]">
-        <button
-          onClick={prevWeek}
-          disabled={weekIdx === 0}
-          className="flex items-center justify-center gap-[2px] w-[100px] h-[35px] bg-nhs-blue rounded-[10px] text-[12px] text-white cursor-pointer disabled:opacity-50"
-        >
-          <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-            <path d="M7 1L3 5L7 9" stroke="white" strokeWidth="1.5" />
-          </svg>
-          Prev Week
-        </button>
-        <button
-          onClick={nextWeek}
-          disabled={weekIdx === availableWeeks.length - 1}
-          className="flex items-center justify-center gap-[2px] w-[100px] h-[35px] bg-nhs-blue rounded-[10px] text-[12px] text-white cursor-pointer disabled:opacity-50"
-        >
-          Next Week
-          <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-            <path d="M3 1L7 5L3 9" stroke="white" strokeWidth="1.5" />
-          </svg>
-        </button>
-        <button className="flex items-center justify-center w-[100px] h-[35px] bg-nhs-blue rounded-[10px] text-[12px] text-white cursor-pointer">
-          Export
-        </button>
-      </div>
+      {/* Add Actual Data Form */}
+      <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+        <div className="px-6 py-4 border-b border-gray-100 bg-gray-50">
+          <h2 className="text-base font-semibold text-slate-800">Add Actual Delivered Data</h2>
+          <p className="text-xs text-slate-500 mt-0.5">Enter real delivery numbers for this week</p>
+        </div>
+        <div className="p-6">
+          {success && (
+            <div className="flex items-center gap-2 bg-green-50 border border-green-200 text-green-800 rounded-lg px-4 py-3 text-sm mb-4">
+              <svg className="w-4 h-4 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+              </svg>
+              Entry saved successfully.
+            </div>
+          )}
+          {formError && (
+            <div className="flex items-center gap-2 bg-red-50 border border-red-200 text-red-700 rounded-lg px-4 py-3 text-sm mb-4">
+              <svg className="w-4 h-4 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+              </svg>
+              {formError}
+            </div>
+          )}
 
-      {/* Report Table */}
-      <div className="px-[20px] pb-[20px]">
-        <div className="overflow-hidden rounded-[10px]">
-          <div className="flex">
-            {tableHeaders.map((header, i) => (
-              <div
-                key={header}
-                className={`flex items-center w-[173px] h-[50px] bg-nhs-blue border-[0.4px] border-[#e2e2e2] px-[20px] ${
-                  i === 0 ? "rounded-tl-[10px]" : ""
-                } ${i === tableHeaders.length - 1 ? "rounded-tr-[10px]" : ""}`}
-              >
-                <span className="text-[15px] text-white">{header}</span>
-              </div>
-            ))}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {field("Clinician Name",
+              <select value={formData.clinician} onChange={(e) => setFormData({ ...formData, clinician: e.target.value })} className={selectCls}>
+                <option value="">Choose Clinician</option>
+                {clinicians.map((c) => (
+                  <option key={c.id} value={`Clinician ${c.label}`}>Clinician {c.label}</option>
+                ))}
+              </select>
+            )}
+            {field("Clinic Type",
+              <select value={formData.clinicType} onChange={(e) => setFormData({ ...formData, clinicType: e.target.value })} className={selectCls}>
+                <option value="">Choose Clinic Type</option>
+                {sessionTypes.map((ct) => <option key={ct} value={ct}>{ct}</option>)}
+              </select>
+            )}
+            {field("Planned Sessions",
+              <input type="number" min="0" value={formData.plannedSessions}
+                onChange={(e) => setFormData({ ...formData, plannedSessions: e.target.value })}
+                placeholder="Enter number" className={inputCls} />
+            )}
+            {field("Sessions Reduction",
+              <input type="number" min="0" value={formData.sessionsReduction}
+                onChange={(e) => setFormData({ ...formData, sessionsReduction: e.target.value })}
+                placeholder="Enter number" className={inputCls} />
+            )}
+            {field("Delivered Sessions *",
+              <input type="number" min="0" value={formData.deliveredSessions}
+                onChange={(e) => setFormData({ ...formData, deliveredSessions: e.target.value })}
+                placeholder="Enter number" className={inputCls} />
+            )}
+            {field("Root Cause",
+              <select value={formData.rootCause} onChange={(e) => setFormData({ ...formData, rootCause: e.target.value })} className={selectCls}>
+                <option value="">Choose Root Cause</option>
+                {ROOT_CAUSES.map((rc) => <option key={rc} value={rc}>{rc}</option>)}
+              </select>
+            )}
           </div>
 
-          {reportRows.map((row, i) => (
-            <div key={i} className="flex">
-              <div
-                className={`flex items-center w-[173px] h-[50px] bg-[#e2e2e2] border-[0.4px] border-nhs-blue px-[20px] ${
-                  i === reportRows.length - 1 ? "rounded-bl-[10px]" : ""
-                }`}
-              >
-                <span className="text-[15px] text-[#0f0f0f]">
-                  {row.clinician}
-                </span>
-              </div>
-              <div className="flex items-center w-[173px] h-[50px] bg-[#e2e2e2] border-[0.4px] border-nhs-blue px-[20px]">
-                <span className="text-[15px] text-[#0f0f0f]">
-                  {row.clinicType}
-                </span>
-              </div>
-              <div className="flex items-center w-[173px] h-[50px] bg-[#e2e2e2] border-[0.4px] border-nhs-blue px-[20px]">
-                <span className="text-[15px] text-[#0f0f0f]">
-                  {row.intended}
-                </span>
-              </div>
-              <div className="flex items-center w-[173px] h-[50px] bg-[#e2e2e2] border-[0.4px] border-nhs-blue px-[20px]">
-                <span className="text-[15px] text-[#0f0f0f]">
-                  {row.delivered}
-                </span>
-              </div>
-              <div className="flex items-center w-[173px] h-[50px] bg-[#e2e2e2] border-[0.4px] border-nhs-blue px-[20px]">
-                <span className="text-[15px] text-[#0f0f0f]">
-                  {row.variance}
-                </span>
-              </div>
-              <div
-                className={`flex items-center w-[173px] h-[50px] bg-[#e2e2e2] border-[0.4px] border-nhs-blue px-[20px] ${
-                  i === reportRows.length - 1 ? "rounded-br-[10px]" : ""
-                }`}
-              >
-                <span className="text-[15px] text-[#0f0f0f]">
-                  {row.rootCause}
-                </span>
-              </div>
-            </div>
-          ))}
+          <div className="mt-5 flex gap-3">
+            <button onClick={handleAdd}
+              className="px-5 py-2.5 bg-[#005eb8] hover:bg-[#003d8f] text-white text-sm font-semibold rounded-lg transition shadow-sm">
+              Add Entry
+            </button>
+            <button onClick={() => { setFormData(EMPTY_FORM); setFormError(""); }}
+              className="px-5 py-2.5 bg-gray-100 hover:bg-gray-200 text-slate-700 text-sm font-medium rounded-lg transition">
+              Clear
+            </button>
+          </div>
         </div>
+      </div>
+
+      {/* Actual Data Table */}
+      <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+        <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+          <h2 className="text-base font-semibold text-slate-800">Actual Delivery Entries</h2>
+          <span className="text-xs text-slate-400">{userEntries.length} entries</span>
+        </div>
+
+        {userEntries.length === 0 ? (
+          <div className="flex flex-col items-center justify-center py-14 text-slate-400">
+            <svg className="w-10 h-10 mb-3 opacity-40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
+                d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            <p className="text-sm">No entries yet — use the form above to add data.</p>
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead className="bg-gray-50 border-b border-gray-100">
+                <tr>
+                  {["Clinician", "Clinic Type", "Planned", "Reduction", "Delivered", "Variance", "Root Cause"].map((h) => (
+                    <th key={h} className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide whitespace-nowrap">
+                      {h}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-50">
+                {userEntries.map((row) => {
+                  const planned = parseInt(row.plannedSessions) || 0;
+                  const delivered = parseInt(row.deliveredSessions) || 0;
+                  const varPct = planned > 0 ? ((planned - delivered) / planned) * 100 : 0;
+                  const varColor =
+                    varPct <= 3 ? "text-green-700" : varPct <= 7 ? "text-amber-700" : "text-red-700";
+                  return (
+                    <tr key={row.id} className="hover:bg-gray-50 transition-colors">
+                      <td className="px-4 py-3 font-medium text-slate-800">{row.clinician}</td>
+                      <td className="px-4 py-3 text-slate-700">{row.clinicType}</td>
+                      <td className="px-4 py-3 text-slate-600">{row.plannedSessions || "—"}</td>
+                      <td className="px-4 py-3 text-slate-600">{row.sessionsReduction || "—"}</td>
+                      <td className="px-4 py-3 text-slate-700 font-medium">{row.deliveredSessions}</td>
+                      <td className={`px-4 py-3 font-semibold ${varColor}`}>{varPct.toFixed(1)}%</td>
+                      <td className="px-4 py-3 text-slate-600">{row.rootCause || "—"}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
     </div>
   );
