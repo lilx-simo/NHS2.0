@@ -238,7 +238,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               </svg>
             )}
           </button>
-          <Link href="/" title="Back to login">
+          <Link href="/dashboard" title="Go to Dashboard">
             <Image src="/nhs-logo.png" alt="NHS Logo" width={60} height={42} priority />
           </Link>
         </div>
