@@ -115,8 +115,10 @@ export default function UsersPage() {
   const closeModal = () => { setModal({ mode: "closed" }); setFormError(""); };
 
   const handleSave = () => {
-    if (!form.name.trim()) { setFormError("Name is required."); return; }
+    if (!form.name.trim()) { setFormError("Full name is required."); return; }
     if (!form.username.trim()) { setFormError("Username is required."); return; }
+    if (!form.email.trim()) { setFormError("Email is required."); return; }
+    if (!form.department) { setFormError("Department is required."); return; }
 
     if (modal.mode === "add") {
       if (!form.password) { setFormError("Password is required for new users."); return; }
@@ -396,7 +398,7 @@ export default function UsersPage() {
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="block text-sm font-medium text-slate-700">Email</label>
+                  <label className="block text-sm font-medium text-slate-700">Email *</label>
                   <input type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} className={inputCls} placeholder="email@nhs.net" />
                 </div>
                 <div className="space-y-1.5">
@@ -414,7 +416,7 @@ export default function UsersPage() {
                   </select>
                 </div>
                 <div className="space-y-1.5">
-                  <label className="block text-sm font-medium text-slate-700">Department</label>
+                  <label className="block text-sm font-medium text-slate-700">Department *</label>
                   <select value={form.department} onChange={(e) => setForm({ ...form, department: e.target.value })} className={selectCls}>
                     <option value="">Select department</option>
                     {DEPARTMENTS.map((d) => <option key={d} value={d}>{d}</option>)}

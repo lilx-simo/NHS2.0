@@ -2,12 +2,13 @@
 
 import { useState, useEffect, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
-import { getWeeks, getClinicians, getSessionTypes, getAvailableWeeks, getWeekSummary } from "@/data";
+import { getWeeks, getSessionTypes, getAvailableWeeks, getWeekSummary } from "@/data";
 import { getReportEntries, saveReportEntry, type ReportEntry } from "@/lib/store";
 import { addAuditEntry } from "@/lib/audit";
 import { downloadCSV } from "@/lib/export";
 import { getClosestWeekIdx } from "@/lib/settings";
-import { getCurrentUser } from "@/lib/users";
+import { getCurrentUser, getUsers } from "@/lib/users";
+import { getManagedClinicians } from "@/lib/clinicians";
 
 const ROOT_CAUSES = ["Did not attend", "Underutilisation", "Sickness", "Leave", "N/A", "Other"];
 
@@ -55,20 +56,26 @@ export default function ReportPage() {
   const router = useRouter();
   const allWeeks = getWeeks();
   const availableWeeks = getAvailableWeeks();
-  const clinicians = getClinicians();
   const sessionTypes = getSessionTypes();
-
-  useEffect(() => {
-    const user = getCurrentUser();
-    if (!user) { router.push("/"); return; }
-    if (!["admin", "planner"].includes(user.role)) { router.push("/dashboard"); return; }
-  }, [router]);
 
   const [weekIdx, setWeekIdx] = useState(() => getClosestWeekIdx(availableWeeks));
   const [formData, setFormData] = useState(EMPTY_FORM);
   const [userEntries, setUserEntries] = useState<ReportEntry[]>([]);
   const [success, setSuccess] = useState(false);
   const [formError, setFormError] = useState("");
+  const [clinicianNames, setClinicianNames] = useState<string[]>([]);
+
+  useEffect(() => {
+    const user = getCurrentUser();
+    if (!user) { router.push("/"); return; }
+    if (!["admin", "planner"].includes(user.role)) { router.push("/dashboard"); return; }
+    const managed = getManagedClinicians().filter((c) => c.active);
+    const userDoctors = getUsers().filter((u) => ["doctor", "nurse", "clinician"].includes(u.role));
+    setClinicianNames([
+      ...managed.map((c) => c.name),
+      ...userDoctors.filter((u) => !managed.some((c) => c.name === u.name)).map((u) => u.name),
+    ]);
+  }, [router]);
 
   useEffect(() => {
     const max = availableWeeks.length - 1;
@@ -106,10 +113,10 @@ export default function ReportPage() {
     : "0%";
 
   const handleAdd = () => {
-    if (!formData.clinician || !formData.clinicType || !formData.deliveredSessions) {
-      setFormError("Please fill in Clinician, Clinic Type and Delivered Sessions.");
-      return;
-    }
+    if (!formData.clinician) { setFormError("Clinician is required."); return; }
+    if (!formData.clinicType) { setFormError("Clinic Type is required."); return; }
+    if (!formData.deliveredSessions) { setFormError("Delivered Sessions is required."); return; }
+    if (!formData.rootCause) { setFormError("Root Cause is required."); return; }
     const entry = saveReportEntry({ ...formData, weekStart: currentWeekStart });
     addAuditEntry(`Actual delivery data added: ${formData.clinician} — ${formData.clinicType}, Delivered: ${formData.deliveredSessions}`);
     setUserEntries((prev) => [...prev, entry]);
@@ -230,15 +237,15 @@ export default function ReportPage() {
           )}
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {field("Clinician Name",
+            {field("Clinician Name *",
               <select value={formData.clinician} onChange={(e) => setFormData({ ...formData, clinician: e.target.value })} className={selectCls}>
                 <option value="">Choose Clinician</option>
-                {clinicians.map((c) => (
-                  <option key={c.id} value={c.name ?? `Clinician ${c.label}`}>{c.name ?? `Clinician ${c.label}`}</option>
+                {clinicianNames.map((name) => (
+                  <option key={name} value={name}>{name}</option>
                 ))}
               </select>
             )}
-            {field("Clinic Type",
+            {field("Clinic Type *",
               <select value={formData.clinicType} onChange={(e) => setFormData({ ...formData, clinicType: e.target.value })} className={selectCls}>
                 <option value="">Choose Clinic Type</option>
                 {sessionTypes.map((ct) => <option key={ct} value={ct}>{ct}</option>)}
@@ -249,7 +256,7 @@ export default function ReportPage() {
                 onChange={(e) => setFormData({ ...formData, deliveredSessions: e.target.value })}
                 placeholder="Enter number" className={inputCls} />
             )}
-            {field("Root Cause",
+            {field("Root Cause *",
               <select value={formData.rootCause} onChange={(e) => setFormData({ ...formData, rootCause: e.target.value })} className={selectCls}>
                 <option value="">Choose Root Cause</option>
                 {ROOT_CAUSES.map((rc) => <option key={rc} value={rc}>{rc}</option>)}
