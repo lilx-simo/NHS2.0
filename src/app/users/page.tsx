@@ -17,6 +17,7 @@ import {
   type UserRole,
 } from "@/lib/users";
 import { addAuditEntry } from "@/lib/audit";
+import { getManagedClinicians, deleteManagedClinician } from "@/lib/clinicians";
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -165,6 +166,8 @@ export default function UsersPage() {
     const u = users.find((x) => x.id === id);
     if (!u) return;
     deleteUser(id);
+    const mc = getManagedClinicians().find((c) => c.name === u.name);
+    if (mc) deleteManagedClinician(mc.id);
     addAuditEntry(`User deleted: ${u.name} (${ROLE_LABELS[u.role]})`);
     reload();
     setDeleteConfirm(null);
