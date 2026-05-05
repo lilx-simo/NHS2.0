@@ -2,13 +2,13 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { getWeeks, getClinicians, getAvailableWeeks, getSessionTypes } from "@/data";
+import { getWeeks, getAvailableWeeks, getSessionTypes } from "@/data";
 import { downloadCSV } from "@/lib/export";
 import { getClosestWeekIdx } from "@/lib/settings";
 import { getCustomSessions, addCustomSession, removeCustomSession, type CustomSession } from "@/lib/sessions";
 import { addAuditEntry } from "@/lib/audit";
-import { getManagedClinicians } from "@/lib/clinicians";
-import { getCurrentUser } from "@/lib/users";
+import { getManagedClinicians, addManagedClinician } from "@/lib/clinicians";
+import { getCurrentUser, getUsers } from "@/lib/users";
 
 const TIME_SLOTS = [
   "08:00", "09:00", "10:00", "11:00", "12:00", "13:00",
@@ -69,11 +69,10 @@ export default function CapacityPlannerPage() {
   const router = useRouter();
   const allWeeks = getWeeks();
   const availableWeeks = getAvailableWeeks();
-  const allClinicians = getClinicians();
   const sessionTypes = getSessionTypes();
 
   const [weekIdx, setWeekIdx] = useState(() => getClosestWeekIdx(availableWeeks));
-  const [activeClinIds, setActiveClinIds] = useState<Set<number>>(new Set());
+  const [dropdownClinicians, setDropdownClinicians] = useState<{ id: number; name: string }[]>([]);
   const [selectedClinicianId, setSelectedClinicianId] = useState<number | null>(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [customSessions, setCustomSessions] = useState<CustomSession[]>([]);
@@ -82,8 +81,19 @@ export default function CapacityPlannerPage() {
     const user = getCurrentUser();
     if (!user) { router.push("/"); return; }
     if (!["admin", "planner"].includes(user.role)) { router.push("/dashboard"); return; }
+
+    // Auto-register any User Management doctors/nurses/clinicians not yet in managed clinicians
     const managed = getManagedClinicians();
-    setActiveClinIds(new Set(managed.filter((c) => c.active).map((c) => c.id)));
+    const userDoctors = getUsers().filter((u) => ["doctor", "nurse", "clinician"].includes(u.role));
+    for (const u of userDoctors) {
+      if (!managed.some((c) => c.name === u.name)) {
+        addManagedClinician({ name: u.name, specialty: "General", email: u.email, active: true });
+      }
+    }
+
+    // Reload after potential additions
+    const updated = getManagedClinicians().filter((c) => c.active);
+    setDropdownClinicians(updated.map((c) => ({ id: c.id, name: c.name })));
   }, [router]);
 
   useEffect(() => {
@@ -95,7 +105,6 @@ export default function CapacityPlannerPage() {
     return () => { window.removeEventListener("nhs-prev-week", goP); window.removeEventListener("nhs-next-week", goN); };
   }, [availableWeeks.length]);
 
-  const clinicians = allClinicians.filter((c) => activeClinIds.size === 0 || activeClinIds.has(c.id));
 
   // Modal state
   const [modalOpen, setModalOpen] = useState(false);
@@ -180,13 +189,13 @@ export default function CapacityPlannerPage() {
       ? currentWeek?.sessions.filter((s) => s.clinicianId === selectedClinicianId)
       : currentWeek?.sessions;
     const exportData = (source ?? []).map((s) => {
-      const c = clinicians.find((c) => c.id === s.clinicianId);
+      const c = dropdownClinicians.find((c) => c.id === s.clinicianId);
       return {
         Day: s.day,
         Period: s.period,
         "Session Type": s.sessionType,
         Location: s.location,
-        Clinician: c?.name ?? `Clinician ${c?.label ?? s.clinicianId}`,
+        Clinician: c?.name ?? `Clinician ${s.clinicianId}`,
       };
     });
     downloadCSV(exportData, `capacity-planner-${currentWeekStart}.csv`);
@@ -198,7 +207,7 @@ export default function CapacityPlannerPage() {
       ...EMPTY_SESSION_FORM,
       day: DAY_NAMES[dayIdx],
       period,
-      clinicianId: selectedClinicianId ?? (clinicians[0]?.id ?? 0),
+      clinicianId: selectedClinicianId ?? (dropdownClinicians[0]?.id ?? 0),
     });
     setEditingCustomId(null);
     setClickedCell({ dayIdx, timeIdx });
@@ -245,10 +254,8 @@ export default function CapacityPlannerPage() {
     setModalOpen(false);
   };
 
-  const selectedClinician = clinicians.find((c) => c.id === selectedClinicianId);
-  const selectedLabel = selectedClinician
-    ? (selectedClinician.name ?? `Clinician ${selectedClinician.label}`)
-    : "All Clinicians";
+  const selectedClinician = dropdownClinicians.find((c) => c.id === selectedClinicianId);
+  const selectedLabel = selectedClinician?.name ?? "All Clinicians";
 
   return (
     <div className="p-4 space-y-4">
@@ -273,13 +280,13 @@ export default function CapacityPlannerPage() {
               >
                 All Clinicians
               </button>
-              {clinicians.map((c) => (
+              {dropdownClinicians.map((c) => (
                 <button
                   key={c.id}
                   onClick={() => { setSelectedClinicianId(c.id); setDropdownOpen(false); }}
                   className={`flex items-center w-full px-4 py-2.5 text-sm text-left hover:bg-blue-50 transition ${selectedClinicianId === c.id ? "text-[#005eb8] font-semibold" : "text-slate-700"}`}
                 >
-                  {c.name ?? `Clinician ${c.label}`}
+                  {c.name}
                 </button>
               ))}
             </div>
@@ -480,8 +487,8 @@ export default function CapacityPlannerPage() {
                   className="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#005eb8] focus:border-transparent bg-white"
                 >
                   <option value={0}>Choose clinician</option>
-                  {clinicians.map((c) => (
-                    <option key={c.id} value={c.id}>{c.name ?? `Clinician ${c.label}`}</option>
+                  {dropdownClinicians.map((c) => (
+                    <option key={c.id} value={c.id}>{c.name}</option>
                   ))}
                 </select>
               </div>
