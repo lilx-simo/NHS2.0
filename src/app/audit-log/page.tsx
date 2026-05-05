@@ -1,8 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { getAuditLog, clearAuditLog, type AuditEntry } from "@/lib/audit";
 import { downloadCSV } from "@/lib/export";
+import { getCurrentUser } from "@/lib/users";
 
 const STATIC_ENTRIES: AuditEntry[] = [
   { name: "Planner Lead", timestamp: "06/02/2026, 22:24", action: "3 Sessions Added to Dr Smith Timetable" },
@@ -16,14 +18,18 @@ function formatTimestamp(ts: string): string {
 }
 
 export default function AuditLogPage() {
+  const router = useRouter();
   const [entries, setEntries] = useState<AuditEntry[]>([]);
   const [search, setSearch] = useState("");
   const [showClearConfirm, setShowClearConfirm] = useState(false);
 
   useEffect(() => {
+    const user = getCurrentUser();
+    if (!user) { router.push("/"); return; }
+    if (!["admin", "planner"].includes(user.role)) { router.push("/dashboard"); return; }
     const live = getAuditLog();
     setEntries([...live, ...STATIC_ENTRIES]);
-  }, []);
+  }, [router]);
 
   const filtered = entries.filter(
     (e) =>

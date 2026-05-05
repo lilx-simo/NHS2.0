@@ -1,11 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { getWeeks, getClinicians, getAvailableWeeks, getSessionTypes } from "@/data";
 import { downloadCSV } from "@/lib/export";
 import { getClosestWeekIdx } from "@/lib/settings";
 import { getCustomSessions, addCustomSession, removeCustomSession, type CustomSession } from "@/lib/sessions";
 import { addAuditEntry } from "@/lib/audit";
+import { getManagedClinicians } from "@/lib/clinicians";
+import { getCurrentUser } from "@/lib/users";
 
 const TIME_SLOTS = [
   "08:00", "09:00", "10:00", "11:00", "12:00", "13:00",
@@ -63,15 +66,25 @@ const EMPTY_SESSION_FORM = {
 };
 
 export default function CapacityPlannerPage() {
+  const router = useRouter();
   const allWeeks = getWeeks();
   const availableWeeks = getAvailableWeeks();
-  const clinicians = getClinicians();
+  const allClinicians = getClinicians();
   const sessionTypes = getSessionTypes();
 
   const [weekIdx, setWeekIdx] = useState(() => getClosestWeekIdx(availableWeeks));
+  const [activeClinIds, setActiveClinIds] = useState<Set<number>>(new Set());
   const [selectedClinicianId, setSelectedClinicianId] = useState<number | null>(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [customSessions, setCustomSessions] = useState<CustomSession[]>([]);
+
+  useEffect(() => {
+    const user = getCurrentUser();
+    if (!user) { router.push("/"); return; }
+    if (!["admin", "planner"].includes(user.role)) { router.push("/dashboard"); return; }
+    const managed = getManagedClinicians();
+    setActiveClinIds(new Set(managed.filter((c) => c.active).map((c) => c.id)));
+  }, [router]);
 
   useEffect(() => {
     const max = availableWeeks.length - 1;
@@ -81,6 +94,8 @@ export default function CapacityPlannerPage() {
     window.addEventListener("nhs-next-week", goN);
     return () => { window.removeEventListener("nhs-prev-week", goP); window.removeEventListener("nhs-next-week", goN); };
   }, [availableWeeks.length]);
+
+  const clinicians = allClinicians.filter((c) => activeClinIds.size === 0 || activeClinIds.has(c.id));
 
   // Modal state
   const [modalOpen, setModalOpen] = useState(false);

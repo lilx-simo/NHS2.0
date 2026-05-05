@@ -65,7 +65,6 @@ export default function DashboardPage() {
       setTimeout(() => setWelcomeName(null), 5000);
     }
   }, []);
-
   const currentWeekStart = availableWeeks[weekIdx];
   const summary = getWeekSummary(currentWeekStart);
   const weeks = getWeeks();

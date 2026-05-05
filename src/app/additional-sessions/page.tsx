@@ -1,11 +1,14 @@
 "use client";
 
 import { useState, useEffect, type ReactNode } from "react";
+import { useRouter } from "next/navigation";
 import { getWeeks, getClinicians, getSessionTypes, getAvailableWeeks } from "@/data";
 import { getAdditionalSessions, saveAdditionalSession, type AdditionalSessionEntry } from "@/lib/store";
 import { addAuditEntry } from "@/lib/audit";
 import { downloadCSV } from "@/lib/export";
 import { getClosestWeekIdx } from "@/lib/settings";
+import { getManagedClinicians } from "@/lib/clinicians";
+import { getCurrentUser } from "@/lib/users";
 
 const REASONS = ["Cover for leave", "Back Log", "RTT Action", "Extra Capacity"];
 const DAY_NAMES = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
@@ -20,13 +23,13 @@ const EMPTY_FORM = {
   reason: "",
   clinicType: "",
   date: "",
-  expectedPatients: "",
 };
 
 export default function AdditionalSessionsPage() {
+  const router = useRouter();
   const allWeeks = getWeeks();
   const availableWeeks = getAvailableWeeks();
-  const clinicians = getClinicians();
+  const allClinicians = getClinicians();
   const sessionTypes = getSessionTypes();
 
   const [weekIdx, setWeekIdx] = useState(() => getClosestWeekIdx(availableWeeks));
@@ -34,6 +37,17 @@ export default function AdditionalSessionsPage() {
   const [savedSessions, setSavedSessions] = useState<AdditionalSessionEntry[]>([]);
   const [success, setSuccess] = useState(false);
   const [formError, setFormError] = useState("");
+  const [activeClinIds, setActiveClinIds] = useState<Set<number>>(new Set());
+
+  useEffect(() => {
+    const user = getCurrentUser();
+    if (!user) { router.push("/"); return; }
+    if (!["admin", "planner"].includes(user.role)) { router.push("/dashboard"); return; }
+    const managed = getManagedClinicians();
+    setActiveClinIds(new Set(managed.filter((c) => c.active).map((c) => c.id)));
+  }, [router]);
+
+  const clinicians = allClinicians.filter((c) => activeClinIds.size === 0 || activeClinIds.has(c.id));
 
   useEffect(() => {
     const max = availableWeeks.length - 1;
@@ -59,12 +73,11 @@ export default function AdditionalSessionsPage() {
       const d = new Date(currentWeekStart + "T00:00:00");
       d.setDate(d.getDate() + dayIdx);
       const dateStr = `${d.getDate()} / ${d.getMonth() + 1} / ${d.getFullYear()}`;
-      const clinician = clinicians.find((c) => c.id === s.clinicianId);
+      const clinician = allClinicians.find((c) => c.id === s.clinicianId);
       return {
         clinician: clinician ? (clinician.name ?? `Clinician ${clinician.label}`) : `#${s.clinicianId}`,
         clinicType: s.sessionType,
         date: dateStr,
-        expectedPatients: "—",
         reason: "Extra Capacity",
       };
     });
@@ -74,7 +87,6 @@ export default function AdditionalSessionsPage() {
     clinician: s.clinician,
     clinicType: s.clinicType,
     date: s.date,
-    expectedPatients: s.expectedPatients || "—",
     reason: s.reason,
   }));
 
@@ -98,11 +110,11 @@ export default function AdditionalSessionsPage() {
 
   const handleExport = () => {
     downloadCSV(
-      allRows.map((r) => ({
+      allRows.map((r, i) => ({
+        "#": i + 1,
         Clinician: r.clinician,
         "Clinic Type": r.clinicType,
         Date: r.date,
-        "Expected Patients": r.expectedPatients,
         Reason: r.reason,
       })),
       `additional-sessions-${currentWeekStart}.csv`
@@ -206,11 +218,6 @@ export default function AdditionalSessionsPage() {
             {field("Date *",
               <input type="date" value={formData.date} onChange={(e) => setFormData({ ...formData, date: e.target.value })} className={inputCls} />
             )}
-            {field("Expected Patients",
-              <input type="number" min="0" value={formData.expectedPatients}
-                onChange={(e) => setFormData({ ...formData, expectedPatients: e.target.value })}
-                placeholder="Enter number" className={inputCls} />
-            )}
           </div>
 
           <div className="mt-5 flex gap-3">
@@ -246,7 +253,7 @@ export default function AdditionalSessionsPage() {
             <table className="w-full text-sm">
               <thead className="bg-gray-50 border-b border-gray-100">
                 <tr>
-                  {["Clinician", "Clinic Type", "Date", "Expected Patients", "Reason", "Source"].map((h) => (
+                  {["#", "Clinician", "Clinic Type", "Date", "Reason", "Source"].map((h) => (
                     <th key={h} className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide whitespace-nowrap">
                       {h}
                     </th>
@@ -256,10 +263,10 @@ export default function AdditionalSessionsPage() {
               <tbody className="divide-y divide-gray-50">
                 {baseExtra.map((row, i) => (
                   <tr key={`base-${i}`} className="hover:bg-gray-50 transition-colors">
+                    <td className="px-4 py-3 text-slate-500 text-xs">{i + 1}</td>
                     <td className="px-4 py-3 font-medium text-slate-800">{row.clinician}</td>
                     <td className="px-4 py-3 text-slate-700">{row.clinicType}</td>
                     <td className="px-4 py-3 text-slate-600 whitespace-nowrap">{row.date}</td>
-                    <td className="px-4 py-3 text-slate-600">{row.expectedPatients}</td>
                     <td className="px-4 py-3 text-slate-600">{row.reason}</td>
                     <td className="px-4 py-3">
                       <span className="px-2 py-0.5 rounded-full text-xs font-semibold bg-gray-100 text-gray-700">Planned</span>
@@ -268,10 +275,10 @@ export default function AdditionalSessionsPage() {
                 ))}
                 {userRows.map((row, i) => (
                   <tr key={`user-${i}`} className="hover:bg-purple-50 transition-colors bg-purple-50/30">
+                    <td className="px-4 py-3 text-slate-500 text-xs">{baseExtra.length + i + 1}</td>
                     <td className="px-4 py-3 font-medium text-slate-800">{row.clinician}</td>
                     <td className="px-4 py-3 text-slate-700">{row.clinicType}</td>
                     <td className="px-4 py-3 text-slate-600 whitespace-nowrap">{row.date}</td>
-                    <td className="px-4 py-3 text-slate-600">{row.expectedPatients}</td>
                     <td className="px-4 py-3 text-slate-600">{row.reason}</td>
                     <td className="px-4 py-3">
                       <span className="px-2 py-0.5 rounded-full text-xs font-semibold bg-purple-100 text-purple-800">Added</span>

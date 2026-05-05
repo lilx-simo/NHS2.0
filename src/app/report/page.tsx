@@ -1,13 +1,15 @@
 "use client";
 
 import { useState, useEffect, type ReactNode } from "react";
+import { useRouter } from "next/navigation";
 import { getWeeks, getClinicians, getSessionTypes, getAvailableWeeks, getWeekSummary } from "@/data";
 import { getReportEntries, saveReportEntry, type ReportEntry } from "@/lib/store";
 import { addAuditEntry } from "@/lib/audit";
 import { downloadCSV } from "@/lib/export";
 import { getClosestWeekIdx } from "@/lib/settings";
+import { getCurrentUser } from "@/lib/users";
 
-const ROOT_CAUSES = ["Did not attend", "Underutilisation", "Sickness", "Leave"];
+const ROOT_CAUSES = ["Did not attend", "Underutilisation", "Sickness", "Leave", "N/A", "Other"];
 
 function formatWeek(dateStr: string): string {
   const d = new Date(dateStr + "T00:00:00");
@@ -45,17 +47,22 @@ function VarianceCard({
 const EMPTY_FORM = {
   clinician: "",
   clinicType: "",
-  plannedSessions: "",
-  sessionsReduction: "",
   deliveredSessions: "",
   rootCause: "",
 };
 
 export default function ReportPage() {
+  const router = useRouter();
   const allWeeks = getWeeks();
   const availableWeeks = getAvailableWeeks();
   const clinicians = getClinicians();
   const sessionTypes = getSessionTypes();
+
+  useEffect(() => {
+    const user = getCurrentUser();
+    if (!user) { router.push("/"); return; }
+    if (!["admin", "planner"].includes(user.role)) { router.push("/dashboard"); return; }
+  }, [router]);
 
   const [weekIdx, setWeekIdx] = useState(() => getClosestWeekIdx(availableWeeks));
   const [formData, setFormData] = useState(EMPTY_FORM);
@@ -83,10 +90,9 @@ export default function ReportPage() {
   const totalPlanned = summary?.totalClinicSlots ?? 0;
   const totalDeliveredBase = summary ? summary.totalClinicSlots - summary.totalUnavailable * 5 : 0;
 
-  const userPlanned = userEntries.reduce((s, e) => s + (parseInt(e.plannedSessions) || 0), 0);
   const userDelivered = userEntries.reduce((s, e) => s + (parseInt(e.deliveredSessions) || 0), 0);
 
-  const displayPlanned = userEntries.length > 0 ? userPlanned : totalPlanned;
+  const displayPlanned = totalPlanned;
   const displayDelivered = userEntries.length > 0 ? userDelivered : totalDeliveredBase;
   const displayVariance =
     displayPlanned > 0
@@ -105,9 +111,7 @@ export default function ReportPage() {
       return;
     }
     const entry = saveReportEntry({ ...formData, weekStart: currentWeekStart });
-    addAuditEntry(
-      `Actual delivery data added: ${formData.clinician} — ${formData.clinicType}, Delivered: ${formData.deliveredSessions}`
-    );
+    addAuditEntry(`Actual delivery data added: ${formData.clinician} — ${formData.clinicType}, Delivered: ${formData.deliveredSessions}`);
     setUserEntries((prev) => [...prev, entry]);
     setFormData(EMPTY_FORM);
     setFormError("");
@@ -120,8 +124,6 @@ export default function ReportPage() {
       userEntries.map((e) => ({
         Clinician: e.clinician,
         "Clinic Type": e.clinicType,
-        "Planned Sessions": e.plannedSessions,
-        "Sessions Reduction": e.sessionsReduction,
         "Delivered Sessions": e.deliveredSessions,
         "Root Cause": e.rootCause,
         "Week Start": e.weekStart,
@@ -242,16 +244,6 @@ export default function ReportPage() {
                 {sessionTypes.map((ct) => <option key={ct} value={ct}>{ct}</option>)}
               </select>
             )}
-            {field("Planned Sessions",
-              <input type="number" min="0" value={formData.plannedSessions}
-                onChange={(e) => setFormData({ ...formData, plannedSessions: e.target.value })}
-                placeholder="Enter number" className={inputCls} />
-            )}
-            {field("Sessions Reduction",
-              <input type="number" min="0" value={formData.sessionsReduction}
-                onChange={(e) => setFormData({ ...formData, sessionsReduction: e.target.value })}
-                placeholder="Enter number" className={inputCls} />
-            )}
             {field("Delivered Sessions *",
               <input type="number" min="0" value={formData.deliveredSessions}
                 onChange={(e) => setFormData({ ...formData, deliveredSessions: e.target.value })}
@@ -298,7 +290,7 @@ export default function ReportPage() {
             <table className="w-full text-sm">
               <thead className="bg-gray-50 border-b border-gray-100">
                 <tr>
-                  {["Clinician", "Clinic Type", "Planned", "Reduction", "Delivered", "Variance", "Root Cause"].map((h) => (
+                  {["Clinician", "Clinic Type", "Delivered", "Root Cause"].map((h) => (
                     <th key={h} className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide whitespace-nowrap">
                       {h}
                     </th>
@@ -306,24 +298,14 @@ export default function ReportPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-50">
-                {userEntries.map((row) => {
-                  const planned = parseInt(row.plannedSessions) || 0;
-                  const delivered = parseInt(row.deliveredSessions) || 0;
-                  const varPct = planned > 0 ? ((planned - delivered) / planned) * 100 : 0;
-                  const varColor =
-                    varPct <= 3 ? "text-green-700" : varPct <= 7 ? "text-amber-700" : "text-red-700";
-                  return (
-                    <tr key={row.id} className="hover:bg-gray-50 transition-colors">
-                      <td className="px-4 py-3 font-medium text-slate-800">{row.clinician}</td>
-                      <td className="px-4 py-3 text-slate-700">{row.clinicType}</td>
-                      <td className="px-4 py-3 text-slate-600">{row.plannedSessions || "—"}</td>
-                      <td className="px-4 py-3 text-slate-600">{row.sessionsReduction || "—"}</td>
-                      <td className="px-4 py-3 text-slate-700 font-medium">{row.deliveredSessions}</td>
-                      <td className={`px-4 py-3 font-semibold ${varColor}`}>{varPct.toFixed(1)}%</td>
-                      <td className="px-4 py-3 text-slate-600">{row.rootCause || "—"}</td>
-                    </tr>
-                  );
-                })}
+                {userEntries.map((row) => (
+                  <tr key={row.id} className="hover:bg-gray-50 transition-colors">
+                    <td className="px-4 py-3 font-medium text-slate-800">{row.clinician}</td>
+                    <td className="px-4 py-3 text-slate-700">{row.clinicType}</td>
+                    <td className="px-4 py-3 text-slate-700 font-medium">{row.deliveredSessions}</td>
+                    <td className="px-4 py-3 text-slate-600">{row.rootCause || "—"}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>

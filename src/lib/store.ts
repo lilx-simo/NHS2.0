@@ -3,7 +3,6 @@ export interface AdditionalSessionEntry {
   clinician: string;
   clinicType: string;
   date: string;
-  expectedPatients: string;
   reason: string;
   weekStart: string;
 }
@@ -12,8 +11,6 @@ export interface ReportEntry {
   id: string;
   clinician: string;
   clinicType: string;
-  plannedSessions: string;
-  sessionsReduction: string;
   deliveredSessions: string;
   rootCause: string;
   weekStart: string;
