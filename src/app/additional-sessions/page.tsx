@@ -8,7 +8,7 @@ import { addAuditEntry } from "@/lib/audit";
 import { downloadCSV } from "@/lib/export";
 import { getClosestWeekIdx } from "@/lib/settings";
 import { getManagedClinicians } from "@/lib/clinicians";
-import { getCurrentUser } from "@/lib/users";
+import { getCurrentUser, getUsers } from "@/lib/users";
 
 const REASONS = ["Cover for leave", "Back Log", "RTT Action", "Extra Capacity"];
 const DAY_NAMES = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
@@ -37,17 +37,20 @@ export default function AdditionalSessionsPage() {
   const [savedSessions, setSavedSessions] = useState<AdditionalSessionEntry[]>([]);
   const [success, setSuccess] = useState(false);
   const [formError, setFormError] = useState("");
-  const [activeClinIds, setActiveClinIds] = useState<Set<number>>(new Set());
+  const [clinicianNames, setClinicianNames] = useState<string[]>([]);
 
   useEffect(() => {
     const user = getCurrentUser();
     if (!user) { router.push("/"); return; }
     if (!["admin", "planner"].includes(user.role)) { router.push("/dashboard"); return; }
-    const managed = getManagedClinicians();
-    setActiveClinIds(new Set(managed.filter((c) => c.active).map((c) => c.id)));
+    const managed = getManagedClinicians().filter((c) => c.active);
+    const userDoctors = getUsers().filter((u) => ["doctor", "nurse", "clinician"].includes(u.role));
+    const names = [
+      ...managed.map((c) => c.name),
+      ...userDoctors.filter((u) => !managed.some((c) => c.name === u.name)).map((u) => u.name),
+    ];
+    setClinicianNames(names);
   }, [router]);
-
-  const clinicians = allClinicians.filter((c) => activeClinIds.size === 0 || activeClinIds.has(c.id));
 
   useEffect(() => {
     const max = availableWeeks.length - 1;
@@ -198,8 +201,8 @@ export default function AdditionalSessionsPage() {
             {field("Clinician Name *",
               <select value={formData.clinician} onChange={(e) => setFormData({ ...formData, clinician: e.target.value })} className={selectCls}>
                 <option value="">Choose Clinician</option>
-                {clinicians.map((c) => (
-                  <option key={c.id} value={c.name ?? `Clinician ${c.label}`}>{c.name ?? `Clinician ${c.label}`}</option>
+                {clinicianNames.map((name) => (
+                  <option key={name} value={name}>{name}</option>
                 ))}
               </select>
             )}

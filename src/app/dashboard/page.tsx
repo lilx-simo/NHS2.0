@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { getWeeks, getWeekSummary, getClinicians, getAvailableWeeks, getAllWeekSummaries } from "@/data";
 import { getClosestWeekIdx, getSettings } from "@/lib/settings";
 import { CapacityBarChart, VarianceLineChart } from "@/components/WeeklyChart";
+import { getAdditionalSessions } from "@/lib/store";
 
 function formatWeek(dateStr: string): string {
   const d = new Date(dateStr + "T00:00:00");
@@ -47,6 +48,7 @@ export default function DashboardPage() {
   const [clinicianSearch, setClinicianSearch] = useState("");
   const [sortKey, setSortKey] = useState<"name" | "planned" | "adjusted" | "reduction">("name");
   const [sortAsc, setSortAsc] = useState(true);
+  const [userAddedCount, setUserAddedCount] = useState(0);
 
   useEffect(() => {
     const max = availableWeeks.length - 1;
@@ -67,6 +69,10 @@ export default function DashboardPage() {
   }, []);
   const currentWeekStart = availableWeeks[weekIdx];
   const summary = getWeekSummary(currentWeekStart);
+
+  useEffect(() => {
+    setUserAddedCount(getAdditionalSessions(currentWeekStart).length);
+  }, [currentWeekStart]);
   const weeks = getWeeks();
   const currentWeek = weeks[weekIdx];
 
@@ -254,7 +260,7 @@ export default function DashboardPage() {
           </div>
           <div>
             <p className="text-xs text-slate-500 font-medium">Additional Sessions</p>
-            <p className="text-2xl font-bold text-slate-800">{summary?.totalAdditionalSessions ?? 0}</p>
+            <p className="text-2xl font-bold text-slate-800">{(summary?.totalAdditionalSessions ?? 0) + userAddedCount}</p>
           </div>
         </div>
 
