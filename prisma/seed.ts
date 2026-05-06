@@ -1,7 +1,14 @@
+import { config } from "dotenv";
+config({ path: ".env" });
+
+import { Pool } from "pg";
+import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "../src/generated/prisma";
 import bcrypt from "bcryptjs";
 
-const db = new PrismaClient();
+const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+const adapter = new PrismaPg(pool);
+const db = new PrismaClient({ adapter });
 
 const SEED_USERS = [
   { username: "admin", password: "Admin1234", name: "Admin User", email: "admin@nhs.net", role: "admin", department: "Administration" },
