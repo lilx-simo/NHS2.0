@@ -6,7 +6,8 @@ import { downloadCSV } from "@/lib/export";
 import { api, type ApiAuditEntry } from "@/lib/api";
 
 function formatTimestamp(ts: string): string {
-  return ts;
+  const d = new Date(ts);
+  return d.toLocaleString("en-GB", { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" });
 }
 
 export default function AuditLogPage() {

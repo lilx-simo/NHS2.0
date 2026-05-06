@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { api, type ApiSettings } from "@/lib/api";
+import { saveSettings } from "@/lib/settings";
 
 const inputCls =
   "w-full px-3 py-2.5 rounded-lg border border-gray-300 text-slate-800 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#005eb8] focus:border-transparent transition bg-white";
@@ -40,6 +41,7 @@ export default function SettingsPage() {
         if (user.role !== "admin") { router.push("/dashboard"); return; }
         const s = await api.settings.get();
         setSettings(s);
+        saveSettings(s);
         setReady(true);
       } catch {
         router.push("/");
@@ -56,6 +58,7 @@ export default function SettingsPage() {
     }
     try {
       await api.settings.save(settings);
+      saveSettings(settings);
       api.auditLog.add("App settings updated");
       setError("");
       setSuccess("Settings saved successfully.");
@@ -75,6 +78,7 @@ export default function SettingsPage() {
     try {
       const saved = await api.settings.save(defaults);
       setSettings(saved);
+      saveSettings(saved);
       api.auditLog.add("App settings reset to defaults");
       setSuccess("Settings reset to defaults.");
       setTimeout(() => setSuccess(""), 3000);

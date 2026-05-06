@@ -9,6 +9,10 @@ import {
   DEPARTMENTS,
   type UserRole,
 } from "@/lib/users";
+
+function formatDate(ts: string): string {
+  return new Date(ts).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+}
 import { validateEmail, validateUsername, validatePasswordStrength } from "@/lib/security";
 import { api, type ApiUser } from "@/lib/api";
 
@@ -323,7 +327,7 @@ export default function UsersPage() {
                       {/* Email */}
                       <td className="px-4 py-3 text-slate-600 text-xs">{u.email || "—"}</td>
                       {/* Joined */}
-                      <td className="px-4 py-3 text-slate-500 text-xs whitespace-nowrap">{u.createdAt}</td>
+                      <td className="px-4 py-3 text-slate-500 text-xs whitespace-nowrap">{formatDate(u.createdAt)}</td>
                       {/* Actions */}
                       <td className="px-4 py-3">
                         {confirmingDelete ? (

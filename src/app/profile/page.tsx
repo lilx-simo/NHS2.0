@@ -9,6 +9,10 @@ import {
 } from "@/lib/users";
 import { api, type ApiUser } from "@/lib/api";
 
+function formatDate(ts: string): string {
+  return new Date(ts).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+}
+
 function Section({ title, subtitle, children }: { title: string; subtitle?: string; children: React.ReactNode }) {
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
@@ -219,7 +223,7 @@ export default function ProfilePage() {
           </div>
           <div>
             <p className="text-xs text-slate-500 uppercase tracking-wide font-semibold">Account Created</p>
-            <p className="text-slate-800 mt-0.5">{user.createdAt}</p>
+            <p className="text-slate-800 mt-0.5">{formatDate(user.createdAt)}</p>
           </div>
         </div>
       </Section>

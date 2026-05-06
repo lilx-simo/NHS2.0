@@ -7,7 +7,7 @@ import { useEffect, useState, useRef } from "react";
 import { ROLE_LABELS, ROLE_COLORS } from "@/lib/users";
 import { api, type ApiUser } from "@/lib/api";
 import { getAvailableWeeks, getWeekSummary, getAllWeekSummaries } from "@/data";
-import { getSettings } from "@/lib/settings";
+import { getSettings, saveSettings } from "@/lib/settings";
 
 type NavLink = { label: string; href: string; adminOnly?: boolean; plannerOnly?: boolean; icon: () => React.ReactNode };
 
@@ -87,10 +87,15 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     setDarkMode(isDark);
     document.documentElement.classList.toggle("dark", isDark);
 
-    // Settings + current-week variance
+    // Settings + current-week variance (localStorage first, then DB)
     const settings = getSettings();
     setAmberThreshold(settings.varianceAmber);
     setRedThreshold(settings.varianceRed);
+    api.settings.get().then((s) => {
+      setAmberThreshold(s.varianceAmber);
+      setRedThreshold(s.varianceRed);
+      saveSettings(s);
+    }).catch(() => {});
 
     const weeks = getAvailableWeeks();
     if (weeks.length) {
