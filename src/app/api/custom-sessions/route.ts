@@ -18,9 +18,12 @@ export async function POST(req: NextRequest) {
   try {
     await requireRole(["admin", "planner"]);
     const data = await req.json();
+    const resolvedName = data.name
+      ?? (await db.managedClinician.findUnique({ where: { id: data.clinicianId } }))?.name
+      ?? "Unknown";
     const s = await db.customSession.create({ data: {
       clinicianId: data.clinicianId,
-      name: data.name,
+      name: resolvedName,
       weekStart: data.weekStart,
       day: data.day,
       period: data.period,
