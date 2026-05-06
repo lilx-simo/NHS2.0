@@ -73,10 +73,11 @@ export default function ReportPage() {
         const managed = await api.clinicians.list(true);
         const userDoctors = await api.users.list();
         const doctors = userDoctors.filter((u) => ["doctor", "nurse", "clinician"].includes(u.role));
-        setClinicianNames([
+        const combined = [
           ...managed.map((c) => c.name),
-          ...doctors.filter((u) => !managed.some((c) => c.name === u.name)).map((u) => u.name),
-        ]);
+          ...doctors.map((u) => u.name),
+        ];
+        setClinicianNames([...new Set(combined)]);
       } catch {
         router.push("/");
       }
@@ -261,8 +262,8 @@ export default function ReportPage() {
             {field("Clinician Name *",
               <select value={formData.clinician} onChange={(e) => setFormData({ ...formData, clinician: e.target.value })} className={selectCls}>
                 <option value="">Choose Clinician</option>
-                {clinicianNames.map((name) => (
-                  <option key={name} value={name}>{name}</option>
+                {clinicianNames.map((name, i) => (
+                  <option key={`${name}-${i}`} value={name}>{name}</option>
                 ))}
               </select>
             )}

@@ -18,6 +18,9 @@ export async function POST(req: NextRequest) {
   try {
     await requireSession();
     const data = await req.json();
+    // Return existing if name already taken (idempotent auto-registration)
+    const existing = await db.managedClinician.findFirst({ where: { name: data.name } });
+    if (existing) return NextResponse.json(existing, { status: 200 });
     const c = await db.managedClinician.create({ data: {
       name: data.name,
       specialty: data.specialty ?? "General",
