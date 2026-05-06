@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { getAllWeekSummaries, getWeekSummary } from "@/data";
 import { getSettings } from "@/lib/settings";
+import { getReportEntries, getReportedDeliveredTotal, type ReportEntry } from "@/lib/store";
 
 const MONTH_NAMES = [
   "January", "February", "March", "April", "May", "June",
@@ -14,9 +15,13 @@ function formatWeekFull(dateStr: string): string {
   return d.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
 }
 
-function computeVariance(weekStart: string): number {
+function computeVariance(weekStart: string, reportedWeeks: Set<string>, reportedTotals: Map<string, number>): number {
   const s = getWeekSummary(weekStart);
   if (!s || s.totalClinicSlots === 0) return 0;
+  if (reportedWeeks.has(weekStart)) {
+    const delivered = reportedTotals.get(weekStart) ?? 0;
+    return Math.round(((s.totalClinicSlots - delivered) / s.totalClinicSlots) * 100);
+  }
   const delivered = s.totalClinicSlots - s.totalUnavailable * 5;
   return Math.round(((s.totalClinicSlots - delivered) / s.totalClinicSlots) * 100);
 }
@@ -31,6 +36,20 @@ export default function YearOverviewPage() {
   const settings = getSettings();
   const { varianceAmber, varianceRed } = settings;
   const summaries = getAllWeekSummaries();
+
+  const [reportedWeeks, setReportedWeeks] = useState<Set<string>>(new Set());
+  const [reportedTotals, setReportedTotals] = useState<Map<string, number>>(new Map());
+
+  useEffect(() => {
+    const entries: ReportEntry[] = getReportEntries();
+    const weeks = new Set(entries.map((e) => e.weekStart));
+    const totals = new Map<string, number>();
+    for (const ws of weeks) {
+      totals.set(ws, getReportedDeliveredTotal(ws));
+    }
+    setReportedWeeks(weeks);
+    setReportedTotals(totals);
+  }, []);
 
   // Group weeks by month (by week start date)
   const monthMap = new Map<string, MonthData>();
@@ -62,14 +81,17 @@ export default function YearOverviewPage() {
   };
 
   const selectedSummary = selectedWeek ? getWeekSummary(selectedWeek) : null;
-  const selectedVariance = selectedWeek ? computeVariance(selectedWeek) : 0;
+  const selectedVariance = selectedWeek ? computeVariance(selectedWeek, reportedWeeks, reportedTotals) : 0;
+  const selectedIsReported = selectedWeek ? reportedWeeks.has(selectedWeek) : false;
   const selectedDelivered = selectedSummary
-    ? selectedSummary.totalClinicSlots - selectedSummary.totalUnavailable * 5
+    ? selectedIsReported
+      ? (reportedTotals.get(selectedWeek!) ?? 0)
+      : selectedSummary.totalClinicSlots - selectedSummary.totalUnavailable * 5
     : 0;
 
   const totalWeeks = summaries.length;
-  const highVarianceCount = summaries.filter((s) => computeVariance(s.weekStart) >= varianceRed).length;
-  const onTargetCount = summaries.filter((s) => computeVariance(s.weekStart) < varianceAmber).length;
+  const highVarianceCount = summaries.filter((s) => computeVariance(s.weekStart, reportedWeeks, reportedTotals) >= varianceRed).length;
+  const onTargetCount = summaries.filter((s) => computeVariance(s.weekStart, reportedWeeks, reportedTotals) < varianceAmber).length;
 
   return (
     <div className="p-6 space-y-6 max-w-6xl mx-auto">
@@ -119,6 +141,12 @@ export default function YearOverviewPage() {
           <span className="w-4 h-4 rounded bg-blue-400 inline-block ring-2 ring-blue-600" />
           Current week
         </span>
+        <span className="flex items-center gap-2">
+          <span className="relative w-4 h-4 rounded bg-green-400 inline-block">
+            <span className="absolute bottom-0 right-0 w-1.5 h-1.5 rounded-full bg-white border border-slate-400" />
+          </span>
+          Reported
+        </span>
       </div>
 
       {/* Month grid */}
@@ -130,7 +158,7 @@ export default function YearOverviewPage() {
               <p className="text-sm font-bold text-slate-700 mb-4">{label}</p>
               <div className="flex flex-wrap gap-2">
                 {weeks.map((ws) => {
-                  const variance = computeVariance(ws);
+                  const variance = computeVariance(ws, reportedWeeks, reportedTotals);
                   const weekDate = new Date(ws + "T00:00:00");
                   const isPast = weekDate < today;
                   const isCurrentWeek =
@@ -141,11 +169,12 @@ export default function YearOverviewPage() {
                   const endStr = `${endDate.getDate()} ${MONTH_NAMES[endDate.getMonth()].slice(0, 3)}`;
                   const startStr = `${weekDate.getDate()} ${MONTH_NAMES[weekDate.getMonth()].slice(0, 3)}`;
 
+                  const isReported = reportedWeeks.has(ws);
                   return (
+                    <div key={ws} className="relative">
                     <button
-                      key={ws}
                       onClick={() => setSelectedWeek(ws === selectedWeek ? null : ws)}
-                      title={`${startStr} – ${endStr} · Variance: ${variance}%`}
+                      title={`${startStr} – ${endStr} · Variance: ${variance}%${isReported ? " · Reported" : ""}`}
                       className={`
                         w-10 h-10 rounded-lg transition-all hover:scale-110 hover:shadow-md
                         ${isCurrentWeek ? "ring-2 ring-[#005eb8] ring-offset-1" : ""}
@@ -153,6 +182,10 @@ export default function YearOverviewPage() {
                         ${variance === 0 && !isPast ? "bg-gray-200" : cellColor(variance, isPast)}
                       `}
                     />
+                    {isReported && (
+                      <span className="absolute bottom-0.5 right-0.5 w-2 h-2 rounded-full bg-white border border-slate-400 pointer-events-none" />
+                    )}
+                    </div>
                   );
                 })}
               </div>
@@ -162,13 +195,13 @@ export default function YearOverviewPage() {
                   className="h-full bg-green-400 rounded-full"
                   style={{
                     width: `${Math.round(
-                      (weeks.filter((w) => computeVariance(w) < varianceAmber).length / weeks.length) * 100
+                      (weeks.filter((w) => computeVariance(w, reportedWeeks, reportedTotals) < varianceAmber).length / weeks.length) * 100
                     )}%`,
                   }}
                 />
               </div>
               <p className="text-[10px] text-slate-400 mt-1">
-                {weeks.filter((w) => computeVariance(w) < varianceAmber).length}/{weeks.length} weeks on target
+                {weeks.filter((w) => computeVariance(w, reportedWeeks, reportedTotals) < varianceAmber).length}/{weeks.length} weeks on target
               </p>
             </div>
           );
@@ -181,7 +214,9 @@ export default function YearOverviewPage() {
           <div className="px-6 py-4 border-b border-gray-100 bg-[#005eb8] flex items-center justify-between">
             <div>
               <p className="text-white font-semibold">Week of {formatWeekFull(selectedWeek)}</p>
-              <p className="text-blue-200 text-xs mt-0.5">Detailed breakdown</p>
+              <p className="text-blue-200 text-xs mt-0.5">
+                {selectedIsReported ? "Reported data · actual delivery" : "Planned data · no report submitted"}
+              </p>
             </div>
             <button onClick={() => setSelectedWeek(null)} className="text-white/70 hover:text-white transition">
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -192,7 +227,7 @@ export default function YearOverviewPage() {
           <div className="p-6 grid grid-cols-2 sm:grid-cols-5 gap-4 text-center">
             {[
               { label: "Planned", value: selectedSummary.totalClinicSlots },
-              { label: "Delivered", value: Math.max(0, selectedDelivered) },
+              { label: selectedIsReported ? "Reported" : "Delivered", value: Math.max(0, selectedDelivered) },
               {
                 label: "Variance",
                 value: `${selectedVariance}%`,

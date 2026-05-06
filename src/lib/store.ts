@@ -56,3 +56,16 @@ export function saveReportEntry(entry: Omit<ReportEntry, "id">): ReportEntry {
   localStorage.setItem(RE_KEY, JSON.stringify(all));
   return newEntry;
 }
+
+export function getLastReportedWeekStart(): string | null {
+  const all = getReportEntries();
+  if (!all.length) return null;
+  return [...new Set(all.map((e) => e.weekStart))].sort().at(-1) ?? null;
+}
+
+export function getReportedDeliveredTotal(weekStart: string): number {
+  return getReportEntries(weekStart).reduce(
+    (sum, e) => sum + (parseInt(e.deliveredSessions) || 0),
+    0
+  );
+}

@@ -8,33 +8,12 @@ import { getAdditionalSessions, type AdditionalSessionEntry } from "@/lib/store"
 import { getCustomSessions, type CustomSession } from "@/lib/sessions";
 import { getManagedClinicians } from "@/lib/clinicians";
 import { getUsers } from "@/lib/users";
+import { calcApptTotals } from "@/lib/formula";
 
 const DAY_NAMES = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
-// Appointment counts per session type, based on the NHS capacity planning formula
-const CLINIC_FORMULA: Record<string, Partial<Record<string, number>>> = {
-  srh:   { NewSRH: 2, Review: 4 },
-  cp:    { NCP: 2, Review: 4 },
-  mwm:   { NMWM: 2, Review: 3 },
-  wash:  { Nwash: 2, Review: 5 },
-  whone: { Nwash: 2, Review: 4 },
-  whtwo: { Nwash: 2, Review: 4 },
-  mnnew: { NMWM: 6 },
-  mwrev: { Review: 5 },
-  mwwed: { Review: 1, NMWM: 2 },
-  mwfri: { Review: 7 },
-  mwmon: { NMWM: 2 },
-};
-
 function calcSlotTotals(sessionTypes: string[]) {
-  const t: Record<string, number> = { NewSRH: 0, Review: 0, NCP: 0, NMWM: 0, Nwash: 0, "Nurse led": 0 };
-  for (const type of sessionTypes) {
-    const f = CLINIC_FORMULA[type.toLowerCase()];
-    if (f) {
-      for (const [k, v] of Object.entries(f)) t[k] = (t[k] ?? 0) + (v as number);
-    }
-  }
-  return t;
+  return calcApptTotals(sessionTypes.map((t) => ({ clinicType: t, count: 1 })));
 }
 
 function formatWeek(dateStr: string): string {

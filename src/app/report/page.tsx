@@ -9,6 +9,7 @@ import { downloadCSV } from "@/lib/export";
 import { getClosestWeekIdx } from "@/lib/settings";
 import { getCurrentUser, getUsers } from "@/lib/users";
 import { getManagedClinicians } from "@/lib/clinicians";
+import { APPT_TYPES, calcApptTotals } from "@/lib/formula";
 
 const ROOT_CAUSES = ["Did not attend", "Underutilisation", "Sickness", "Leave", "N/A", "Other"];
 
@@ -318,6 +319,59 @@ export default function ReportPage() {
           </div>
         )}
       </div>
+
+      {/* Appointment Type Comparison */}
+      {(() => {
+        const plannedTotals = summary?.slotTotals ?? null;
+        const reportedTotals = calcApptTotals(
+          userEntries.map((e) => ({ clinicType: e.clinicType, count: parseInt(e.deliveredSessions) || 0 }))
+        );
+        const hasAnyPlanned = plannedTotals && APPT_TYPES.some((k) => (plannedTotals[k] ?? 0) > 0);
+        const hasAnyReported = APPT_TYPES.some((k) => reportedTotals[k] > 0);
+        if (!hasAnyPlanned && !hasAnyReported) return null;
+        return (
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+            <div className="px-6 py-4 border-b border-gray-100 bg-slate-50">
+              <h2 className="text-base font-semibold text-slate-800">Appointment Type Comparison</h2>
+              <p className="text-xs text-slate-500 mt-0.5">Planned appointment slots vs totals derived from reported sessions</p>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead className="bg-gray-50 border-b border-gray-100">
+                  <tr>
+                    {["Appointment Type", "Planned", "Reported", "Difference"].map((h) => (
+                      <th key={h} className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide whitespace-nowrap">{h}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-50">
+                  {APPT_TYPES.map((appt) => {
+                    const planned = plannedTotals?.[appt] ?? 0;
+                    const reported = reportedTotals[appt];
+                    const diff = reported - planned;
+                    return (
+                      <tr key={appt} className="hover:bg-gray-50 transition-colors">
+                        <td className="px-4 py-3 font-medium text-slate-800">{appt}</td>
+                        <td className="px-4 py-3 text-slate-600">{planned}</td>
+                        <td className="px-4 py-3 text-slate-600">{reported}</td>
+                        <td className="px-4 py-3">
+                          {diff === 0 ? (
+                            <span className="text-green-600 font-medium">0</span>
+                          ) : diff > 0 ? (
+                            <span className="text-blue-600 font-medium">+{diff}</span>
+                          ) : (
+                            <span className="text-red-600 font-medium">{diff}</span>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        );
+      })()}
     </div>
   );
 }

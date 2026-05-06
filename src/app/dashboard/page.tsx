@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { getWeeks, getWeekSummary, getClinicians, getAvailableWeeks, getAllWeekSummaries } from "@/data";
 import { getClosestWeekIdx, getSettings } from "@/lib/settings";
 import { CapacityBarChart, VarianceLineChart } from "@/components/WeeklyChart";
-import { getAdditionalSessions } from "@/lib/store";
+import { getAdditionalSessions, getLastReportedWeekStart, getReportedDeliveredTotal } from "@/lib/store";
 
 function formatWeek(dateStr: string): string {
   const d = new Date(dateStr + "T00:00:00");
@@ -49,6 +49,8 @@ export default function DashboardPage() {
   const [sortKey, setSortKey] = useState<"name" | "planned" | "adjusted" | "reduction">("name");
   const [sortAsc, setSortAsc] = useState(true);
   const [userAddedCount, setUserAddedCount] = useState(0);
+  const [lastReportedWeek, setLastReportedWeek] = useState<string | null>(null);
+  const [lastReportedDelivered, setLastReportedDelivered] = useState(0);
 
   useEffect(() => {
     const max = availableWeeks.length - 1;
@@ -73,6 +75,12 @@ export default function DashboardPage() {
   useEffect(() => {
     setUserAddedCount(getAdditionalSessions(currentWeekStart).length);
   }, [currentWeekStart]);
+
+  useEffect(() => {
+    const lrw = getLastReportedWeekStart();
+    setLastReportedWeek(lrw);
+    setLastReportedDelivered(lrw ? getReportedDeliveredTotal(lrw) : 0);
+  }, []);
   const weeks = getWeeks();
   const currentWeek = weeks[weekIdx];
 
@@ -277,6 +285,43 @@ export default function DashboardPage() {
           </div>
         </div>
       </div>
+
+      {/* Last Reported Week */}
+      {lastReportedWeek && (() => {
+        const lrSummary = getWeekSummary(lastReportedWeek);
+        const lrPlanned = lrSummary?.totalClinicSlots ?? 0;
+        const lrVariance = lrPlanned > 0
+          ? Math.round(((lrPlanned - lastReportedDelivered) / lrPlanned) * 100)
+          : 0;
+        const lrVarianceStyle =
+          Math.abs(lrVariance) < varianceAmber ? "text-green-600" :
+          Math.abs(lrVariance) < varianceRed  ? "text-amber-600" : "text-red-600";
+        const lrBorderStyle =
+          Math.abs(lrVariance) < varianceAmber ? "border-green-200 bg-green-50" :
+          Math.abs(lrVariance) < varianceRed  ? "border-amber-200 bg-amber-50" : "border-red-200 bg-red-50";
+        return (
+          <div className={`rounded-xl shadow-sm border p-5 ${lrBorderStyle}`}>
+            <div className="flex items-center justify-between mb-3">
+              <p className="text-xs font-semibold text-slate-500 uppercase tracking-widest">Last Reported Week</p>
+              <span className="text-xs text-slate-400">{formatWeek(lastReportedWeek)}</span>
+            </div>
+            <div className="grid grid-cols-3 gap-4 text-center">
+              <div>
+                <p className="text-3xl font-bold text-slate-800">{lrPlanned}</p>
+                <p className="text-xs text-slate-500 mt-1 font-medium">Planned</p>
+              </div>
+              <div>
+                <p className="text-3xl font-bold text-slate-800">{lastReportedDelivered}</p>
+                <p className="text-xs text-slate-500 mt-1 font-medium">Delivered</p>
+              </div>
+              <div>
+                <p className={`text-3xl font-bold ${lrVarianceStyle}`}>{lrVariance}%</p>
+                <p className="text-xs text-slate-500 mt-1 font-medium">Variance</p>
+              </div>
+            </div>
+          </div>
+        );
+      })()}
 
       {/* Charts */}
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
