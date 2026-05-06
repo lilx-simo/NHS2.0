@@ -1,18 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { getCurrentUser } from "@/lib/users";
-import {
-  getManagedClinicians,
-  addManagedClinician,
-  updateManagedClinician,
-  deleteManagedClinician,
-  SEED_IDS,
-  SPECIALTIES,
-  type ManagedClinician,
-} from "@/lib/clinicians";
-import { addAuditEntry } from "@/lib/audit";
+import { api, type ApiClinician } from "@/lib/api";
+import { SPECIALTIES } from "@/lib/clinicians";
 
 const EMPTY_FORM = { name: "", specialty: "Sexual Health", email: "", active: true };
 
@@ -22,38 +12,41 @@ const selectCls =
   "w-full px-3 py-2.5 rounded-lg border border-gray-300 text-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-[#005eb8] focus:border-transparent transition bg-white";
 
 export default function CliniciansPage() {
-  const router = useRouter();
-  const [ready, setReady] = useState(false);
-  const [clinicians, setClinicians] = useState<ManagedClinician[]>([]);
+  const [clinicians, setClinicians] = useState<ApiClinician[]>([]);
   const [search, setSearch] = useState("");
   const [filterActive, setFilterActive] = useState<"all" | "active" | "inactive">("all");
 
-  // Modal
   const [modalOpen, setModalOpen] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [form, setForm] = useState(EMPTY_FORM);
   const [formError, setFormError] = useState("");
+  const [saving, setSaving] = useState(false);
 
-  // Delete confirmation
   const [confirmDeleteId, setConfirmDeleteId] = useState<number | null>(null);
 
   useEffect(() => {
-    const user = getCurrentUser();
-    if (!user) { router.push("/"); return; }
-    if (user.role !== "admin") { router.push("/dashboard"); return; }
-    setClinicians(getManagedClinicians());
-    setReady(true);
-  }, [router]);
+    async function init() {
+      try {
+        const list = await api.clinicians.list();
+        setClinicians(list);
+      } catch {
+        // handled by middleware redirect
+      }
+    }
+    init();
+  }, []);
 
-  const refresh = () => setClinicians(getManagedClinicians());
+  const refresh = async () => {
+    const list = await api.clinicians.list();
+    setClinicians(list);
+  };
 
-  const filtered = clinicians
-    .filter((c) => {
-      if (filterActive === "active" && !c.active) return false;
-      if (filterActive === "inactive" && c.active) return false;
-      const q = search.toLowerCase();
-      return !q || c.name.toLowerCase().includes(q) || c.specialty.toLowerCase().includes(q) || c.email.toLowerCase().includes(q);
-    });
+  const filtered = clinicians.filter((c) => {
+    if (filterActive === "active" && !c.active) return false;
+    if (filterActive === "inactive" && c.active) return false;
+    const q = search.toLowerCase();
+    return !q || c.name.toLowerCase().includes(q) || c.specialty.toLowerCase().includes(q) || c.email.toLowerCase().includes(q);
+  });
 
   const openAdd = () => {
     setForm(EMPTY_FORM);
@@ -62,41 +55,46 @@ export default function CliniciansPage() {
     setModalOpen(true);
   };
 
-  const openEdit = (c: ManagedClinician) => {
+  const openEdit = (c: ApiClinician) => {
     setForm({ name: c.name, specialty: c.specialty, email: c.email, active: c.active });
     setEditingId(c.id);
     setFormError("");
     setModalOpen(true);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!form.name.trim()) { setFormError("Name is required."); return; }
-    if (editingId !== null) {
-      updateManagedClinician(editingId, { ...form, name: form.name.trim() });
-      addAuditEntry(`Clinician updated: ${form.name.trim()}`);
-    } else {
-      addManagedClinician({ ...form, name: form.name.trim() });
-      addAuditEntry(`Clinician added: ${form.name.trim()}`);
+    setSaving(true);
+    try {
+      if (editingId !== null) {
+        await api.clinicians.update(editingId, { ...form, name: form.name.trim() });
+        await api.auditLog.add(`Clinician updated: ${form.name.trim()}`);
+      } else {
+        await api.clinicians.create({ ...form, name: form.name.trim() });
+        await api.auditLog.add(`Clinician added: ${form.name.trim()}`);
+      }
+      await refresh();
+      setModalOpen(false);
+    } catch (e: unknown) {
+      setFormError(e instanceof Error ? e.message : "Failed to save.");
+    } finally {
+      setSaving(false);
     }
-    refresh();
-    setModalOpen(false);
   };
 
-  const handleToggleActive = (c: ManagedClinician) => {
-    updateManagedClinician(c.id, { active: !c.active });
-    addAuditEntry(`Clinician ${c.active ? "deactivated" : "reactivated"}: ${c.name}`);
-    refresh();
+  const handleToggleActive = async (c: ApiClinician) => {
+    await api.clinicians.update(c.id, { active: !c.active });
+    await api.auditLog.add(`Clinician ${c.active ? "deactivated" : "reactivated"}: ${c.name}`);
+    await refresh();
   };
 
-  const handleDelete = (id: number) => {
+  const handleDelete = async (id: number) => {
     const c = clinicians.find((x) => x.id === id);
-    deleteManagedClinician(id);
-    addAuditEntry(`Clinician deleted: ${c?.name ?? id}`);
-    refresh();
+    await api.clinicians.delete(id);
+    await api.auditLog.add(`Clinician deleted: ${c?.name ?? id}`);
+    await refresh();
     setConfirmDeleteId(null);
   };
-
-  if (!ready) return null;
 
   const total = clinicians.length;
   const active = clinicians.filter((c) => c.active).length;
@@ -226,27 +224,25 @@ export default function CliniciansPage() {
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                           </svg>
                         </button>
-                        {!SEED_IDS.has(c.id) && (
-                          confirmDeleteId === c.id ? (
-                            <div className="flex items-center gap-1">
-                              <button onClick={() => handleDelete(c.id)} className="px-2 py-1 text-xs font-semibold bg-red-600 text-white rounded-lg hover:bg-red-700 transition">
-                                Confirm
-                              </button>
-                              <button onClick={() => setConfirmDeleteId(null)} className="px-2 py-1 text-xs font-medium bg-gray-100 text-slate-600 rounded-lg hover:bg-gray-200 transition">
-                                Cancel
-                              </button>
-                            </div>
-                          ) : (
-                            <button
-                              onClick={() => setConfirmDeleteId(c.id)}
-                              className="p-1.5 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 transition"
-                              title="Delete"
-                            >
-                              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                              </svg>
+                        {confirmDeleteId === c.id ? (
+                          <div className="flex items-center gap-1">
+                            <button onClick={() => handleDelete(c.id)} className="px-2 py-1 text-xs font-semibold bg-red-600 text-white rounded-lg hover:bg-red-700 transition">
+                              Confirm
                             </button>
-                          )
+                            <button onClick={() => setConfirmDeleteId(null)} className="px-2 py-1 text-xs font-medium bg-gray-100 text-slate-600 rounded-lg hover:bg-gray-200 transition">
+                              Cancel
+                            </button>
+                          </div>
+                        ) : (
+                          <button
+                            onClick={() => setConfirmDeleteId(c.id)}
+                            className="p-1.5 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 transition"
+                            title="Delete"
+                          >
+                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                          </button>
                         )}
                       </div>
                     </td>
@@ -305,9 +301,10 @@ export default function CliniciansPage() {
             <div className="px-6 pb-6 flex gap-3">
               <button
                 onClick={handleSave}
-                className="px-5 py-2.5 bg-[#005eb8] hover:bg-[#003d8f] text-white text-sm font-semibold rounded-lg transition shadow-sm"
+                disabled={saving}
+                className="px-5 py-2.5 bg-[#005eb8] hover:bg-[#003d8f] disabled:opacity-60 text-white text-sm font-semibold rounded-lg transition shadow-sm"
               >
-                {editingId !== null ? "Save Changes" : "Add Clinician"}
+                {saving ? "Saving…" : editingId !== null ? "Save Changes" : "Add Clinician"}
               </button>
               <button onClick={() => setModalOpen(false)} className="px-5 py-2.5 bg-gray-100 hover:bg-gray-200 text-slate-700 text-sm font-medium rounded-lg transition">
                 Cancel
