@@ -4,8 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState, useRef } from "react";
-import { getCurrentUser, clearSession, ROLE_LABELS, ROLE_COLORS, type User } from "@/lib/users";
-import { touchSession } from "@/lib/security";
+import { ROLE_LABELS, ROLE_COLORS } from "@/lib/users";
+import { api, type ApiUser } from "@/lib/api";
 import { getAvailableWeeks, getWeekSummary, getAllWeekSummaries } from "@/data";
 import { getSettings } from "@/lib/settings";
 
@@ -68,7 +68,7 @@ function formatWeekShort(dateStr: string): string {
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<ApiUser | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
   const [variance, setVariance] = useState(0);
@@ -80,7 +80,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   const bellRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setUser(getCurrentUser());
+    api.auth.me().then(setUser).catch(() => setUser(null));
 
     // Dark mode
     const isDark = localStorage.getItem("nhs-dark-mode") === "true";
@@ -140,17 +140,6 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   // Close sidebar on route change
   useEffect(() => { setSidebarOpen(false); }, [pathname]);
 
-  // Refresh session expiry on every user interaction
-  useEffect(() => {
-    const refresh = () => touchSession();
-    window.addEventListener("click", refresh);
-    window.addEventListener("keydown", refresh);
-    return () => {
-      window.removeEventListener("click", refresh);
-      window.removeEventListener("keydown", refresh);
-    };
-  }, []);
-
   // Keyboard shortcuts
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -171,7 +160,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     localStorage.setItem("nhs-dark-mode", String(next));
   };
 
-  const handleSignOut = () => { clearSession(); router.push("/"); };
+  const handleSignOut = async () => { await api.auth.logout(); router.push("/"); };
 
   const visibleLinks = NAV_LINKS.filter((l) => {
     if (l.adminOnly && user?.role !== "admin") return false;

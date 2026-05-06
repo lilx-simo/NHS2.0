@@ -3,8 +3,7 @@
 import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { authenticate, setSession } from "@/lib/users";
-import { checkLockout, recordFailedAttempt, clearFailedAttempts } from "@/lib/security";
+import { api } from "@/lib/api";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
@@ -13,64 +12,35 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!username.trim() || !password.trim()) {
       setError("Please enter both username and password.");
       return;
     }
-
-    // Check lockout before attempting authentication
-    const lockout = checkLockout(username.trim());
-    if (lockout.locked) {
-      setError(`Too many failed attempts. Account locked for ${lockout.minutesLeft} more minute${lockout.minutesLeft === 1 ? "" : "s"}.`);
-      return;
-    }
-
     setLoading(true);
-    const user = authenticate(username.trim(), password.trim());
-
-    if (!user) {
-      const result = recordFailedAttempt(username.trim());
-      if (result.locked) {
-        setError("Too many failed attempts. Account locked for 15 minutes.");
-      } else {
-        setError(
-          `Invalid username or password.${result.attemptsLeft > 0 && result.attemptsLeft <= 3 ? ` ${result.attemptsLeft} attempt${result.attemptsLeft === 1 ? "" : "s"} remaining before lockout.` : ""}`
-        );
-      }
+    try {
+      const { user } = await api.auth.login(username.trim(), password.trim());
+      sessionStorage.setItem("nhs-welcome", user.name);
+      router.push("/dashboard");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Login failed.");
       setLoading(false);
-      return;
     }
-
-    clearFailedAttempts(username.trim());
-    setSession(user);
-    sessionStorage.setItem("nhs-welcome", user.name);
-    localStorage.setItem(`nhs-last-login-${user.id}`, new Date().toISOString());
-    router.push("/dashboard");
   };
 
   return (
-    <div
-      className="min-h-screen flex flex-col"
-      style={{ background: "linear-gradient(135deg, #003d8f 0%, #005eb8 60%, #0080c8 100%)" }}
-    >
+    <div className="min-h-screen flex flex-col" style={{ background: "linear-gradient(135deg, #003d8f 0%, #005eb8 60%, #0080c8 100%)" }}>
       <header className="px-8 py-5 flex items-center">
         <Image src="/nhs-logo.png" alt="NHS Logo" width={80} height={56} priority />
       </header>
-
       <div className="flex-1 flex items-center justify-center px-4 pb-12">
         <div className="w-full max-w-md">
           <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
             <div className="bg-[#005eb8] px-8 py-7">
-              <h1 className="text-2xl font-bold text-white leading-tight">
-                NHS Capacity Planner
-              </h1>
-              <p className="text-blue-200 text-sm mt-1">
-                Sign in to manage weekly capacity &amp; demand
-              </p>
+              <h1 className="text-2xl font-bold text-white leading-tight">NHS Capacity Planner</h1>
+              <p className="text-blue-200 text-sm mt-1">Sign in to manage weekly capacity &amp; demand</p>
             </div>
-
             <div className="px-8 py-8 space-y-5">
               {error && (
                 <div className="flex items-center gap-2 bg-red-50 border border-red-200 text-red-700 rounded-lg px-4 py-3 text-sm">
@@ -80,52 +50,28 @@ export default function LoginPage() {
                   {error}
                 </div>
               )}
-
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div className="space-y-1.5">
                   <label className="block text-sm font-medium text-slate-700">Username</label>
-                  <input
-                    type="text"
-                    value={username}
-                    onChange={(e) => { setUsername(e.target.value); setError(""); }}
-                    placeholder="Enter your username"
-                    autoComplete="username"
-                    maxLength={50}
-                    className="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-slate-800 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#005eb8] focus:border-transparent transition"
-                  />
+                  <input type="text" value={username} onChange={(e) => { setUsername(e.target.value); setError(""); }}
+                    placeholder="Enter your username" autoComplete="username" maxLength={50}
+                    className="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-slate-800 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#005eb8] focus:border-transparent transition" />
                 </div>
-
                 <div className="space-y-1.5">
                   <label className="block text-sm font-medium text-slate-700">Password</label>
-                  <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => { setPassword(e.target.value); setError(""); }}
-                    placeholder="Enter your password"
-                    autoComplete="current-password"
-                    maxLength={128}
-                    className="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-slate-800 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#005eb8] focus:border-transparent transition"
-                  />
+                  <input type="password" value={password} onChange={(e) => { setPassword(e.target.value); setError(""); }}
+                    placeholder="Enter your password" autoComplete="current-password" maxLength={128}
+                    className="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-slate-800 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#005eb8] focus:border-transparent transition" />
                 </div>
-
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="w-full py-3 bg-[#005eb8] hover:bg-[#003d8f] text-white font-semibold rounded-lg transition text-sm shadow-sm disabled:opacity-60"
-                >
+                <button type="submit" disabled={loading}
+                  className="w-full py-3 bg-[#005eb8] hover:bg-[#003d8f] text-white font-semibold rounded-lg transition text-sm shadow-sm disabled:opacity-60">
                   {loading ? "Signing in…" : "Sign In"}
                 </button>
               </form>
-
-              <p className="text-xs text-slate-400 text-center pt-1">
-                NHS Weekly Capacity &amp; Demand Planner · Confidential
-              </p>
+              <p className="text-xs text-slate-400 text-center pt-1">NHS Weekly Capacity &amp; Demand Planner · Confidential</p>
             </div>
           </div>
-
-          <p className="text-center text-blue-200 text-xs mt-6 opacity-80">
-            Authorised users only · Sessions expire after 30 minutes of inactivity
-          </p>
+          <p className="text-center text-blue-200 text-xs mt-6 opacity-80">Authorised users only · Sessions expire after 30 minutes of inactivity</p>
         </div>
       </div>
     </div>

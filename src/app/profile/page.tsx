@@ -3,15 +3,11 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import {
-  getCurrentUser,
-  updateUser,
-  setSession,
   ROLE_LABELS,
   ROLE_COLORS,
   DEPARTMENTS,
-  type User,
 } from "@/lib/users";
-import { addAuditEntry } from "@/lib/audit";
+import { api, type ApiUser } from "@/lib/api";
 
 function Section({ title, subtitle, children }: { title: string; subtitle?: string; children: React.ReactNode }) {
   return (
@@ -33,7 +29,7 @@ const selectCls =
 
 export default function ProfilePage() {
   const router = useRouter();
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<ApiUser | null>(null);
 
   // Personal info
   const [name, setName] = useState("");
@@ -43,9 +39,6 @@ export default function ProfilePage() {
   const [infoError, setInfoError] = useState("");
 
   // Password
-  const [lastLogin, setLastLogin] = useState<string | null>(null);
-
-  // Password
   const [currentPw, setCurrentPw] = useState("");
   const [newPw, setNewPw] = useState("");
   const [confirmPw, setConfirmPw] = useState("");
@@ -53,41 +46,51 @@ export default function ProfilePage() {
   const [pwError, setPwError] = useState("");
 
   useEffect(() => {
-    const u = getCurrentUser();
-    if (!u) { router.push("/"); return; }
-    setUser(u);
-    setName(u.name);
-    setEmail(u.email);
-    setDepartment(u.department);
-    const raw = localStorage.getItem(`nhs-last-login-${u.id}`);
-    if (raw) setLastLogin(new Date(raw).toLocaleString("en-GB", { dateStyle: "medium", timeStyle: "short" }));
+    async function init() {
+      try {
+        const u = await api.auth.me();
+        if (!u) { router.push("/"); return; }
+        setUser(u);
+        setName(u.name);
+        setEmail(u.email);
+        setDepartment(u.department);
+      } catch {
+        router.push("/");
+      }
+    }
+    init();
   }, [router]);
 
-  const saveInfo = () => {
+  const saveInfo = async () => {
     if (!user) return;
     if (!name.trim()) { setInfoError("Name cannot be empty."); return; }
-    const updated = updateUser(user.id, { name: name.trim(), email: email.trim(), department });
-    if (!updated) { setInfoError("Failed to save."); return; }
-    setSession(updated);
-    setUser(updated);
-    addAuditEntry(`Profile updated: ${updated.name}`);
-    setInfoError("");
-    setInfoSuccess("Profile saved successfully.");
-    setTimeout(() => setInfoSuccess(""), 3000);
+    try {
+      const updated = await api.users.update(user.id, { name: name.trim(), email: email.trim(), department });
+      setUser(updated);
+      api.auditLog.add(`Profile updated: ${updated.name}`);
+      setInfoError("");
+      setInfoSuccess("Profile saved successfully.");
+      setTimeout(() => setInfoSuccess(""), 3000);
+    } catch (err: unknown) {
+      setInfoError(err instanceof Error ? err.message : "Failed to save.");
+    }
   };
 
-  const savePassword = () => {
+  const savePassword = async () => {
     if (!user) return;
-    if (!currentPw) { setPwError("Enter your current password."); return; }
-    if (currentPw !== user.password) { setPwError("Current password is incorrect."); return; }
+    if (!newPw) { setPwError("Enter your new password."); return; }
     if (newPw.length < 4) { setPwError("New password must be at least 4 characters."); return; }
     if (newPw !== confirmPw) { setPwError("New passwords do not match."); return; }
-    updateUser(user.id, { password: newPw });
-    addAuditEntry("Password changed");
-    setPwError("");
-    setPwSuccess("Password updated successfully.");
-    setCurrentPw(""); setNewPw(""); setConfirmPw("");
-    setTimeout(() => setPwSuccess(""), 3000);
+    try {
+      await api.users.update(user.id, { password: newPw });
+      api.auditLog.add("Password changed");
+      setPwError("");
+      setPwSuccess("Password updated successfully.");
+      setCurrentPw(""); setNewPw(""); setConfirmPw("");
+      setTimeout(() => setPwSuccess(""), 3000);
+    } catch (err: unknown) {
+      setPwError(err instanceof Error ? err.message : "Failed to update password.");
+    }
   };
 
   if (!user) return null;
@@ -191,10 +194,6 @@ export default function ProfilePage() {
 
         <div className="space-y-4 max-w-sm">
           <div className="space-y-1.5">
-            <label className="block text-sm font-medium text-slate-700">Current Password</label>
-            <input type="password" value={currentPw} onChange={(e) => { setCurrentPw(e.target.value); setPwError(""); }} className={inputCls} placeholder="••••••••" autoComplete="current-password" />
-          </div>
-          <div className="space-y-1.5">
             <label className="block text-sm font-medium text-slate-700">New Password</label>
             <input type="password" value={newPw} onChange={(e) => { setNewPw(e.target.value); setPwError(""); }} className={inputCls} placeholder="••••••••" autoComplete="new-password" />
           </div>
@@ -221,10 +220,6 @@ export default function ProfilePage() {
           <div>
             <p className="text-xs text-slate-500 uppercase tracking-wide font-semibold">Account Created</p>
             <p className="text-slate-800 mt-0.5">{user.createdAt}</p>
-          </div>
-          <div>
-            <p className="text-xs text-slate-500 uppercase tracking-wide font-semibold">Last Login</p>
-            <p className="text-slate-800 mt-0.5">{lastLogin ?? "—"}</p>
           </div>
         </div>
       </Section>

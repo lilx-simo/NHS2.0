@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { getAllWeekSummaries, getWeekSummary } from "@/data";
 import { getSettings } from "@/lib/settings";
-import { getReportEntries, getReportedDeliveredTotal, type ReportEntry } from "@/lib/store";
+import { api, type ApiReportEntry } from "@/lib/api";
 
 const MONTH_NAMES = [
   "January", "February", "March", "April", "May", "June",
@@ -41,14 +41,23 @@ export default function YearOverviewPage() {
   const [reportedTotals, setReportedTotals] = useState<Map<string, number>>(new Map());
 
   useEffect(() => {
-    const entries: ReportEntry[] = getReportEntries();
-    const weeks = new Set(entries.map((e) => e.weekStart));
-    const totals = new Map<string, number>();
-    for (const ws of weeks) {
-      totals.set(ws, getReportedDeliveredTotal(ws));
+    async function loadReports() {
+      try {
+        const entries: ApiReportEntry[] = await api.reportEntries.list();
+        const weeks = new Set(entries.map((e) => e.weekStart));
+        const totals = new Map<string, number>();
+        for (const ws of weeks) {
+          const weekEntries = entries.filter((e) => e.weekStart === ws);
+          const total = weekEntries.reduce((sum, e) => sum + (parseInt(e.deliveredSessions) || 0), 0);
+          totals.set(ws, total);
+        }
+        setReportedWeeks(weeks);
+        setReportedTotals(totals);
+      } catch {
+        // silently fail — just show planned data
+      }
     }
-    setReportedWeeks(weeks);
-    setReportedTotals(totals);
+    loadReports();
   }, []);
 
   // Group weeks by month (by week start date)

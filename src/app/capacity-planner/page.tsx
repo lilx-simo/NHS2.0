@@ -5,10 +5,7 @@ import { useRouter } from "next/navigation";
 import { getWeeks, getAvailableWeeks, getSessionTypes } from "@/data";
 import { downloadCSV } from "@/lib/export";
 import { getClosestWeekIdx } from "@/lib/settings";
-import { getCustomSessions, addCustomSession, removeCustomSession, type CustomSession } from "@/lib/sessions";
-import { addAuditEntry } from "@/lib/audit";
-import { getManagedClinicians, addManagedClinician } from "@/lib/clinicians";
-import { getCurrentUser, getUsers } from "@/lib/users";
+import { api, type ApiClinician, type ApiCustomSession } from "@/lib/api";
 
 const TIME_SLOTS = [
   "08:00", "09:00", "10:00", "11:00", "12:00", "13:00",
@@ -72,28 +69,36 @@ export default function CapacityPlannerPage() {
   const sessionTypes = getSessionTypes();
 
   const [weekIdx, setWeekIdx] = useState(() => getClosestWeekIdx(availableWeeks));
-  const [dropdownClinicians, setDropdownClinicians] = useState<{ id: number; name: string }[]>([]);
+  const [dropdownClinicians, setDropdownClinicians] = useState<ApiClinician[]>([]);
   const [selectedClinicianId, setSelectedClinicianId] = useState<number | null>(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [customSessions, setCustomSessions] = useState<CustomSession[]>([]);
+  const [customSessions, setCustomSessions] = useState<ApiCustomSession[]>([]);
 
   useEffect(() => {
-    const user = getCurrentUser();
-    if (!user) { router.push("/"); return; }
-    if (!["admin", "planner"].includes(user.role)) { router.push("/dashboard"); return; }
+    async function init() {
+      try {
+        const user = await api.auth.me();
+        if (!user) { router.push("/"); return; }
+        if (!["admin", "planner"].includes(user.role)) { router.push("/dashboard"); return; }
 
-    // Auto-register any User Management doctors/nurses/clinicians not yet in managed clinicians
-    const managed = getManagedClinicians();
-    const userDoctors = getUsers().filter((u) => ["doctor", "nurse", "clinician"].includes(u.role));
-    for (const u of userDoctors) {
-      if (!managed.some((c) => c.name === u.name)) {
-        addManagedClinician({ name: u.name, specialty: "General", email: u.email, active: true });
+        // Auto-register any User Management doctors/nurses/clinicians not yet in managed clinicians
+        const managed = await api.clinicians.list();
+        const users = await api.users.list();
+        const userDoctors = users.filter((u) => ["doctor", "nurse", "clinician"].includes(u.role));
+        for (const u of userDoctors) {
+          if (!managed.some((c) => c.name === u.name)) {
+            await api.clinicians.create({ name: u.name, specialty: "General", email: u.email, active: true });
+          }
+        }
+
+        // Reload after potential additions
+        const updated = await api.clinicians.list(true);
+        setDropdownClinicians(updated);
+      } catch {
+        router.push("/");
       }
     }
-
-    // Reload after potential additions
-    const updated = getManagedClinicians().filter((c) => c.active);
-    setDropdownClinicians(updated.map((c) => ({ id: c.id, name: c.name })));
+    init();
   }, [router]);
 
   useEffect(() => {
@@ -125,7 +130,15 @@ export default function CapacityPlannerPage() {
   });
 
   useEffect(() => {
-    setCustomSessions(getCustomSessions(currentWeekStart));
+    async function loadSessions() {
+      try {
+        const sessions = await api.customSessions.list(currentWeekStart);
+        setCustomSessions(sessions);
+      } catch {
+        setCustomSessions([]);
+      }
+    }
+    loadSessions();
   }, [currentWeekStart]);
 
   const sessionMap: Record<string, CellInfo> = {};
@@ -221,7 +234,7 @@ export default function CapacityPlannerPage() {
       sessionType: cs.sessionType,
       location: cs.location,
       clinicianId: cs.clinicianId,
-      period: cs.period,
+      period: cs.period as "AM" | "PM",
       day: cs.day as typeof DAY_NAMES[number],
     });
     setEditingCustomId(customId);
@@ -229,29 +242,37 @@ export default function CapacityPlannerPage() {
     setModalOpen(true);
   };
 
-  const handleSaveSession = () => {
+  const handleSaveSession = async () => {
     if (!sessionForm.sessionType || !sessionForm.clinicianId) return;
 
-    if (editingCustomId) {
-      removeCustomSession(editingCustomId);
-      const newSession = addCustomSession({ ...sessionForm, weekStart: currentWeekStart });
-      addAuditEntry(`Custom session updated: ${sessionForm.sessionType} on ${sessionForm.day} ${sessionForm.period}`);
-      setCustomSessions((prev) =>
-        prev.filter((s) => s.id !== editingCustomId).concat(newSession)
-      );
-    } else {
-      const newSession = addCustomSession({ ...sessionForm, weekStart: currentWeekStart });
-      addAuditEntry(`Custom session added: ${sessionForm.sessionType} on ${sessionForm.day} ${sessionForm.period}`);
-      setCustomSessions((prev) => [...prev, newSession]);
+    try {
+      if (editingCustomId) {
+        await api.customSessions.delete(editingCustomId);
+        const newSession = await api.customSessions.create({ ...sessionForm, weekStart: currentWeekStart });
+        api.auditLog.add(`Custom session updated: ${sessionForm.sessionType} on ${sessionForm.day} ${sessionForm.period}`);
+        setCustomSessions((prev) =>
+          prev.filter((s) => s.id !== editingCustomId).concat(newSession)
+        );
+      } else {
+        const newSession = await api.customSessions.create({ ...sessionForm, weekStart: currentWeekStart });
+        api.auditLog.add(`Custom session added: ${sessionForm.sessionType} on ${sessionForm.day} ${sessionForm.period}`);
+        setCustomSessions((prev) => [...prev, newSession]);
+      }
+      setModalOpen(false);
+    } catch (err: unknown) {
+      console.error("Failed to save session:", err);
     }
-    setModalOpen(false);
   };
 
-  const handleDeleteSession = (customId: string) => {
-    removeCustomSession(customId);
-    addAuditEntry(`Custom session removed`);
-    setCustomSessions((prev) => prev.filter((s) => s.id !== customId));
-    setModalOpen(false);
+  const handleDeleteSession = async (customId: string) => {
+    try {
+      await api.customSessions.delete(customId);
+      api.auditLog.add(`Custom session removed`);
+      setCustomSessions((prev) => prev.filter((s) => s.id !== customId));
+      setModalOpen(false);
+    } catch (err: unknown) {
+      console.error("Failed to delete session:", err);
+    }
   };
 
   const selectedClinician = dropdownClinicians.find((c) => c.id === selectedClinicianId);

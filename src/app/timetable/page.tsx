@@ -4,11 +4,8 @@ import { useState, useEffect } from "react";
 import { getWeeks, getAvailableWeeks } from "@/data";
 import { downloadCSV } from "@/lib/export";
 import { getClosestWeekIdx } from "@/lib/settings";
-import { getAdditionalSessions, type AdditionalSessionEntry } from "@/lib/store";
-import { getCustomSessions, type CustomSession } from "@/lib/sessions";
-import { getManagedClinicians } from "@/lib/clinicians";
-import { getUsers } from "@/lib/users";
 import { calcApptTotals } from "@/lib/formula";
+import { api, type ApiAdditionalSession, type ApiCustomSession } from "@/lib/api";
 
 const DAY_NAMES = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
@@ -36,20 +33,28 @@ export default function TimetablePage() {
   const [weekIdx, setWeekIdx] = useState(() => getClosestWeekIdx(availableWeeks));
   const [selectedClinician, setSelectedClinician] = useState<string | null>(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [additionalSessions, setAdditionalSessions] = useState<AdditionalSessionEntry[]>([]);
-  const [customSessions, setCustomSessions] = useState<CustomSession[]>([]);
+  const [additionalSessions, setAdditionalSessions] = useState<ApiAdditionalSession[]>([]);
+  const [customSessions, setCustomSessions] = useState<ApiCustomSession[]>([]);
   const [clinicianList, setClinicianList] = useState<ClinicianEntry[]>([]);
 
   useEffect(() => {
-    const managed = getManagedClinicians().filter((c) => c.active);
-    const users = getUsers().filter((u) => ["doctor", "nurse", "clinician"].includes(u.role));
-    const combined: ClinicianEntry[] = [
-      ...managed.map((c) => ({ name: c.name, id: c.id })),
-      ...users
-        .filter((u) => !managed.some((c) => c.name === u.name))
-        .map((u) => ({ name: u.name, id: null })),
-    ];
-    setClinicianList(combined);
+    async function init() {
+      try {
+        const managed = await api.clinicians.list();
+        const users = await api.users.list();
+        const filtered = users.filter((u) => ["doctor", "nurse", "clinician"].includes(u.role));
+        const combined: ClinicianEntry[] = [
+          ...managed.filter((c) => c.active).map((c) => ({ name: c.name, id: c.id })),
+          ...filtered
+            .filter((u) => !managed.some((c) => c.name === u.name))
+            .map((u) => ({ name: u.name, id: null })),
+        ];
+        setClinicianList(combined);
+      } catch {
+        setClinicianList([]);
+      }
+    }
+    init();
   }, []);
 
   useEffect(() => {
@@ -68,8 +73,20 @@ export default function TimetablePage() {
   const currentWeek = allWeeks[weekIdx];
 
   useEffect(() => {
-    setAdditionalSessions(getAdditionalSessions(currentWeekStart));
-    setCustomSessions(getCustomSessions(currentWeekStart));
+    async function loadWeekData() {
+      try {
+        const [addl, custom] = await Promise.all([
+          api.additionalSessions.list(currentWeekStart),
+          api.customSessions.list(currentWeekStart),
+        ]);
+        setAdditionalSessions(addl);
+        setCustomSessions(custom);
+      } catch {
+        setAdditionalSessions([]);
+        setCustomSessions([]);
+      }
+    }
+    loadWeekData();
   }, [currentWeekStart]);
 
   // Resolve numeric ID for selected clinician (used to filter static sessions)

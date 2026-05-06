@@ -1,0 +1,85 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id         String   @id @default(cuid())
+  username   String   @unique
+  password   String
+  name       String
+  email      String   @default("")
+  role       String
+  department String   @default("")
+  createdAt  DateTime @default(now())
+
+  auditLogs AuditLog[]
+}
+
+model ManagedClinician {
+  id        Int      @id @default(autoincrement())
+  name      String
+  specialty String   @default("General")
+  email     String   @default("")
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
+
+model AdditionalSession {
+  id         String   @id @default(cuid())
+  clinician  String
+  clinicType String
+  date       String
+  reason     String   @default("")
+  weekStart  String
+  createdAt  DateTime @default(now())
+}
+
+model ReportEntry {
+  id                String   @id @default(cuid())
+  clinician         String
+  clinicType        String
+  deliveredSessions String
+  rootCause         String   @default("")
+  weekStart         String
+  createdAt         DateTime @default(now())
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  userId    String?
+  name      String
+  action    String
+  timestamp DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([timestamp])
+}
+
+model CustomSession {
+  id          String   @id @default(cuid())
+  clinicianId Int
+  name        String
+  weekStart   String
+  day         String
+  period      String
+  sessionType String
+  location    String   @default("")
+  createdAt   DateTime @default(now())
+
+  @@index([weekStart])
+  @@index([clinicianId])
+}
+
+model AppSettings {
+  id                    String  @id @default("singleton")
+  orgName               String  @default("NHS Sexual Health Services")
+  varianceAmber         Int     @default(5)
+  varianceRed           Int     @default(10)
+  autoJumpToCurrentWeek Boolean @default(true)
+}

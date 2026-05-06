@@ -2,16 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { getAuditLog, clearAuditLog, type AuditEntry } from "@/lib/audit";
 import { downloadCSV } from "@/lib/export";
-import { getCurrentUser } from "@/lib/users";
-
-const STATIC_ENTRIES: AuditEntry[] = [
-  { name: "Planner Lead", timestamp: "06/02/2026, 22:24", action: "3 Sessions Added to Dr Smith Timetable" },
-  { name: "Planner Lead", timestamp: "06/02/2026, 23:00", action: "Actual Delivery Data added for Week 8" },
-  { name: "Planner Lead", timestamp: "07/02/2026, 09:03", action: "3 Sessions Removed from Dr John" },
-  { name: "Planner Lead", timestamp: "07/02/2026, 09:03", action: "3 Additional Sessions Added to Dr Nicky" },
-];
+import { api, type ApiAuditEntry } from "@/lib/api";
 
 function formatTimestamp(ts: string): string {
   return ts;
@@ -19,16 +11,23 @@ function formatTimestamp(ts: string): string {
 
 export default function AuditLogPage() {
   const router = useRouter();
-  const [entries, setEntries] = useState<AuditEntry[]>([]);
+  const [entries, setEntries] = useState<ApiAuditEntry[]>([]);
   const [search, setSearch] = useState("");
   const [showClearConfirm, setShowClearConfirm] = useState(false);
 
   useEffect(() => {
-    const user = getCurrentUser();
-    if (!user) { router.push("/"); return; }
-    if (!["admin", "planner"].includes(user.role)) { router.push("/dashboard"); return; }
-    const live = getAuditLog();
-    setEntries([...live, ...STATIC_ENTRIES]);
+    async function init() {
+      try {
+        const user = await api.auth.me();
+        if (!user) { router.push("/"); return; }
+        if (!["admin", "planner"].includes(user.role)) { router.push("/dashboard"); return; }
+        const live = await api.auditLog.list();
+        setEntries(live);
+      } catch {
+        router.push("/");
+      }
+    }
+    init();
   }, [router]);
 
   const filtered = entries.filter(
@@ -48,10 +47,15 @@ export default function AuditLogPage() {
     );
   };
 
-  const handleClear = () => {
-    clearAuditLog();
-    setEntries(STATIC_ENTRIES);
-    setShowClearConfirm(false);
+  const handleClear = async () => {
+    try {
+      await api.auditLog.clear();
+      const live = await api.auditLog.list();
+      setEntries(live);
+      setShowClearConfirm(false);
+    } catch (err: unknown) {
+      console.error("Failed to clear audit log:", err);
+    }
   };
 
   return (
@@ -90,7 +94,7 @@ export default function AuditLogPage() {
       {showClearConfirm && (
         <div className="bg-red-50 border border-red-200 rounded-xl p-4 flex items-center justify-between gap-4">
           <p className="text-sm text-red-800 font-medium">
-            Clear all live audit entries? Static example entries will remain.
+            Clear all audit log entries? This action cannot be undone.
           </p>
           <div className="flex gap-2 shrink-0">
             <button onClick={handleClear}

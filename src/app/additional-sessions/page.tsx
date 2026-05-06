@@ -3,12 +3,9 @@
 import { useState, useEffect, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import { getWeeks, getClinicians, getSessionTypes, getAvailableWeeks } from "@/data";
-import { getAdditionalSessions, saveAdditionalSession, type AdditionalSessionEntry } from "@/lib/store";
-import { addAuditEntry } from "@/lib/audit";
 import { downloadCSV } from "@/lib/export";
 import { getClosestWeekIdx } from "@/lib/settings";
-import { getManagedClinicians } from "@/lib/clinicians";
-import { getCurrentUser, getUsers } from "@/lib/users";
+import { api, type ApiAdditionalSession } from "@/lib/api";
 
 const REASONS = ["Cover for leave", "Back Log", "RTT Action", "Extra Capacity"];
 const DAY_NAMES = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
@@ -34,22 +31,30 @@ export default function AdditionalSessionsPage() {
 
   const [weekIdx, setWeekIdx] = useState(() => getClosestWeekIdx(availableWeeks));
   const [formData, setFormData] = useState(EMPTY_FORM);
-  const [savedSessions, setSavedSessions] = useState<AdditionalSessionEntry[]>([]);
+  const [savedSessions, setSavedSessions] = useState<ApiAdditionalSession[]>([]);
   const [success, setSuccess] = useState(false);
   const [formError, setFormError] = useState("");
   const [clinicianNames, setClinicianNames] = useState<string[]>([]);
 
   useEffect(() => {
-    const user = getCurrentUser();
-    if (!user) { router.push("/"); return; }
-    if (!["admin", "planner"].includes(user.role)) { router.push("/dashboard"); return; }
-    const managed = getManagedClinicians().filter((c) => c.active);
-    const userDoctors = getUsers().filter((u) => ["doctor", "nurse", "clinician"].includes(u.role));
-    const names = [
-      ...managed.map((c) => c.name),
-      ...userDoctors.filter((u) => !managed.some((c) => c.name === u.name)).map((u) => u.name),
-    ];
-    setClinicianNames(names);
+    async function init() {
+      try {
+        const user = await api.auth.me();
+        if (!user) { router.push("/"); return; }
+        if (!["admin", "planner"].includes(user.role)) { router.push("/dashboard"); return; }
+        const managed = await api.clinicians.list(true);
+        const userDoctors = await api.users.list();
+        const doctors = userDoctors.filter((u) => ["doctor", "nurse", "clinician"].includes(u.role));
+        const names = [
+          ...managed.map((c) => c.name),
+          ...doctors.filter((u) => !managed.some((c) => c.name === u.name)).map((u) => u.name),
+        ];
+        setClinicianNames(names);
+      } catch {
+        router.push("/");
+      }
+    }
+    init();
   }, [router]);
 
   useEffect(() => {
@@ -65,7 +70,15 @@ export default function AdditionalSessionsPage() {
   const currentWeek = allWeeks[weekIdx];
 
   useEffect(() => {
-    setSavedSessions(getAdditionalSessions(currentWeekStart));
+    async function loadSessions() {
+      try {
+        const sessions = await api.additionalSessions.list(currentWeekStart);
+        setSavedSessions(sessions);
+      } catch {
+        setSavedSessions([]);
+      }
+    }
+    loadSessions();
   }, [currentWeekStart]);
 
   // Base extra sessions from static data
@@ -95,20 +108,24 @@ export default function AdditionalSessionsPage() {
 
   const allRows = [...baseExtra, ...userRows];
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!formData.clinician || !formData.clinicType || !formData.date) {
       setFormError("Please fill in Clinician, Clinic Type and Date.");
       return;
     }
-    const entry = saveAdditionalSession({ ...formData, weekStart: currentWeekStart });
-    addAuditEntry(
-      `Additional session added: ${formData.clinician} — ${formData.clinicType} on ${formData.date}`
-    );
-    setSavedSessions((prev) => [...prev, entry]);
-    setFormData(EMPTY_FORM);
-    setFormError("");
-    setSuccess(true);
-    setTimeout(() => setSuccess(false), 3000);
+    try {
+      const entry = await api.additionalSessions.create({ ...formData, weekStart: currentWeekStart });
+      api.auditLog.add(
+        `Additional session added: ${formData.clinician} — ${formData.clinicType} on ${formData.date}`
+      );
+      setSavedSessions((prev) => [...prev, entry]);
+      setFormData(EMPTY_FORM);
+      setFormError("");
+      setSuccess(true);
+      setTimeout(() => setSuccess(false), 3000);
+    } catch (err: unknown) {
+      setFormError(err instanceof Error ? err.message : "Failed to save session.");
+    }
   };
 
   const handleExport = () => {

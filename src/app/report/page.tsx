@@ -3,14 +3,11 @@
 import { useState, useEffect, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import { getWeeks, getSessionTypes, getAvailableWeeks, getWeekSummary } from "@/data";
-import { getReportEntries, saveReportEntry, type ReportEntry } from "@/lib/store";
-import { addAuditEntry } from "@/lib/audit";
 import { downloadCSV } from "@/lib/export";
 import { getClosestWeekIdx } from "@/lib/settings";
-import { getCurrentUser, getUsers } from "@/lib/users";
-import { getManagedClinicians } from "@/lib/clinicians";
 import { APPT_TYPES, calcApptTotals } from "@/lib/formula";
 import { parsePositiveInt } from "@/lib/security";
+import { api, type ApiReportEntry } from "@/lib/api";
 
 const ROOT_CAUSES = ["Did not attend", "Underutilisation", "Sickness", "Leave", "N/A", "Other"];
 
@@ -62,21 +59,29 @@ export default function ReportPage() {
 
   const [weekIdx, setWeekIdx] = useState(() => getClosestWeekIdx(availableWeeks));
   const [formData, setFormData] = useState(EMPTY_FORM);
-  const [userEntries, setUserEntries] = useState<ReportEntry[]>([]);
+  const [userEntries, setUserEntries] = useState<ApiReportEntry[]>([]);
   const [success, setSuccess] = useState(false);
   const [formError, setFormError] = useState("");
   const [clinicianNames, setClinicianNames] = useState<string[]>([]);
 
   useEffect(() => {
-    const user = getCurrentUser();
-    if (!user) { router.push("/"); return; }
-    if (!["admin", "planner"].includes(user.role)) { router.push("/dashboard"); return; }
-    const managed = getManagedClinicians().filter((c) => c.active);
-    const userDoctors = getUsers().filter((u) => ["doctor", "nurse", "clinician"].includes(u.role));
-    setClinicianNames([
-      ...managed.map((c) => c.name),
-      ...userDoctors.filter((u) => !managed.some((c) => c.name === u.name)).map((u) => u.name),
-    ]);
+    async function init() {
+      try {
+        const user = await api.auth.me();
+        if (!user) { router.push("/"); return; }
+        if (!["admin", "planner"].includes(user.role)) { router.push("/dashboard"); return; }
+        const managed = await api.clinicians.list(true);
+        const userDoctors = await api.users.list();
+        const doctors = userDoctors.filter((u) => ["doctor", "nurse", "clinician"].includes(u.role));
+        setClinicianNames([
+          ...managed.map((c) => c.name),
+          ...doctors.filter((u) => !managed.some((c) => c.name === u.name)).map((u) => u.name),
+        ]);
+      } catch {
+        router.push("/");
+      }
+    }
+    init();
   }, [router]);
 
   useEffect(() => {
@@ -93,7 +98,15 @@ export default function ReportPage() {
   const summary = getWeekSummary(currentWeekStart);
 
   useEffect(() => {
-    setUserEntries(getReportEntries(currentWeekStart));
+    async function loadEntries() {
+      try {
+        const entries = await api.reportEntries.list(currentWeekStart);
+        setUserEntries(entries);
+      } catch {
+        setUserEntries([]);
+      }
+    }
+    loadEntries();
   }, [currentWeekStart]);
 
   const totalPlanned = summary?.totalClinicSlots ?? 0;
@@ -114,20 +127,24 @@ export default function ReportPage() {
       )}%`
     : "0%";
 
-  const handleAdd = () => {
+  const handleAdd = async () => {
     if (!formData.clinician) { setFormError("Clinician is required."); return; }
     if (!formData.clinicType) { setFormError("Clinic Type is required."); return; }
     if (!formData.deliveredSessions) { setFormError("Delivered Sessions is required."); return; }
     const deliveredNum = parsePositiveInt(formData.deliveredSessions, 9999);
     if (deliveredNum === null) { setFormError("Delivered Sessions must be a whole number between 0 and 9999."); return; }
     if (!formData.rootCause) { setFormError("Root Cause is required."); return; }
-    const entry = saveReportEntry({ ...formData, weekStart: currentWeekStart });
-    addAuditEntry(`Actual delivery data added: ${formData.clinician} — ${formData.clinicType}, Delivered: ${formData.deliveredSessions}`);
-    setUserEntries((prev) => [...prev, entry]);
-    setFormData(EMPTY_FORM);
-    setFormError("");
-    setSuccess(true);
-    setTimeout(() => setSuccess(false), 3000);
+    try {
+      const entry = await api.reportEntries.create({ ...formData, weekStart: currentWeekStart });
+      api.auditLog.add(`Actual delivery data added: ${formData.clinician} — ${formData.clinicType}, Delivered: ${formData.deliveredSessions}`);
+      setUserEntries((prev) => [...prev, entry]);
+      setFormData(EMPTY_FORM);
+      setFormError("");
+      setSuccess(true);
+      setTimeout(() => setSuccess(false), 3000);
+    } catch (err: unknown) {
+      setFormError(err instanceof Error ? err.message : "Failed to save entry.");
+    }
   };
 
   const handleExport = () => {

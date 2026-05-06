@@ -2,9 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { getCurrentUser } from "@/lib/users";
-import { getSettings, saveSettings, type AppSettings } from "@/lib/settings";
-import { addAuditEntry } from "@/lib/audit";
+import { api, type ApiSettings } from "@/lib/api";
 
 const inputCls =
   "w-full px-3 py-2.5 rounded-lg border border-gray-300 text-slate-800 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#005eb8] focus:border-transparent transition bg-white";
@@ -24,7 +22,8 @@ function Section({ title, subtitle, children }: { title: string; subtitle?: stri
 export default function SettingsPage() {
   const router = useRouter();
   const [ready, setReady] = useState(false);
-  const [settings, setSettings] = useState<AppSettings>({
+  const [settings, setSettings] = useState<ApiSettings>({
+    id: "",
     orgName: "NHS Sexual Health Services",
     varianceAmber: 5,
     varianceRed: 10,
@@ -34,38 +33,54 @@ export default function SettingsPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const user = getCurrentUser();
-    if (!user) { router.push("/"); return; }
-    if (user.role !== "admin") { router.push("/dashboard"); return; }
-    setSettings(getSettings());
-    setReady(true);
+    async function init() {
+      try {
+        const user = await api.auth.me();
+        if (!user) { router.push("/"); return; }
+        if (user.role !== "admin") { router.push("/dashboard"); return; }
+        const s = await api.settings.get();
+        setSettings(s);
+        setReady(true);
+      } catch {
+        router.push("/");
+      }
+    }
+    init();
   }, [router]);
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!settings.orgName.trim()) { setError("Organisation name cannot be empty."); return; }
     if (settings.varianceAmber >= settings.varianceRed) {
       setError("Amber threshold must be less than the red threshold.");
       return;
     }
-    saveSettings(settings);
-    addAuditEntry("App settings updated");
-    setError("");
-    setSuccess("Settings saved successfully.");
-    setTimeout(() => setSuccess(""), 3000);
+    try {
+      await api.settings.save(settings);
+      api.auditLog.add("App settings updated");
+      setError("");
+      setSuccess("Settings saved successfully.");
+      setTimeout(() => setSuccess(""), 3000);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Failed to save settings.");
+    }
   };
 
-  const handleReset = () => {
-    const defaults: AppSettings = {
+  const handleReset = async () => {
+    const defaults = {
       orgName: "NHS Sexual Health Services",
       varianceAmber: 5,
       varianceRed: 10,
       autoJumpToCurrentWeek: true,
     };
-    saveSettings(defaults);
-    setSettings(defaults);
-    addAuditEntry("App settings reset to defaults");
-    setSuccess("Settings reset to defaults.");
-    setTimeout(() => setSuccess(""), 3000);
+    try {
+      const saved = await api.settings.save(defaults);
+      setSettings(saved);
+      api.auditLog.add("App settings reset to defaults");
+      setSuccess("Settings reset to defaults.");
+      setTimeout(() => setSuccess(""), 3000);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Failed to reset settings.");
+    }
   };
 
   if (!ready) return null;

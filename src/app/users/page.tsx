@@ -3,29 +3,21 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import {
-  getUsers,
-  addUser,
-  updateUser,
-  deleteUser,
-  getCurrentUser,
-  usernameExists,
   ROLE_LABELS,
   ROLE_COLORS,
   ALL_ROLES,
   DEPARTMENTS,
-  type User,
   type UserRole,
 } from "@/lib/users";
-import { addAuditEntry } from "@/lib/audit";
-import { getManagedClinicians, deleteManagedClinician } from "@/lib/clinicians";
 import { validateEmail, validateUsername, validatePasswordStrength } from "@/lib/security";
+import { api, type ApiUser } from "@/lib/api";
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
 type ModalState =
   | { mode: "closed" }
   | { mode: "add" }
-  | { mode: "edit"; user: User };
+  | { mode: "edit"; user: ApiUser };
 
 const EMPTY_FORM = {
   name: "",
@@ -65,8 +57,8 @@ const selectCls =
 
 export default function UsersPage() {
   const router = useRouter();
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const [users, setUsers] = useState<User[]>([]);
+  const [currentUser, setCurrentUser] = useState<ApiUser | null>(null);
+  const [users, setUsers] = useState<ApiUser[]>([]);
   const [search, setSearch] = useState("");
   const [roleFilter, setRoleFilter] = useState<UserRole | "all">("all");
   const [modal, setModal] = useState<ModalState>({ mode: "closed" });
@@ -75,14 +67,27 @@ export default function UsersPage() {
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
 
   useEffect(() => {
-    const u = getCurrentUser();
-    if (!u) { router.push("/"); return; }
-    if (u.role !== "admin") { router.push("/dashboard"); return; }
-    setCurrentUser(u);
-    setUsers(getUsers());
+    async function init() {
+      try {
+        const u = await api.auth.me();
+        if (!u) { router.push("/"); return; }
+        if (u.role !== "admin") { router.push("/dashboard"); return; }
+        setCurrentUser(u);
+        const list = await api.users.list();
+        setUsers(list);
+      } catch {
+        router.push("/");
+      }
+    }
+    init();
   }, [router]);
 
-  const reload = () => setUsers(getUsers());
+  const reload = async () => {
+    try {
+      const list = await api.users.list();
+      setUsers(list);
+    } catch {}
+  };
 
   const filtered = users.filter((u) => {
     const matchSearch =
@@ -101,7 +106,7 @@ export default function UsersPage() {
     setModal({ mode: "add" });
   };
 
-  const openEdit = (user: User) => {
+  const openEdit = (user: ApiUser) => {
     setForm({
       name: user.name,
       username: user.username,
@@ -116,7 +121,7 @@ export default function UsersPage() {
 
   const closeModal = () => { setModal({ mode: "closed" }); setFormError(""); };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!form.name.trim()) { setFormError("Full name is required."); return; }
     if (form.name.trim().length > 100) { setFormError("Name must be 100 characters or fewer."); return; }
 
@@ -128,62 +133,63 @@ export default function UsersPage() {
     if (!validateEmail(form.email.trim())) { setFormError("Enter a valid email address."); return; }
     if (!form.department) { setFormError("Department is required."); return; }
 
-    if (modal.mode === "add") {
-      if (!form.password) { setFormError("Password is required for new users."); return; }
-      const pwErr = validatePasswordStrength(form.password);
-      if (pwErr) { setFormError(pwErr); return; }
-      if (usernameExists(form.username.trim())) { setFormError("Username already taken."); return; }
-      const newUser = addUser({
-        name: form.name.trim(),
-        username: form.username.trim().toLowerCase(),
-        email: form.email.trim(),
-        password: form.password,
-        role: form.role,
-        department: form.department,
-      });
-      addAuditEntry(`New user created: ${newUser.name} (${ROLE_LABELS[newUser.role]})`);
-    } else if (modal.mode === "edit") {
-      const { user } = modal;
-      if (usernameExists(form.username.trim(), user.id)) {
-        setFormError("Username already taken."); return;
-      }
-      const updates: Partial<Omit<User, "id" | "createdAt">> = {
-        name: form.name.trim(),
-        username: form.username.trim().toLowerCase(),
-        email: form.email.trim(),
-        role: form.role,
-        department: form.department,
-      };
-      if (form.password) {
+    try {
+      if (modal.mode === "add") {
+        if (!form.password) { setFormError("Password is required for new users."); return; }
         const pwErr = validatePasswordStrength(form.password);
         if (pwErr) { setFormError(pwErr); return; }
-        updates.password = form.password;
+        const newUser = await api.users.create({
+          name: form.name.trim(),
+          username: form.username.trim().toLowerCase(),
+          email: form.email.trim(),
+          password: form.password,
+          role: form.role,
+          department: form.department,
+        });
+        api.auditLog.add(`New user created: ${newUser.name} (${ROLE_LABELS[newUser.role]})`);
+      } else if (modal.mode === "edit") {
+        const { user } = modal;
+        const updates: Record<string, unknown> = {
+          name: form.name.trim(),
+          email: form.email.trim(),
+          role: form.role,
+          department: form.department,
+        };
+        if (form.password) {
+          const pwErr = validatePasswordStrength(form.password);
+          if (pwErr) { setFormError(pwErr); return; }
+          updates.password = form.password;
+        }
+
+        const prev = user.role;
+        const updated = await api.users.update(user.id, updates);
+        if (form.role !== prev) {
+          api.auditLog.add(
+            `Role changed: ${updated.name} — ${ROLE_LABELS[prev]} → ${ROLE_LABELS[form.role]}`
+          );
+        } else {
+          api.auditLog.add(`User updated: ${updated.name}`);
+        }
       }
 
-      const prev = user.role;
-      updateUser(user.id, updates);
-      if (form.role !== prev) {
-        addAuditEntry(
-          `Role changed: ${form.name} — ${ROLE_LABELS[prev]} → ${ROLE_LABELS[form.role]}`
-        );
-      } else {
-        addAuditEntry(`User updated: ${form.name}`);
-      }
+      await reload();
+      closeModal();
+    } catch (err: unknown) {
+      setFormError(err instanceof Error ? err.message : "Failed to save user.");
     }
-
-    reload();
-    closeModal();
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
     const u = users.find((x) => x.id === id);
     if (!u) return;
-    deleteUser(id);
-    const mc = getManagedClinicians().find((c) => c.name === u.name);
-    if (mc) deleteManagedClinician(mc.id);
-    addAuditEntry(`User deleted: ${u.name} (${ROLE_LABELS[u.role]})`);
-    reload();
-    setDeleteConfirm(null);
+    try {
+      await api.users.delete(id);
+      api.auditLog.add(`User deleted: ${u.name} (${ROLE_LABELS[u.role]})`);
+      await reload();
+      setDeleteConfirm(null);
+    } catch (err: unknown) {
+      console.error("Failed to delete user:", err);
+    }
   };
 
   // ── Stats ───────────────────────────────────────────────────────────────

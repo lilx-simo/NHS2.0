@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { getWeeks, getWeekSummary, getClinicians, getAvailableWeeks, getAllWeekSummaries } from "@/data";
 import { getClosestWeekIdx, getSettings } from "@/lib/settings";
 import { CapacityBarChart, VarianceLineChart } from "@/components/WeeklyChart";
-import { getAdditionalSessions, getLastReportedWeekStart, getReportedDeliveredTotal } from "@/lib/store";
+import { api, type ApiAdditionalSession, type ApiReportEntry } from "@/lib/api";
 
 function formatWeek(dateStr: string): string {
   const d = new Date(dateStr + "T00:00:00");
@@ -69,18 +69,43 @@ export default function DashboardPage() {
       setTimeout(() => setWelcomeName(null), 5000);
     }
   }, []);
+
   const currentWeekStart = availableWeeks[weekIdx];
   const summary = getWeekSummary(currentWeekStart);
 
   useEffect(() => {
-    setUserAddedCount(getAdditionalSessions(currentWeekStart).length);
+    async function loadAdditional() {
+      try {
+        const sessions: ApiAdditionalSession[] = await api.additionalSessions.list(currentWeekStart);
+        setUserAddedCount(sessions.length);
+      } catch {
+        setUserAddedCount(0);
+      }
+    }
+    loadAdditional();
   }, [currentWeekStart]);
 
   useEffect(() => {
-    const lrw = getLastReportedWeekStart();
-    setLastReportedWeek(lrw);
-    setLastReportedDelivered(lrw ? getReportedDeliveredTotal(lrw) : 0);
+    async function loadLastReported() {
+      try {
+        const entries: ApiReportEntry[] = await api.reportEntries.list();
+        if (entries.length === 0) return;
+        // Find most recent weekStart
+        const weekStarts = [...new Set(entries.map((e) => e.weekStart))];
+        weekStarts.sort((a, b) => b.localeCompare(a));
+        const lrw = weekStarts[0];
+        setLastReportedWeek(lrw);
+        const total = entries
+          .filter((e) => e.weekStart === lrw)
+          .reduce((sum, e) => sum + (parseInt(e.deliveredSessions) || 0), 0);
+        setLastReportedDelivered(total);
+      } catch {
+        // silently fail
+      }
+    }
+    loadLastReported();
   }, []);
+
   const weeks = getWeeks();
   const currentWeek = weeks[weekIdx];
 
