@@ -18,6 +18,7 @@ import {
 } from "@/lib/users";
 import { addAuditEntry } from "@/lib/audit";
 import { getManagedClinicians, deleteManagedClinician } from "@/lib/clinicians";
+import { validateEmail, validateUsername, validatePasswordStrength } from "@/lib/security";
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -117,12 +118,20 @@ export default function UsersPage() {
 
   const handleSave = () => {
     if (!form.name.trim()) { setFormError("Full name is required."); return; }
+    if (form.name.trim().length > 100) { setFormError("Name must be 100 characters or fewer."); return; }
+
+    const usernameErr = validateUsername(form.username.trim());
     if (!form.username.trim()) { setFormError("Username is required."); return; }
+    if (usernameErr) { setFormError(usernameErr); return; }
+
     if (!form.email.trim()) { setFormError("Email is required."); return; }
+    if (!validateEmail(form.email.trim())) { setFormError("Enter a valid email address."); return; }
     if (!form.department) { setFormError("Department is required."); return; }
 
     if (modal.mode === "add") {
       if (!form.password) { setFormError("Password is required for new users."); return; }
+      const pwErr = validatePasswordStrength(form.password);
+      if (pwErr) { setFormError(pwErr); return; }
       if (usernameExists(form.username.trim())) { setFormError("Username already taken."); return; }
       const newUser = addUser({
         name: form.name.trim(),
@@ -145,7 +154,11 @@ export default function UsersPage() {
         role: form.role,
         department: form.department,
       };
-      if (form.password) updates.password = form.password;
+      if (form.password) {
+        const pwErr = validatePasswordStrength(form.password);
+        if (pwErr) { setFormError(pwErr); return; }
+        updates.password = form.password;
+      }
 
       const prev = user.role;
       updateUser(user.id, updates);

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState, useRef } from "react";
 import { getCurrentUser, clearSession, ROLE_LABELS, ROLE_COLORS, type User } from "@/lib/users";
+import { touchSession } from "@/lib/security";
 import { getAvailableWeeks, getWeekSummary, getAllWeekSummaries } from "@/data";
 import { getSettings } from "@/lib/settings";
 
@@ -138,6 +139,17 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
   // Close sidebar on route change
   useEffect(() => { setSidebarOpen(false); }, [pathname]);
+
+  // Refresh session expiry on every user interaction
+  useEffect(() => {
+    const refresh = () => touchSession();
+    window.addEventListener("click", refresh);
+    window.addEventListener("keydown", refresh);
+    return () => {
+      window.removeEventListener("click", refresh);
+      window.removeEventListener("keydown", refresh);
+    };
+  }, []);
 
   // Keyboard shortcuts
   useEffect(() => {

@@ -4,6 +4,7 @@ import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { authenticate, setSession } from "@/lib/users";
+import { checkLockout, recordFailedAttempt, clearFailedAttempts } from "@/lib/security";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
@@ -18,13 +19,31 @@ export default function LoginPage() {
       setError("Please enter both username and password.");
       return;
     }
+
+    // Check lockout before attempting authentication
+    const lockout = checkLockout(username.trim());
+    if (lockout.locked) {
+      setError(`Too many failed attempts. Account locked for ${lockout.minutesLeft} more minute${lockout.minutesLeft === 1 ? "" : "s"}.`);
+      return;
+    }
+
     setLoading(true);
     const user = authenticate(username.trim(), password.trim());
+
     if (!user) {
-      setError("Invalid username or password.");
+      const result = recordFailedAttempt(username.trim());
+      if (result.locked) {
+        setError("Too many failed attempts. Account locked for 15 minutes.");
+      } else {
+        setError(
+          `Invalid username or password.${result.attemptsLeft > 0 && result.attemptsLeft <= 3 ? ` ${result.attemptsLeft} attempt${result.attemptsLeft === 1 ? "" : "s"} remaining before lockout.` : ""}`
+        );
+      }
       setLoading(false);
       return;
     }
+
+    clearFailedAttempts(username.trim());
     setSession(user);
     sessionStorage.setItem("nhs-welcome", user.name);
     localStorage.setItem(`nhs-last-login-${user.id}`, new Date().toISOString());
@@ -71,6 +90,7 @@ export default function LoginPage() {
                     onChange={(e) => { setUsername(e.target.value); setError(""); }}
                     placeholder="Enter your username"
                     autoComplete="username"
+                    maxLength={50}
                     className="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-slate-800 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#005eb8] focus:border-transparent transition"
                   />
                 </div>
@@ -83,6 +103,7 @@ export default function LoginPage() {
                     onChange={(e) => { setPassword(e.target.value); setError(""); }}
                     placeholder="Enter your password"
                     autoComplete="current-password"
+                    maxLength={128}
                     className="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-slate-800 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#005eb8] focus:border-transparent transition"
                   />
                 </div>
@@ -97,13 +118,13 @@ export default function LoginPage() {
               </form>
 
               <p className="text-xs text-slate-400 text-center pt-1">
-                Default admin credentials: <span className="font-mono">admin / admin</span>
+                NHS Weekly Capacity &amp; Demand Planner · Confidential
               </p>
             </div>
           </div>
 
           <p className="text-center text-blue-200 text-xs mt-6 opacity-80">
-            NHS Weekly Capacity &amp; Demand Planner · Confidential
+            Authorised users only · Sessions expire after 30 minutes of inactivity
           </p>
         </div>
       </div>

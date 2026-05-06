@@ -10,6 +10,7 @@ import { getClosestWeekIdx } from "@/lib/settings";
 import { getCurrentUser, getUsers } from "@/lib/users";
 import { getManagedClinicians } from "@/lib/clinicians";
 import { APPT_TYPES, calcApptTotals } from "@/lib/formula";
+import { parsePositiveInt } from "@/lib/security";
 
 const ROOT_CAUSES = ["Did not attend", "Underutilisation", "Sickness", "Leave", "N/A", "Other"];
 
@@ -117,6 +118,8 @@ export default function ReportPage() {
     if (!formData.clinician) { setFormError("Clinician is required."); return; }
     if (!formData.clinicType) { setFormError("Clinic Type is required."); return; }
     if (!formData.deliveredSessions) { setFormError("Delivered Sessions is required."); return; }
+    const deliveredNum = parsePositiveInt(formData.deliveredSessions, 9999);
+    if (deliveredNum === null) { setFormError("Delivered Sessions must be a whole number between 0 and 9999."); return; }
     if (!formData.rootCause) { setFormError("Root Cause is required."); return; }
     const entry = saveReportEntry({ ...formData, weekStart: currentWeekStart });
     addAuditEntry(`Actual delivery data added: ${formData.clinician} — ${formData.clinicType}, Delivered: ${formData.deliveredSessions}`);
